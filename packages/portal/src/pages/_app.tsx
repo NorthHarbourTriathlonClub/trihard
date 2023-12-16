@@ -8,7 +8,7 @@ const App: AppType = ({ Component, pageProps }) => {
     <NextUIProvider>
       <Component {...pageProps} />
     </NextUIProvider>
-  )
+  );
 };
 
 export default App;
