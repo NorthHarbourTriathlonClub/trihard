@@ -1,10 +1,11 @@
 {
-  "name": "template-nextjs-trpc",
+  "name": "portal",
   "scripts": {
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint .",
-    "start": "next start"
+    "start": "next start",
+    "db:init": "docker-compose -f docker-compose-db.yml up -d"
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "0.7.1",
