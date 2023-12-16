@@ -1,10 +1,9 @@
-# Portal Web App
+# Portal
 
-## Tools:
+## Technologies:
+
+- TypeScript
 - Next.js
-- TypeScript,
 - tRPC
-- Zod
 - MongoDB
-- Prisma
 - etc
