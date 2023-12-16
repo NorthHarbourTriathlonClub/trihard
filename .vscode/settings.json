@@ -4,5 +4,6 @@
       "mode": "auto"
     }
   ],
-  "eslint.enable": true
+  "eslint.enable": true,
+   "css.lint.unknownAtRules": "ignore"
 }
