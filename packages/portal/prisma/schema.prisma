@@ -17,6 +17,7 @@ model TrainingSession {
   startTime           DateTime
   finishTime          DateTime?
   coachFullName       String
+  type                String
   trainingAttendences TrainingAttendence[]
 }
 
