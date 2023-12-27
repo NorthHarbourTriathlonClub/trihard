@@ -1,8 +1,7 @@
 import { type AppType } from 'next/app';
-// import { api } from '@/utils/api';
-import '@/styles/global.css';
 import { NextUIProvider } from '@nextui-org/react';
 import { api } from '@/utils/api';
+import '@/styles/global.css';
 
 const App: AppType = ({ Component, pageProps }) => {
   return (
@@ -13,5 +12,3 @@ const App: AppType = ({ Component, pageProps }) => {
 };
 
 export default api.withTRPC(App);
-
-// export default api.withTRPC(App);
