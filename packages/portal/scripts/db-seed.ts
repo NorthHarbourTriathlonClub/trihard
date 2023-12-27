@@ -26,6 +26,49 @@ export const createMembers = async () => {
   console.log(`Number of members created: ${created.count}`);
 };
 
+export const trainingTypes = [
+  'Swim',
+  'Bike',
+  'Run',
+  'Triathlon',
+  'Zwift',
+] as const;
+export const trainingLocations = [
+  'Takapuna Boating Club',
+  'Birkenhead Pool',
+  'Online',
+] as const;
+
+export const createTrainingSessions = async () => {
+  let trainingSessions: Prisma.TrainingSessionCreateManyInput[] = [];
+  for (let i = 1; i <= 50; i++) {
+    const coachFullName = f.randFullName();
+
+    const typeIndex = f.randNumber({
+      max: trainingTypes.length - 1,
+    });
+    const type = trainingTypes[typeIndex];
+
+    const locationIndex = f.randNumber({
+      max: trainingLocations.length - 1,
+    });
+    const location = trainingLocations[locationIndex];
+
+    const startTime = new Date();
+    const trainingSession: Prisma.TrainingSessionCreateManyInput = {
+      coachFullName,
+      type,
+      location,
+      startTime,
+    };
+    trainingSessions = [...trainingSessions, trainingSession];
+  }
+  const created = await prisma.trainingSession.createMany({
+    data: trainingSessions,
+  });
+  console.log(`Number of trainingSessions created: ${created.count}`);
+};
+
 seedDb()
   .then(async () => {
     await prisma.$disconnect();

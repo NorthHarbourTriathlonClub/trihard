@@ -1,11 +1,11 @@
 # [Ticket: TICKET_NUMBER_OR_ID](INSERT_TICKET_LINK)
 
-## Changes
+## What problems does this PR help solving?
 
 1. TBD
 2. TBD
 
-## What problems does this PR help solving?
+## Changes
 
 1. TBD
 2. TBD
