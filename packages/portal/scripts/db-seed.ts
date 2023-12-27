@@ -16,7 +16,7 @@ export const createMembers = async () => {
     const member: Prisma.MemberCreateManyInput = {
       firstName,
       lastName,
-      email: `${firstName}-${lastName}-${i}@testing.com`,
+      email: `${firstName.toLowerCase()}-${lastName.toLowerCase()}-${i}@testing.com`,
     };
     members = [...members, member];
   }
