@@ -9,6 +9,7 @@ import {
   NavbarMenuItem,
   NavbarMenu,
 } from '@nextui-org/react';
+import { UserButton } from '@clerk/nextjs';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 
 export const NavBarResponsive = () => {
@@ -37,6 +38,9 @@ export const NavBarResponsive = () => {
       <NavbarContent justify="end">
         <NavbarItem>
           <ThemeSwitcher />
+        </NavbarItem>
+        <NavbarItem>
+          <UserButton afterSignOutUrl="/" />
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
