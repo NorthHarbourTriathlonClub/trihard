@@ -1,3 +1,3 @@
 export const UpdateTrainingSessionForm = () => {
-  return <p>UpdateTrainingSessionForm</p>
-}
+  return <p>UpdateTrainingSessionForm</p>;
+};

@@ -1,3 +1,3 @@
 export const CreateTrainingSessionForm = () => {
-  return <p>CreateTrainingSessionForm</p>
-}
+  return <p>CreateTrainingSessionForm</p>;
+};

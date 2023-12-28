@@ -213,4 +213,4 @@ export const TrainingSessionsTable = () => {
       </TableBody>
     </Table>
   );
-}
+};
