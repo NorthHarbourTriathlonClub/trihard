@@ -2,7 +2,7 @@
 
 import { NavBarResponsive } from '@/components/NavBarResponsive';
 
-const Members = () => {
+const MembersPage = () => {
   // const { data, isLoading, isError } = api.memberRoutes.findMany.useQuery({
   //   take: 10,
   // });
@@ -18,4 +18,4 @@ const Members = () => {
   );
 };
 
-export default Members;
+export default MembersPage;

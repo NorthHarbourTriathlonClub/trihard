@@ -2,7 +2,7 @@
 
 import { NavBarResponsive } from '@/components/NavBarResponsive';
 
-const Sessions = () => {
+const SessionsPage = () => {
   // const { data, isLoading, isError } =
   //   api.trainingSessionRoutes.findMany.useQuery({
   //     take: 10,
@@ -18,4 +18,4 @@ const Sessions = () => {
   );
 };
 
-export default Sessions;
+export default SessionsPage;
