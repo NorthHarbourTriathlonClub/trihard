@@ -61,15 +61,9 @@ export const NavBarResponsive = () => {
               </Button>
             ) : (
               <Link
-                color={
-                  _i === 2
-                    ? 'primary'
-                    : _i === menuItems.length - 1
-                      ? 'danger'
-                      : 'foreground'
-                }
+                color={'foreground'}
                 className="w-full"
-                href="#"
+                href={d.path}
                 size="lg"
               >
                 {d.label}
