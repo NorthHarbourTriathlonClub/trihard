@@ -8,19 +8,24 @@ import {
   NavbarMenuToggle,
   NavbarMenuItem,
   NavbarMenu,
+  Button,
 } from '@nextui-org/react';
-import { UserButton } from '@clerk/nextjs';
+import { UserButton, useClerk } from '@clerk/nextjs';
+import { useRouter } from 'next/router';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
+import { Route, routes } from '@/constants/routes';
 
 export const NavBarResponsive = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const { signOut } = useClerk();
+  const router = useRouter();
 
-  const menuItems = [
-    'Training Sessions',
-    'Members',
-    'Payments',
-    'Settings',
-    'Log Out',
+  const menuItems: Route[] = [
+    ...routes,
+    {
+      label: 'Logout',
+      path: '/',
+    },
   ];
 
   return (
@@ -44,22 +49,32 @@ export const NavBarResponsive = () => {
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              color={
-                index === 2
-                  ? 'primary'
-                  : index === menuItems.length - 1
-                    ? 'danger'
-                    : 'foreground'
-              }
-              className="w-full"
-              href="#"
-              size="lg"
-            >
-              {item}
-            </Link>
+        {menuItems.map((d, _i) => (
+          <NavbarMenuItem key={`${d}-${_i}`}>
+            {d.label === 'Logout' ? (
+              <Button
+                color={'danger'}
+                variant={'flat'}
+                onClick={() => signOut(() => router.push('/'))}
+              >
+                Logout
+              </Button>
+            ) : (
+              <Link
+                color={
+                  _i === 2
+                    ? 'primary'
+                    : _i === menuItems.length - 1
+                      ? 'danger'
+                      : 'foreground'
+                }
+                className="w-full"
+                href="#"
+                size="lg"
+              >
+                {d.label}
+              </Link>
+            )}
           </NavbarMenuItem>
         ))}
       </NavbarMenu>
