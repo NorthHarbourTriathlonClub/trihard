@@ -1,19 +1,19 @@
-// import { api } from '@/utils/api';
-
+import { api } from '@/utils/api';
 import { NavBarResponsive } from '@/components/NavBarResponsive';
+import { Spinner } from '@nextui-org/react';
 
 const SessionsPage = () => {
-  // const { data, isLoading, isError } =
-  //   api.trainingSessionRoutes.findMany.useQuery({
-  //     take: 10,
-  //   });
+  const { data, isError, isInitialLoading } =
+    api.trainingSessionRoutes.findMany.useQuery({
+      take: 10,
+    });
   return (
     <>
       <NavBarResponsive />
       <h1>Sessions Page</h1>
-      {/* <p>isLoading: {isLoading}</p>
-      <p>isError: {isError}</p>
-      <p>Data: {JSON.stringify(data)}</p> */}
+      {isInitialLoading ? <Spinner /> : null}
+      {isError ? <p>Error loading data</p> : null}
+      <p>Data: {JSON.stringify(data)}</p>
     </>
   );
 };

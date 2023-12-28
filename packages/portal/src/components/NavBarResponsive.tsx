@@ -36,7 +36,9 @@ export const NavBarResponsive = () => {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <p className="font-bold text-inherit">TriHard</p>
+          <Link href={'/'}>
+            <p className="font-bold text-2xl text-inherit">TriHard</p>
+          </Link>
         </NavbarBrand>
       </NavbarContent>
 

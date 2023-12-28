@@ -5,7 +5,10 @@
 - TypeScript
 - Next.js
 - tRPC
+- Zod
+- Clerk.com
 - MongoDB
+- Prisma
 - Docker
 - etc
 
