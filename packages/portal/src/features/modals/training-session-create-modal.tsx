@@ -1,10 +1,10 @@
+import { CreateTrainingSessionForm } from '@/features/forms/create-training-session-form';
 import { SearchIcon } from '@chakra-ui/icons';
 import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalFooter,
   Button,
   useDisclosure,
 } from '@nextui-org/react';
@@ -26,19 +26,8 @@ export const TrainingSessionCreaeModal = () => {
                 Create a new Training Session
               </ModalHeader>
               <ModalBody>
-                <p>Form to be added</p>
+                <CreateTrainingSessionForm onClose={onClose} />
               </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Cancel
-                </Button>
-                <Button color="warning" variant="solid" onPress={onClose}>
-                  Clear
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                  Create
-                </Button>
-              </ModalFooter>
             </>
           )}
         </ModalContent>

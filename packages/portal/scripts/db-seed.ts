@@ -1,5 +1,6 @@
 import * as f from '@ngneat/falso';
 import { PrismaClient, Prisma } from '@prisma/client';
+import { trainingLocations, trainingTypes } from '@/constants/forms';
 
 const prisma = new PrismaClient();
 
@@ -25,19 +26,6 @@ export const createMembers = async () => {
   });
   console.log(`Number of members created: ${created.count}`);
 };
-
-export const trainingTypes = [
-  'Swim',
-  'Bike',
-  'Run',
-  'Triathlon',
-  'Zwift',
-] as const;
-export const trainingLocations = [
-  'Takapuna Boating Club',
-  'Birkenhead Pool',
-  'Online',
-] as const;
 
 /**
  * Randomly create DateTime of the following time of day:

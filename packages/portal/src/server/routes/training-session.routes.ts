@@ -1,15 +1,8 @@
+import { TrainingSessionCreateArgsSchema } from '@/schemas/create-training-session';
 import { prisma } from '@/server/db';
 import { createTRPCRouter, publicProcedure } from '@/server/trpc';
 import { z } from 'zod';
 
-export const TrainingSessionCreateArgsSchema = z.object({
-  data: z.object({
-    coachFullName: z.string(),
-    type: z.string(),
-    location: z.string(),
-    startTime: z.date(),
-  }),
-});
 export const TrainingSessionFindManyArgsSchema = z.object({
   take: z.number(),
   skip: z.number().optional(),
