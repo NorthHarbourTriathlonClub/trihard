@@ -99,7 +99,11 @@ export const CreateTrainingSessionForm = (
 
         <SeperateDateTimePicker />
 
-        <Autocomplete label="Time of the day" isRequired>
+        <Autocomplete
+          label="Time of the day"
+          isRequired
+          {...register('timeOfDay')}
+        >
           {timesOfDay.map((d, _i) => (
             <AutocompleteItem key={_i} value={d}>
               {d}
@@ -107,7 +111,7 @@ export const CreateTrainingSessionForm = (
           ))}
         </Autocomplete>
 
-        <Autocomplete label="AM or PM" isRequired>
+        <Autocomplete label="AM or PM" isRequired {...register('amOrPm')}>
           {amPm.map((d, _i) => (
             <AutocompleteItem key={_i} value={d}>
               {d}
@@ -115,11 +119,6 @@ export const CreateTrainingSessionForm = (
           ))}
         </Autocomplete>
 
-        {/* <Input
-          label={'Start Time'}
-          {...register('startTime')}
-          errorMessage={errors.startTime?.message}
-        /> */}
         <Flex gap={9} justifyContent={'flex-end'} my={8}>
           <Button color="danger" onPress={onClose}>
             Cancel
