@@ -22,7 +22,7 @@ export const TrainingSessionCreaeModal = () => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
+              <ModalHeader>
                 Create a new Training Session
               </ModalHeader>
               <ModalBody>
