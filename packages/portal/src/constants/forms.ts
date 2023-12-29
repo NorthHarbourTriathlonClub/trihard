@@ -1,3 +1,5 @@
+import { DayOfWeek } from '@/constants/date-time';
+
 export const trainingTypes = [
   'Swim',
   'Bike',
@@ -50,3 +52,11 @@ export const trainingStartTimes = [
   'Sunday @ 7:00 AM',
   'Sunday @ 8:00 AM',
 ];
+
+export const amPm = ['AM', 'PM'] as const;
+export type AmPm = (typeof amPm)[number];
+
+export const timesOfDay = ['6:00', '6:15', '6:30', '7:00', '8:00'];
+export type TimeOfDay = (typeof timesOfDay)[number];
+
+export type TrainingSchedule = `${DayOfWeek} @ ${TimeOfDay} ${AmPm}`;

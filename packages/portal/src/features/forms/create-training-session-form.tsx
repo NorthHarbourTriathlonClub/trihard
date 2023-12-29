@@ -1,18 +1,21 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  Autocomplete,
-  AutocompleteItem,
-  Button,
-  Input,
-} from '@nextui-org/react';
+import { Autocomplete, AutocompleteItem, Button } from '@nextui-org/react';
 import { Flex } from '@chakra-ui/layout';
 import { api } from '@/utils/api';
 import {
-  TrainingSessionCreateInput,
-  TrainingSessionCreateInputSchema,
+  FormTrainingSessionCreateInput,
+  FormTrainingSessionCreateInputSchema,
+  formPayloadToApiPayload,
 } from '@/schemas/create-training-session';
-import { coaches, trainingLocations, trainingTypes } from '@/constants/forms';
+import {
+  amPm,
+  coaches,
+  timesOfDay,
+  trainingLocations,
+  trainingTypes,
+} from '@/constants/forms';
+import SeperateDateTimePicker from '@/features/datetime/seperate-date-time-picker';
 
 export type CreateTrainingSessionFormProps = {
   onClose: () => void;
@@ -26,17 +29,21 @@ export const CreateTrainingSessionForm = (
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<TrainingSessionCreateInput>({
-    resolver: zodResolver(TrainingSessionCreateInputSchema),
+  } = useForm<FormTrainingSessionCreateInput>({
+    resolver: zodResolver(FormTrainingSessionCreateInputSchema),
   });
 
   const { mutateAsync } =
     api.trainingSessionRoutes.createTrainingSession.useMutation();
 
-  const onSubmit: SubmitHandler<TrainingSessionCreateInput> = async (data) => {
+  const onSubmit: SubmitHandler<FormTrainingSessionCreateInput> = async (
+    data,
+  ) => {
+    const transformedPayload = formPayloadToApiPayload(data);
+
     console.log(data);
     await mutateAsync({
-      data,
+      data: transformedPayload,
     })
       .then(() => {
         console.log(`Created`);
@@ -90,11 +97,29 @@ export const CreateTrainingSessionForm = (
           ))}
         </Autocomplete>
 
-        <Input
+        <SeperateDateTimePicker />
+
+        <Autocomplete label="Time of the day" isRequired>
+          {timesOfDay.map((d, _i) => (
+            <AutocompleteItem key={_i} value={d}>
+              {d}
+            </AutocompleteItem>
+          ))}
+        </Autocomplete>
+
+        <Autocomplete label="AM or PM" isRequired>
+          {amPm.map((d, _i) => (
+            <AutocompleteItem key={_i} value={d}>
+              {d}
+            </AutocompleteItem>
+          ))}
+        </Autocomplete>
+
+        {/* <Input
           label={'Start Time'}
           {...register('startTime')}
           errorMessage={errors.startTime?.message}
-        />
+        /> */}
         <Flex gap={9} justifyContent={'flex-end'} my={8}>
           <Button color="danger" onPress={onClose}>
             Cancel

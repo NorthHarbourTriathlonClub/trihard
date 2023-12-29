@@ -1,10 +1,36 @@
 import { daysOfWeek } from '@/constants/date-time';
 
+/**
+ * Takes in a date object, returns string in format of:
+ * YYYY-MM-DD
+ * @example
+ * ```ts
+ * const d = formatDateToYYYYMMDD(new Date('2023-01-01'));
+ * // d equals '2023-01-01'
+ * ```
+ */
 export const formatDateToYYYYMMDD = (date: Date): string => {
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
   const day = date.getDate().toString().padStart(2, '0');
   return `${year}-${month}-${day}`;
+};
+
+/**
+ * Takes in a date object, returns string in format of:
+ * YYYY-MM-DD (Day of the week)
+ * @example
+ * ```ts
+ * const d = formatDateToYYYYMMDDWithDay(new Date('2023-01-01'));
+ * // d equals '2023-01-01 (Sunday)'
+ * ```
+ */
+export const formatDateToYYYYMMDDWithDay = (date: Date): string => {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  const dayOfWeek = getDayOfWeek(date);
+  return `${year}-${month}-${day} (${dayOfWeek})`;
 };
 
 export const getDayOfWeek = (date: Date): string => {
@@ -23,7 +49,6 @@ export const getTimeOfDay = (date: Date): string => {
   return timeString;
 };
 
-// eslint-disable-next-line
 export const arrayIsEmpty = <T>(args: T[]): boolean => {
   return args.length === 0;
 };

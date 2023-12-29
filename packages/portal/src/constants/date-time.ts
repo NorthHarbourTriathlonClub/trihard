@@ -7,3 +7,4 @@ export const daysOfWeek = [
   'Friday',
   'Saturday',
 ] as const;
+export type DayOfWeek = (typeof daysOfWeek)[number];
