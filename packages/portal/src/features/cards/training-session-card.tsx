@@ -4,7 +4,6 @@ import { TrainingSession } from '@prisma/client';
 import Link from 'next/link';
 import * as H from '@/utils/helpers';
 
-
 export type TrainingSessionCardProps = {
   data: TrainingSession;
 };
