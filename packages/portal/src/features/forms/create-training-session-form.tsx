@@ -1,10 +1,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-  TrainingSessionCreateInput,
-  TrainingSessionCreateInputSchema,
-} from '@/schemas/create-training-session';
-import {
   Autocomplete,
   AutocompleteItem,
   Button,
@@ -12,6 +8,10 @@ import {
 } from '@nextui-org/react';
 import { Flex } from '@chakra-ui/layout';
 import { api } from '@/utils/api';
+import {
+  TrainingSessionCreateInput,
+  TrainingSessionCreateInputSchema,
+} from '@/schemas/create-training-session';
 import { coaches, trainingLocations, trainingTypes } from '@/constants/forms';
 
 export type CreateTrainingSessionFormProps = {
