@@ -18,7 +18,7 @@ export const TrainingSessionCreaeModal = () => {
         <SearchIcon />
         Create New
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false}>
         <ModalContent>
           {(onClose) => (
             <>
