@@ -35,7 +35,7 @@ export const MemberCard = (props: MemberCardProps) => {
               <span className="text-medium text-white">50</span>
             </div>
             <span className="text-white text-sm">
-              Trainings attenced in the last 4 weeks
+              Trainings attended in the last 4 weeks
             </span>
           </div>
           <div>
@@ -43,7 +43,7 @@ export const MemberCard = (props: MemberCardProps) => {
               <span className="text-medium text-white">8</span>
             </div>
             <span className="text-white text-sm">
-              Traings left on concession card
+              Trainings left on concession card
             </span>
           </div>
         </div>
