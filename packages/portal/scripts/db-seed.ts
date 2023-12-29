@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 const seedDb = async () => {
   console.log(`Seeding database`);
-  await createMembers();
+  await createTrainingSessions();
 };
 
 export const createMembers = async () => {
@@ -39,6 +39,32 @@ export const trainingLocations = [
   'Online',
 ] as const;
 
+/**
+ * Randomly create DateTime of the following time of day:
+ * - 6 AM
+ * - 7 AM
+ * - 9 AM
+ * - 5:30 PM
+ */
+export const createStartTime = () => {
+  const nztOffset = 13; // UTC offset for New Zealand Time
+
+  // Array of possible hours
+  const possibleHours = [6, 7, 9, 17];
+
+  // Randomly select an hour from the array
+  const randomHour =
+    possibleHours[Math.floor(Math.random() * possibleHours.length)];
+
+  const startTime = new Date();
+
+  // Set the selected hour in NZT
+  startTime.setUTCHours(randomHour - nztOffset);
+  startTime.setUTCMinutes(randomHour === 17 ? 30 : 0); // Set minutes to 30 if the hour is 5:30 PM
+
+  return startTime;
+};
+
 export const createTrainingSessions = async () => {
   let trainingSessions: Prisma.TrainingSessionCreateManyInput[] = [];
   for (let i = 1; i <= 50; i++) {
@@ -54,7 +80,7 @@ export const createTrainingSessions = async () => {
     });
     const location = trainingLocations[locationIndex];
 
-    const startTime = new Date();
+    const startTime = createStartTime();
     const trainingSession: Prisma.TrainingSessionCreateManyInput = {
       coachFullName,
       type,
