@@ -42,7 +42,11 @@ export const options: IOptions = {
   },
 };
 
-const SeperateDateTimePicker = () => {
+export type SeperateDateTimePickerProps = {
+  label: string;
+}
+const SeperateDateTimePicker = (props: SeperateDateTimePickerProps) => {
+  const {label} = props;
   const [show, setShow] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const handleChange = (selectedDate: Date) => {
@@ -62,7 +66,7 @@ const SeperateDateTimePicker = () => {
       >
         <div>
           <Input
-            placeholder="Select Date"
+            label={label}
             onFocus={() => setShow(true)}
             value={H.formatDateToYYYYMMDDWithDay(selectedDate)}
             readOnly
