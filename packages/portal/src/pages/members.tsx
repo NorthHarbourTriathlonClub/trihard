@@ -14,7 +14,7 @@ const MembersPage = () => {
     <>
       <NavBarResponsive />
       <Center flexDirection={'column'} width={'100%'}>
-        <p className="text-lg font-semibold">Members</p>
+        <p className={'text-lg font-semibold'}>Members</p>
         <Flex marginY={8} gap={8}></Flex>
 
         <Flex direction={'column'} gap={9} mb={9} width={'95%'}>

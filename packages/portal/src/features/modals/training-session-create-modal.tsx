@@ -9,7 +9,7 @@ import {
   useDisclosure,
 } from '@nextui-org/react';
 
-export const TrainingSessionCreaeModal = () => {
+export const TrainingSessionCreateModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
