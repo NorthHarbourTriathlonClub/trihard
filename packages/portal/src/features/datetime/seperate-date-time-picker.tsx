@@ -1,5 +1,5 @@
 const SeperateDateTimePicker = () => {
-  return <p>SeperateDateTimePicker</p>
+  return <p>SeperateDateTimePicker</p>;
 };
 
 export default SeperateDateTimePicker;
