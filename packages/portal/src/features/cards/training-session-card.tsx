@@ -1,7 +1,9 @@
 import { EditIcon } from '@chakra-ui/icons';
 import { Button, Card, CardBody } from '@nextui-org/react';
 import { TrainingSession } from '@prisma/client';
+import Link from 'next/link';
 import * as H from '@/utils/helpers';
+
 
 export type TrainingSessionCardProps = {
   data: TrainingSession;
@@ -22,9 +24,11 @@ export const TrainingSessionCard = (props: TrainingSessionCardProps) => {
               {H.getTimeOfDay(data.startTime)}
             </span>
           </div>
-          <Button variant={'light'}>
-            <EditIcon /> Edit
-          </Button>
+          <Link href={`/sessions/edit/${data.id}`}>
+            <Button variant={'light'}>
+              <EditIcon /> Edit
+            </Button>
+          </Link>
         </div>
         <div className="flex gap-2.5 py-2 items-center">
           <span className="text-white text-lg font-semibold">
