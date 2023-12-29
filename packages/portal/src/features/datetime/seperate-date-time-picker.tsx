@@ -44,9 +44,9 @@ export const options: IOptions = {
 
 export type SeperateDateTimePickerProps = {
   label: string;
-}
+};
 const SeperateDateTimePicker = (props: SeperateDateTimePickerProps) => {
-  const {label} = props;
+  const { label } = props;
   const [show, setShow] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const handleChange = (selectedDate: Date) => {

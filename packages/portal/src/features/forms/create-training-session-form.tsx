@@ -97,7 +97,7 @@ export const CreateTrainingSessionForm = (
           ))}
         </Autocomplete>
 
-        <SeperateDateTimePicker label='Date of training' />
+        <SeperateDateTimePicker label="Date of training" />
 
         <Autocomplete
           label="Training start time"
