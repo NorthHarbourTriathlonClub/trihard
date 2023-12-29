@@ -1,13 +1,13 @@
-import { api } from '@/utils/api';
 import { PlusSquareIcon } from '@chakra-ui/icons';
-import { NavBarResponsive } from '@/components/NavBarResponsive';
-import { TrainingSessionCard } from '@/features/cards/training-session-card';
 import { Center, Flex } from '@chakra-ui/layout';
 import { Button } from '@nextui-org/react';
 import { TrainingSessionFilterModal } from '@/features/modals/training-session-filter-modal';
 import { TrainingSessionCreaeModal } from '@/features/modals/training-session-create-modal';
 import { SkeletonCards } from '@/components/SkeletonCards';
 import * as H from '@/utils/helpers';
+import { NavBarResponsive } from '@/components/NavBarResponsive';
+import { TrainingSessionCard } from '@/features/cards/training-session-card';
+import { api } from '@/utils/api';
 
 const SessionsPage = () => {
   const { data, isError, isInitialLoading, error } =
@@ -18,7 +18,7 @@ const SessionsPage = () => {
     <>
       <NavBarResponsive />
       <Center flexDirection={'column'} width={'100%'}>
-        <p>Training Sessions</p>
+        <p className='text-lg font-semibold'>Training Sessions</p>
         <Flex marginY={8} gap={8}>
           <TrainingSessionFilterModal />
           <TrainingSessionCreaeModal />

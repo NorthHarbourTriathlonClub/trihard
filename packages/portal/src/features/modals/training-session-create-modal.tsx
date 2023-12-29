@@ -22,9 +22,7 @@ export const TrainingSessionCreaeModal = () => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader>
-                Create a new Training Session
-              </ModalHeader>
+              <ModalHeader>Create a new Training Session</ModalHeader>
               <ModalBody>
                 <CreateTrainingSessionForm onClose={onClose} />
               </ModalBody>
