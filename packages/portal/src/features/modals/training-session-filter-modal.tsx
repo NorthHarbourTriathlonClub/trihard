@@ -27,9 +27,9 @@ export const TrainingSessionFilterModal = () => {
               </ModalHeader>
               <ModalBody>
                 <p>
-                  <strong>Note: </strong>This feature is currently under development, but we promise
-                  that we'll deliver it sooner than Mingyang's arrival time to
-                  morning swim sessions.
+                  <strong>Note: </strong>This feature is currently under
+                  development, but we promise that we'll deliver it sooner than
+                  Mingyang's arrival time to morning swim sessions.
                 </p>
               </ModalBody>
               <ModalFooter>
