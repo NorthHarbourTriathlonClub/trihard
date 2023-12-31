@@ -38,7 +38,7 @@ export const CreateTrainingSessionForm = (
     });
 
   const { mutateAsync, isLoading } =
-    api.trainingSessionRoutes.createTrainingSession.useMutation();
+    api.trainingSessionRoutes.create.useMutation();
 
   const onSubmit: SubmitHandler<FormTrainingSessionCreateInput> = async (
     data,

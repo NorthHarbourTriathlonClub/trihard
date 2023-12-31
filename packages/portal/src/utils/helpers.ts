@@ -52,3 +52,8 @@ export const getTimeOfDay = (date: Date): string => {
 export const arrayIsEmpty = <T>(args: T[]): boolean => {
   return args.length === 0;
 };
+
+// eslint-disable-next-line
+export const isUnavailable = (args: any): boolean => {
+  return args === undefined || args === null;
+};
