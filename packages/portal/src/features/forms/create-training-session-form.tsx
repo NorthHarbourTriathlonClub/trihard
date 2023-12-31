@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -9,6 +10,7 @@ import {
 } from '@nextui-org/react';
 import { Flex, Text } from '@chakra-ui/layout';
 import Datepicker from 'tailwind-datepicker-react';
+import { toast } from 'react-toastify';
 import { api } from '@/utils/api';
 import {
   FormTrainingSessionCreateInput,
@@ -22,7 +24,6 @@ import {
   trainingLocations,
   trainingTypes,
 } from '@/constants/forms';
-import { useState } from 'react';
 
 export type CreateTrainingSessionFormProps = {
   onClose: () => void;
@@ -43,15 +44,31 @@ export const CreateTrainingSessionForm = (
     data,
   ) => {
     const transformedPayload = formPayloadToApiPayload(data);
+
     await mutateAsync({
       data: transformedPayload,
     })
       .then(() => {
-        console.log(`Created`);
+        toast.success('Training session created!', {
+          position: 'bottom-center',
+          autoClose: 1000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+        });
         onClose();
       })
-      .catch((e) => {
-        console.log(`Failed, error: ${e}`);
+      .catch(() => {
+        toast.error(
+          `Failed to create training session, please try again later. `,
+          {
+            position: 'bottom-center',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+          },
+        );
         onClose();
       });
   };
@@ -129,7 +146,9 @@ export const CreateTrainingSessionForm = (
           setShow={handleClose}
         />
         {formState.errors.date?.message !== undefined ? (
-          <p className="text-xs text-red-600">{formState.errors.date?.message}</p>
+          <p className="text-xs text-red-600">
+            {formState.errors.date?.message}
+          </p>
         ) : null}
 
         <Autocomplete
