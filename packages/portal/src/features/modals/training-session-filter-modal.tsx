@@ -27,9 +27,9 @@ export const TrainingSessionFilterModal = () => {
               </ModalHeader>
               <ModalBody>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Nullam pulvinar risus non risus hendrerit venenatis.
-                  Pellentesque sit amet hendrerit risus, sed porttitor quam.
+                  <strong>Note: </strong>This feature is currently under development, but we promise
+                  that we'll deliver it sooner than Mingyang's arrival time to
+                  morning swim sessions.
                 </p>
               </ModalBody>
               <ModalFooter>
