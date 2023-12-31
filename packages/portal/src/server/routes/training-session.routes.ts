@@ -1,14 +1,8 @@
-import { TrainingSessionCreateArgsSchema } from '@/schemas/create-training-session';
 import { prisma } from '@/server/db';
+import { TrainingSessionCreateArgsSchema } from '@/schemas/create-training-session';
 import { createTRPCRouter, publicProcedure } from '@/server/trpc';
-import { z } from 'zod';
+import { TrainingSessionFindManyArgsSchema } from '@/schemas/find-many-training-sessions';
 
-export const TrainingSessionFindManyArgsSchema = z.object({
-  take: z.number(),
-  skip: z.number().optional(),
-});
-
-// routes
 export const trainingSessionRoutes = createTRPCRouter({
   createTrainingSession: publicProcedure
     .input(TrainingSessionCreateArgsSchema)

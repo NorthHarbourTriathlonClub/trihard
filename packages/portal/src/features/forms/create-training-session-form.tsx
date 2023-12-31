@@ -1,12 +1,13 @@
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Autocomplete,
   AutocompleteItem,
   Button,
-  Input,
+  Spacer,
+  Spinner,
 } from '@nextui-org/react';
-import { Flex } from '@chakra-ui/layout';
+import { Flex, Text } from '@chakra-ui/layout';
 import Datepicker from 'tailwind-datepicker-react';
 import { api } from '@/utils/api';
 import {
@@ -22,8 +23,6 @@ import {
   trainingTypes,
 } from '@/constants/forms';
 import { useState } from 'react';
-// import { SeperateDateTimePicker } from '@/features/datetime/seperate-date-time-picker';
-import * as H from '@/utils/helpers';
 
 export type CreateTrainingSessionFormProps = {
   onClose: () => void;
@@ -32,21 +31,18 @@ export const CreateTrainingSessionForm = (
   props: CreateTrainingSessionFormProps,
 ) => {
   const { onClose } = props;
-  const { register, handleSubmit, reset, control, formState } =
+  const { register, handleSubmit, reset, setValue, formState } =
     useForm<FormTrainingSessionCreateInput>({
       resolver: zodResolver(FormTrainingSessionCreateInputSchema),
     });
 
-  const { mutateAsync } =
+  const { mutateAsync, isLoading } =
     api.trainingSessionRoutes.createTrainingSession.useMutation();
 
   const onSubmit: SubmitHandler<FormTrainingSessionCreateInput> = async (
     data,
   ) => {
-    // console.log(`touchedFields ==> ${JSON.stringify(touchedFields)}`);
     const transformedPayload = formPayloadToApiPayload(data);
-    // console.log(`isDirty ==> ${isDirty}`);
-
     await mutateAsync({
       data: transformedPayload,
     })
@@ -60,27 +56,26 @@ export const CreateTrainingSessionForm = (
       });
   };
 
+  const onInvalid = (errors: unknown) => console.error(errors);
+
   // datepicker logic
   const [show, setShow] = useState<boolean>(false);
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [showDatepickerInputField, setShowDatepickerInputField] =
-    useState(false);
-  // const handleChange = (selectedDate: Date) => {
-  //   setSelectedDate(selectedDate);
-  // };
   const handleClose = (state: boolean) => {
-    setShow(state);
+    setTimeout(() => {
+      setShow(state);
+    }, 300);
   };
+  const { onChange: onDateChange, ...dateRegister } = register('date');
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
       <Flex direction={'column'} gap={6}>
         <Autocomplete
           {...register('type')}
           label="Select the training type"
           errorMessage={formState.errors.type?.message}
-          onError={() => console.log(`FIELD error - type`)}
           isRequired
+          isDisabled={isLoading}
         >
           {trainingTypes.map((d, _i) => (
             <AutocompleteItem key={_i} value={d}>
@@ -91,10 +86,10 @@ export const CreateTrainingSessionForm = (
 
         <Autocomplete
           {...register('location')}
-          label="Select the location"
+          label="Pick the location"
           errorMessage={formState.errors.location?.message}
           isRequired
-          onError={() => console.log(`FIELD error - type`)}
+          isDisabled={isLoading}
         >
           {trainingLocations.map((d, _i) => (
             <AutocompleteItem key={_i} value={d}>
@@ -105,10 +100,10 @@ export const CreateTrainingSessionForm = (
 
         <Autocomplete
           {...register('coachFullName')}
-          label="Select the coach"
+          label="Who's the coach?"
           errorMessage={formState.errors.coachFullName?.message}
           isRequired
-          onError={() => console.log(`FIELD error - type`)}
+          isDisabled={isLoading}
         >
           {coaches.map((d, _i) => (
             <AutocompleteItem key={_i} value={d}>
@@ -117,50 +112,31 @@ export const CreateTrainingSessionForm = (
           ))}
         </Autocomplete>
 
-        {/* <SeperateDateTimePicker
-          label="Date of training"
-          formMethods={{ register, setValue, formState }}
-        /> */}
-        {/* datepicker */}
-        <Input
-          label={'Date of training'}
-          onClick={() => {
-            setShow(true);
-            setShowDatepickerInputField(!showDatepickerInputField);
+        {/* need to convert date picker into own component */}
+        <Spacer />
+        <Text>Training time details</Text>
+        <Datepicker
+          {...dateRegister}
+          options={{
+            clearBtn: true,
+            defaultDate: new Date(),
           }}
-          value={H.formatDateToYYYYMMDDWithDay(selectedDate)}
-          readOnly
-          isRequired
-          // {...register('date')}
-          // errorMessage={formState.errors.date?.message}
+          onChange={(date) => {
+            setValue('date', date);
+            onDateChange({ target: date });
+          }}
+          show={show}
+          setShow={handleClose}
         />
-        {showDatepickerInputField ? (
-          <Controller
-            control={control}
-            name={'date'}
-            render={({ field }) => {
-              return (
-                <div>
-                  <Datepicker
-                    {...register('date')}
-                    show={show}
-                    setShow={handleClose}
-                    onChange={(date) => {
-                      setSelectedDate(date);
-                      field.onChange(date);
-                      handleClose(false);
-                    }}
-                  />
-                </div>
-              );
-            }}
-          />
+        {formState.errors.date?.message !== undefined ? (
+          <p className="text-xs text-red-600">{formState.errors.date?.message}</p>
         ) : null}
 
         <Autocomplete
           label="Training start time"
           isRequired
           {...register('timeOfDay')}
+          isDisabled={isLoading}
         >
           {timesOfDay.map((d, _i) => (
             <AutocompleteItem key={_i} value={d}>
@@ -169,7 +145,12 @@ export const CreateTrainingSessionForm = (
           ))}
         </Autocomplete>
 
-        <Autocomplete label="AM or PM" isRequired {...register('amOrPm')}>
+        <Autocomplete
+          label="AM or PM"
+          isRequired
+          {...register('amOrPm')}
+          isDisabled={isLoading}
+        >
           {amPm.map((d, _i) => (
             <AutocompleteItem key={_i} value={d}>
               {d}
@@ -178,14 +159,19 @@ export const CreateTrainingSessionForm = (
         </Autocomplete>
 
         <Flex gap={9} justifyContent={'flex-end'} my={8}>
-          <Button color="danger" onPress={onClose}>
+          <Button color="danger" onPress={onClose} isDisabled={isLoading}>
             Cancel
           </Button>
-          <Button color="warning" variant="solid" onPress={() => reset()}>
+          <Button
+            color="warning"
+            variant="solid"
+            onPress={() => reset()}
+            isDisabled={isLoading}
+          >
             Clear
           </Button>
-          <Button color="primary" type={'submit'}>
-            Create
+          <Button color="primary" type={'submit'} isDisabled={isLoading}>
+            {isLoading ? <Spinner /> : 'Create'}
           </Button>
         </Flex>
       </Flex>

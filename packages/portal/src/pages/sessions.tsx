@@ -13,6 +13,9 @@ const SessionsPage = () => {
   const { data, isError, isInitialLoading, error } =
     api.trainingSessionRoutes.findMany.useQuery({
       take: 5,
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
   return (
     <>
