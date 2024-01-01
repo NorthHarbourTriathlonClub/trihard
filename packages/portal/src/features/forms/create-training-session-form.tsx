@@ -40,37 +40,48 @@ export const CreateTrainingSessionForm = (
   const { mutateAsync, isLoading } =
     api.trainingSessionRoutes.create.useMutation();
 
+  const { trainingSessionRoutes } = api.useUtils();
   const onSubmit: SubmitHandler<FormTrainingSessionCreateInput> = async (
     data,
   ) => {
     const transformedPayload = formPayloadToApiPayload(data);
 
-    await mutateAsync({
-      data: transformedPayload,
-    })
-      .then(() => {
-        toast.success('Training session created!', {
-          position: 'bottom-center',
-          autoClose: 1000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-        });
-        onClose();
-      })
-      .catch(() => {
-        toast.error(
-          `Failed to create training session, please try again later. `,
-          {
+    await mutateAsync(
+      {
+        data: transformedPayload,
+      },
+      {
+        onSuccess: () => {
+          toast.success('Training session created!', {
             position: 'bottom-center',
-            autoClose: 5000,
-            hideProgressBar: false,
+            autoClose: 2000,
+            hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
-          },
-        );
-        onClose();
-      });
+          });
+          onClose();
+          trainingSessionRoutes.findMany.refetch({
+            take: 5,
+            orderBy: {
+              startTime: 'desc',
+            },
+          });
+        },
+        onError: () => {
+          toast.error(
+            `Failed to create training session, please try again later. `,
+            {
+              position: 'bottom-center',
+              autoClose: 8000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+            },
+          );
+          onClose();
+        },
+      },
+    );
   };
 
   const onInvalid = (errors: unknown) => console.error(errors);

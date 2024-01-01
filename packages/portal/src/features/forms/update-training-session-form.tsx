@@ -73,7 +73,7 @@ export const UpdateTrainingSessionForm = (
           trainingSessionRoutes.findMany.refetch({
             take: 5,
             orderBy: {
-              updatedAt: 'desc',
+              startTime: 'desc',
             },
           });
         },

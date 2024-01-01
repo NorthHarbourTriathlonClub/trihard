@@ -14,7 +14,7 @@ const SessionsPage = () => {
     api.trainingSessionRoutes.findMany.useQuery({
       take: 5,
       orderBy: {
-        createdAt: 'desc',
+        startTime: 'desc',
       },
     });
   return (

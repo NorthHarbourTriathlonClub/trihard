@@ -8,6 +8,7 @@ export const TrainingSessionFindManyArgsSchema = z.object({
     .object({
       createdAt: OrderSchema.optional(),
       updatedAt: OrderSchema.optional(),
+      startTime: OrderSchema.optional(),
     })
     .optional(),
 });
