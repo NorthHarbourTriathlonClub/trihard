@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -7,6 +7,7 @@ import {
   Button,
   Spacer,
   Spinner,
+  Tooltip,
 } from '@nextui-org/react';
 import { Flex, Text } from '@chakra-ui/layout';
 import Datepicker from 'tailwind-datepicker-react';
@@ -36,12 +37,16 @@ export const UpdateTrainingSessionForm = (
   const { register, handleSubmit, reset, setValue, formState } =
     useForm<FormTrainingSessionUpdateInput>({
       resolver: zodResolver(FormTrainingSessionUpdateInputSchema),
-      defaultValues: initialValues,
     });
 
-  console.log(
-    `formState.defaultValues ==> ${JSON.stringify(formState.defaultValues)}`,
-  );
+  const { trainingSessionRoutes } = api.useUtils();
+
+  // Set default values on component mount
+  useEffect(() => {
+    Object.entries(initialValues).forEach(([fieldName, defaultValue]) => {
+      setValue(fieldName as keyof FormTrainingSessionUpdateInput, defaultValue);
+    });
+  }, [setValue, initialValues]);
 
   const { mutateAsync, isLoading } =
     api.trainingSessionRoutes.update.useMutation();
@@ -64,6 +69,12 @@ export const UpdateTrainingSessionForm = (
             hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
+          });
+          trainingSessionRoutes.findMany.refetch({
+            take: 5,
+            orderBy: {
+              updatedAt: 'desc',
+            },
           });
         },
         onError: () => {
@@ -99,6 +110,7 @@ export const UpdateTrainingSessionForm = (
         <Autocomplete
           {...register('type')}
           label="Select the training type"
+          defaultInputValue={initialValues.type}
           errorMessage={formState.errors.type?.message}
           isRequired
           isDisabled={isLoading}
@@ -113,6 +125,7 @@ export const UpdateTrainingSessionForm = (
         <Autocomplete
           {...register('location')}
           label="Pick the location"
+          defaultInputValue={initialValues.location}
           errorMessage={formState.errors.location?.message}
           isRequired
           isDisabled={isLoading}
@@ -127,6 +140,7 @@ export const UpdateTrainingSessionForm = (
         <Autocomplete
           {...register('coachFullName')}
           label="Who's the coach?"
+          defaultInputValue={initialValues.coachFullName}
           errorMessage={formState.errors.coachFullName?.message}
           isRequired
           isDisabled={isLoading}
@@ -145,7 +159,7 @@ export const UpdateTrainingSessionForm = (
           {...dateRegister}
           options={{
             clearBtn: true,
-            defaultDate: new Date(),
+            defaultDate: initialValues.date,
           }}
           onChange={(date) => {
             setValue('date', date);
@@ -161,9 +175,10 @@ export const UpdateTrainingSessionForm = (
         ) : null}
 
         <Autocomplete
-          label="Training start time"
-          isRequired
           {...register('timeOfDay')}
+          label="Training start time"
+          defaultInputValue={initialValues.timeOfDay}
+          isRequired
           isDisabled={isLoading}
         >
           {timesOfDay.map((d, _i) => (
@@ -174,9 +189,10 @@ export const UpdateTrainingSessionForm = (
         </Autocomplete>
 
         <Autocomplete
-          label="AM or PM"
-          isRequired
           {...register('amOrPm')}
+          label="AM or PM"
+          defaultInputValue={initialValues.amOrPm}
+          isRequired
           isDisabled={isLoading}
         >
           {amPm.map((d, _i) => (
@@ -185,18 +201,25 @@ export const UpdateTrainingSessionForm = (
             </AutocompleteItem>
           ))}
         </Autocomplete>
-
         <Flex gap={9} justifyContent={'flex-end'} my={8}>
-          <Button
-            color="warning"
-            variant="solid"
-            onPress={() => reset()}
-            isDisabled={isLoading}
+          <Tooltip
+            content={
+              'Clicking this button will set all the form details back to the version before you made edits'
+            }
+            placement={'bottom'}
           >
-            Reset
-          </Button>
+            <Button
+              color="warning"
+              variant="solid"
+              onPress={() => reset()}
+              isDisabled={isLoading}
+            >
+              Reset
+            </Button>
+          </Tooltip>
+
           <Button color="primary" type={'submit'} isDisabled={isLoading}>
-            {isLoading ? <Spinner /> : 'Create'}
+            {isLoading ? <Spinner size="md" /> : 'Update'}
           </Button>
         </Flex>
       </Flex>

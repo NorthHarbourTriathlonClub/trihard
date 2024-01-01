@@ -1,8 +1,8 @@
+import { z } from 'zod';
+import { Prisma } from '@prisma/client';
 import { AmPm } from '@/constants/forms';
 import { mergeTimeAmPmIntoDate } from '@/schemas/create-training-session';
 import { WhereUniuqeSchema } from '@/schemas/prisma';
-import { Prisma } from '@prisma/client';
-import { z } from 'zod';
 
 export const TrainingSessionUpdateInputSchema = z.object({
   type: z.string({ required_error: 'Please provided a value' }),
@@ -56,6 +56,7 @@ export const apiPayloadToFormPayload = (
   args: Prisma.TrainingSessionUpdateInput,
 ): FormTrainingSessionUpdateInput => {
   const { type, location, coachFullName, startTime, ...rest } = args;
+
   const { date, timeOfDay, amOrPm } = extractTimeAmPmFromDate(
     startTime as Date,
   );

@@ -6,7 +6,8 @@ export const TrainingSessionFindManyArgsSchema = z.object({
   skip: z.number().optional(),
   orderBy: z
     .object({
-      createdAt: OrderSchema,
+      createdAt: OrderSchema.optional(),
+      updatedAt: OrderSchema.optional(),
     })
     .optional(),
 });
