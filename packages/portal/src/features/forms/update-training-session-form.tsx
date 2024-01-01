@@ -39,6 +39,10 @@ export const UpdateTrainingSessionForm = (
       defaultValues: initialValues,
     });
 
+  console.log(
+    `formState.defaultValues ==> ${JSON.stringify(formState.defaultValues)}`,
+  );
+
   const { mutateAsync, isLoading } =
     api.trainingSessionRoutes.update.useMutation();
 
@@ -47,31 +51,35 @@ export const UpdateTrainingSessionForm = (
   ) => {
     const transformedPayload = formPayloadToApiPayload(data);
 
-    await mutateAsync({
-      where: { id },
-      data: transformedPayload,
-    })
-      .then(() => {
-        toast.success('Training session updated!', {
-          position: 'bottom-center',
-          autoClose: 1000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-        });
-      })
-      .catch(() => {
-        toast.error(
-          `Failed to update training session, please try again later. `,
-          {
+    await mutateAsync(
+      {
+        where: { id },
+        data: transformedPayload,
+      },
+      {
+        onSuccess: () => {
+          toast.success('Training session updated!', {
             position: 'bottom-center',
-            autoClose: 5000,
-            hideProgressBar: false,
+            autoClose: 1000,
+            hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
-          },
-        );
-      });
+          });
+        },
+        onError: () => {
+          toast.error(
+            `Failed to update training session, please try again later. `,
+            {
+              position: 'bottom-center',
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+            },
+          );
+        },
+      },
+    );
   };
 
   const onInvalid = (errors: unknown) => console.error(errors);

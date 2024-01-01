@@ -22,18 +22,17 @@ const EditTrainingSession = () => {
   const { data, isInitialLoading, isError, error } =
     api.trainingSessionRoutes.findOne.useQuery(
       {
-        where: {
-          id,
-        },
+        where: { id },
       },
       {
-        enabled: idIsUnavailable,
+        enabled: !idIsUnavailable,
       },
     );
 
   useEffect(() => {
-    if (data !== undefined && data !== null)
-      setInitialFormValues(apiPayloadToFormPayload(data));
+    if (isInitialLoading === false && data !== undefined && data !== null) {
+      setInitialFormValues(() => apiPayloadToFormPayload(data));
+    }
   }, [data]);
 
   return (
@@ -49,9 +48,7 @@ const EditTrainingSession = () => {
             <SkeletonCard />
           ) : null}
 
-          {data !== undefined &&
-          isInitialLoading === false &&
-          initialFormValues !== undefined ? (
+          {initialFormValues !== undefined ? (
             <UpdateTrainingSessionForm
               id={id}
               initialValues={initialFormValues}

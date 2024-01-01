@@ -55,7 +55,7 @@ export const formPayloadToApiPayload = (
 export const apiPayloadToFormPayload = (
   args: Prisma.TrainingSessionUpdateInput,
 ): FormTrainingSessionUpdateInput => {
-  const { type, location, coachFullName, startTime } = args;
+  const { type, location, coachFullName, startTime, ...rest } = args;
   const { date, timeOfDay, amOrPm } = extractTimeAmPmFromDate(
     startTime as Date,
   );
@@ -66,6 +66,7 @@ export const apiPayloadToFormPayload = (
     date,
     timeOfDay,
     amOrPm,
+    ...rest,
   };
 };
 
