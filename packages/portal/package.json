@@ -5,6 +5,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "postinstall": "npx prisma generate",
     "db:seed": "ts-node scripts/db-seed.ts",
     "db:clear": "ts-node scripts/db-clear.ts",
     "docker:db:up": "docker-compose -f docker-compose-db.yml up -d"
@@ -16,7 +17,6 @@
     "@hookform/resolvers": "3.3.3",
     "@nextui-org/react": "2.2.9",
     "@prisma/client": "5.7.1",
-    "@prisma/nextjs-monorepo-workaround-plugin": "5.7.1",
     "@t3-oss/env-nextjs": "0.7.1",
     "@tanstack/react-query": "4.18.0",
     "@trpc/client": "10.44.1",
