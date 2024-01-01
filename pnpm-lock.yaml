@@ -44,6 +44,9 @@ importers:
       '@prisma/client':
         specifier: 5.7.1
         version: 5.7.1
+      '@prisma/nextjs-monorepo-workaround-plugin':
+        specifier: 5.7.1
+        version: 5.7.1
       '@t3-oss/env-nextjs':
         specifier: 0.7.1
         version: 0.7.1(typescript@5.3.3)(zod@3.22.4)
@@ -96,9 +99,6 @@ importers:
       '@ngneat/falso':
         specifier: 7.1.1
         version: 7.1.1
-      '@prisma/nextjs-monorepo-workaround-plugin':
-        specifier: 5.7.1
-        version: 5.7.1
       '@types/node':
         specifier: 20.10.4
         version: 20.10.4
@@ -2381,7 +2381,7 @@ packages:
 
   /@prisma/nextjs-monorepo-workaround-plugin@5.7.1:
     resolution: {integrity: sha512-imzkXQ/iNytpSHAEfXzI4eJcuwuJoBPPak4zuedyOYv6lQoOJ5/nFuW2V17GcumWaxb2qyWrr2NyX9iJvqgL5w==}
-    dev: true
+    dev: false
 
   /@react-aria/breadcrumbs@3.5.8(react@18.2.0):
     resolution: {integrity: sha512-jeek23igeqXct7S3ShW2jtFUc5g3fS9ZEBZkF64FWBrwfCiaZwb8TcKkK/xFw36/q5mxEt+seNiqnNzvsICJuQ==}
