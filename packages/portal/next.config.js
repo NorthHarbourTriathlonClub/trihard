@@ -1,4 +1,5 @@
-import { PrismaPlugin } from '@prisma/nextjs-monorepo-workaround-plugin';
+// eslint-disable-next-line
+const { PrismaPlugin } = require('@prisma/nextjs-monorepo-workaround-plugin');
 
 module.exports = {
   webpack: (config, { isServer }) => {
