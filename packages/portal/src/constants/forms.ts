@@ -24,6 +24,9 @@ export const coaches = [
   'Stephen Farrell',
   'Laura Quilter',
   'Billy Bowman',
+  'Mike Trees',
+  'Jane Powell',
+  'Simone Ackermann',
 ] as const;
 
 export const trainingStartTimes = [
@@ -56,7 +59,15 @@ export const trainingStartTimes = [
 export const amPm = ['AM', 'PM'] as const;
 export type AmPm = (typeof amPm)[number];
 
-export const timesOfDay = ['5:00', '5:15', '6:00', '6:15', '6:30', '7:00', '8:00'] as const;
+export const timesOfDay = [
+  '5:00',
+  '5:15',
+  '6:00',
+  '6:15',
+  '6:30',
+  '7:00',
+  '8:00',
+] as const;
 export type TimeOfDay = (typeof timesOfDay)[number];
 
 export type TrainingSchedule = `${DayOfWeek} @ ${TimeOfDay} ${AmPm}`;
