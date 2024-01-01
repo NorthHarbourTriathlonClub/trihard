@@ -5,6 +5,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
     "prepare": "husky install",
+    "postinstall": "npm exec -w packages/portal npx prisma generate",
     "precommit": "lint-staged --relative"
   },
   "devDependencies": {
