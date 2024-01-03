@@ -89,7 +89,6 @@ const SessionAthletesPage = () => {
 
         {data !== undefined && data.length > 0 && isInitialLoading === false ? (
           <Flex direction={'column'} gap={9} mb={9}>
-            {/* {JSON.stringify(data)} */}
             {data.map((d, _i) => (
               <AthleteCard key={_i} data={d} />
             ))}

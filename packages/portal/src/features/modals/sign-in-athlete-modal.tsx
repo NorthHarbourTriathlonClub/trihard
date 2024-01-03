@@ -1,3 +1,4 @@
+import { SignInAthleteTabs } from '@/features/tabs/sign-in-athlete-tabs';
 import { AddIcon } from '@chakra-ui/icons';
 import {
   Modal,
@@ -24,7 +25,9 @@ export const SignInAthleteModal = () => {
               <ModalHeader className="flex flex-col gap-1">
                 Signing in Athlete
               </ModalHeader>
-              <ModalBody>test</ModalBody>
+              <ModalBody>
+                <SignInAthleteTabs />
+              </ModalBody>
             </>
           )}
         </ModalContent>
