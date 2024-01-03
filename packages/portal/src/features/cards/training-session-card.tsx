@@ -45,7 +45,9 @@ export const TrainingSessionCard = (props: TrainingSessionCardProps) => {
           </div>
           <div>
             <div>
-              <span className="text-medium text-white">27</span>
+              <span className="text-medium text-white">
+                {data.athleteIds.length}
+              </span>
             </div>
             <span className="text-white text-sm">People showed up</span>
           </div>
