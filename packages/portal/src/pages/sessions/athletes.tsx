@@ -11,6 +11,7 @@ import { api } from '@/utils/api';
 import { AthleteCard } from '@/features/cards/athlete-card';
 import { isUnavailable } from '@/utils/helpers';
 import { SignInAthleteModal } from '@/features/modals/sign-in-athlete-modal';
+import { TrainingSessionInfoModal } from '@/features/modals/training-session-info-modal';
 
 const SessionAthletesPage = () => {
   const router = useRouter();
@@ -62,8 +63,12 @@ const SessionAthletesPage = () => {
           <Button onClick={() => router.back()}>
             <ArrowBackIcon />
           </Button>
+          <TrainingSessionInfoModal data={trainingSession as TrainingSession} />
+        </Flex>
+        <Flex mb={8}>
           <SignInAthleteModal />
         </Flex>
+
         {isInitialLoadingTrainingSession || isInitialLoading ? (
           <Center flexDirection={'column'} width={'90%'} gap={9}>
             <SkeletonCards count={3} />
