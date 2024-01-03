@@ -6,6 +6,7 @@ import * as H from '@/utils/helpers';
 import { NavBarResponsive } from '@/components/NavBarResponsive';
 import { api } from '@/utils/api';
 import { AthleteCreateModal } from '@/features/modals/athlete-create-modal';
+import { AthleteCard } from '@/features/cards/athlete-card';
 
 const AthletesPage = () => {
   const { data, isError, isInitialLoading, error } =
@@ -37,10 +38,10 @@ const AthletesPage = () => {
 
         {data !== undefined && data.length > 0 && isInitialLoading === false ? (
           <Flex direction={'column'} gap={9} mb={9}>
-            {JSON.stringify(data)}
-            {/* {data.map((d, _i) => (
-              <TrainingSessionCard key={_i} data={d} />
-            ))} */}
+            {/* {JSON.stringify(data)} */}
+            {data.map((d, _i) => (
+              <AthleteCard key={_i} data={d} />
+            ))}
           </Flex>
         ) : null}
 
