@@ -8,64 +8,95 @@ generator client {
 }
 
 model TrainingSession {
-  id                  String               @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt           DateTime             @default(now())
-  createdBy           String?
-  updatedAt           DateTime             @updatedAt
-  archived            Boolean              @default(false)
-  archivedAt          DateTime?
-  startTime           DateTime
-  finishTime          DateTime?
-  coachFullName       String
-  type                String
-  location            String
-  trainingAttendences TrainingAttendence[]
+  id                        String                     @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt                 DateTime                   @default(now())
+  createdBy                 String?
+  updatedAt                 DateTime                   @updatedAt
+  updatedBy                 String?
+  archived                  Boolean                    @default(false)
+  archivedAt                DateTime?
+  startTime                 DateTime
+  finishTime                DateTime?
+  coachFullName             String
+  type                      String
+  location                  String
+  details                   String?
+  athleteIds                String[]                   @db.ObjectId
+  athletes                  Athlete[]                  @relation(fields: [athleteIds], references: [id])
+  concessionCardIds         String[]                   @db.ObjectId
+  concessionCards           ConcessionCard[]           @relation(fields: [concessionCardIds], references: [id])
+  individualSessionPayments IndividualSessionPayment[]
 }
 
-model TrainingAttendence {
-  id                 String           @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt          DateTime         @default(now())
-  createdBy          String?
-  updatedAt          DateTime         @updatedAt
-  archived           Boolean          @default(false)
-  archivedAt         DateTime?
-  trainingSessionId  String?          @db.ObjectId
-  trainingSession    TrainingSession? @relation(fields: [trainingSessionId], references: [id])
-  memberId           String           @db.ObjectId
-  member             Member           @relation(fields: [memberId], references: [id])
-  trainingsCompleted String[]
-  paymentIds         String[]         @db.ObjectId
-  payments           Payment[]        @relation(fields: [paymentIds], references: [id])
-  comment            String?
+model Athlete {
+  id                          String                    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt                   DateTime                  @default(now())
+  createdBy                   String?
+  updatedAt                   DateTime                  @updatedAt
+  updatedBy                   String?
+  archived                    Boolean                   @default(false)
+  archivedAt                  DateTime?
+  firstName                   String
+  lastName                    String
+  preferredName               String?
+  email                       String
+  mobile                      String?
+  trainingSessionsAttendedIds String[]                  @db.ObjectId
+  trainingSessionsAttended    TrainingSession[]         @relation(fields: [trainingSessionsAttendedIds], references: [id])
+  concessionCards             ConcessionCard[]
+  concessionCardPayments      ConcessionCardPayment[]
+  individualSessionPayments   IndividualSessionPayment?
 }
 
-model Member {
-  id                 String               @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt          DateTime             @default(now())
-  createdBy          String?
-  updatedAt          DateTime             @updatedAt
-  archived           Boolean              @default(false)
-  archivedAt         DateTime?
-  firstName          String
-  lastName           String
-  preferredName      String?
-  email              String
-  mobile             String?
-  payments           Payment[]
-  traniningsAttended TrainingAttendence[]
+model ConcessionCard {
+  id                      String                 @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt               DateTime               @default(now())
+  createdBy               String?
+  updatedAt               DateTime               @updatedAt
+  updatedBy               String?
+  archived                Boolean                @default(false)
+  archivedAt              DateTime?
+  numTrainingsAvailable   Int
+  issuanceDate            DateTime
+  expiryDate              DateTime
+  issuedBy                String
+  athleteId               String                 @db.ObjectId
+  athlete                 Athlete                @relation(fields: [athleteId], references: [id])
+  trainingSessionIds      String[]               @db.ObjectId
+  trainingSessions        TrainingSession[]      @relation(fields: [trainingSessionIds], references: [id])
+  concessionCardPaymentId String?                @db.ObjectId
+  concessionCardPayment   ConcessionCardPayment?
 }
 
-model Payment {
-  id                    String               @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt             DateTime             @default(now())
-  createdBy             String?
-  updatedAt             DateTime             @updatedAt
-  archived              Boolean              @default(false)
-  archivedAt            DateTime?
-  memberId              String?              @db.ObjectId
-  member                Member?              @relation(fields: [memberId], references: [id])
-  trainingAttendenceIds String[]             @db.ObjectId
-  trainingAttendences   TrainingAttendence[] @relation(fields: [trainingAttendenceIds], references: [id])
-  amount                Float
-  paymentMethod         String
+model ConcessionCardPayment {
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt        DateTime       @default(now())
+  createdBy        String?
+  updatedAt        DateTime       @updatedAt
+  updatedBy        String?
+  archived         Boolean        @default(false)
+  archivedAt       DateTime?
+  paidByAthleteId  String         @unique @db.ObjectId
+  paidByAthlete    Athlete        @relation(fields: [paidByAthleteId], references: [id])
+  paymentAmount    Float
+  paymentMethod    String
+  concessionCardId String         @unique @db.ObjectId
+  concessionCard   ConcessionCard @relation(fields: [concessionCardId], references: [id])
+}
+
+model IndividualSessionPayment {
+  id                String          @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt         DateTime        @default(now())
+  createdBy         String?
+  updatedAt         DateTime        @updatedAt
+  updatedBy         String?
+  archived          Boolean         @default(false)
+  archivedAt        DateTime?
+  athleteId         String          @unique @db.ObjectId
+  athlete           Athlete         @relation(fields: [athleteId], references: [id])
+  paymentAmount     Float
+  paymentMethod     String
+  isPaid            Boolean         @default(false)
+  trainingSessionId String          @db.ObjectId
+  trainingSession   TrainingSession @relation(fields: [trainingSessionId], references: [id])
 }

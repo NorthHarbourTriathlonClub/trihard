@@ -1,12 +1,12 @@
 import { EditIcon } from '@chakra-ui/icons';
 import { Button, Card, CardBody, Spacer } from '@nextui-org/react';
-import { Member } from '@prisma/client';
+import { Athlete } from '@prisma/client';
 import Link from 'next/link';
 
-export type MemberCardProps = {
-  data: Partial<Member>;
+export type AthleteCardProps = {
+  data: Partial<Athlete>;
 };
-export const MemberCard = (props: MemberCardProps) => {
+export const AthleteCard = (props: AthleteCardProps) => {
   const { data } = props;
   return (
     <Card
@@ -21,7 +21,7 @@ export const MemberCard = (props: MemberCardProps) => {
               Firstname Lastname
             </span>
           </div>
-          <Link href={`/members/edit/${data.id}`}>
+          <Link href={`/athletes/edit/${data.id}`}>
             <Button variant={'light'}>
               <EditIcon /> Edit
             </Button>

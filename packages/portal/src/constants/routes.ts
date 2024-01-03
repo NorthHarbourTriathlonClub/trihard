@@ -9,8 +9,8 @@ export const routes: Route[] = [
     label: 'Training Sessions',
   },
   {
-    path: '/members',
-    label: 'Members',
+    path: '/athletes',
+    label: 'Athletes',
   },
   {
     path: '/payments',

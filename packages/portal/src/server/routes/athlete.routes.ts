@@ -2,28 +2,28 @@ import { prisma } from '@/server/db';
 import { createTRPCRouter, publicProcedure } from '@/server/trpc';
 import { z } from 'zod';
 
-export const MemberCreateArgsSchema = z.object({
+export const AthleteCreateArgsSchema = z.object({
   data: z.object({
     firstName: z.string(),
     lastName: z.string(),
     email: z.string(),
   }),
 });
-export const MemberFindManyArgsSchema = z.object({
+export const AthleteFindManyArgsSchema = z.object({
   take: z.number(),
   skip: z.number().optional(),
 });
 
 // routes
-export const memberRoutes = createTRPCRouter({
-  createMember: publicProcedure
-    .input(MemberCreateArgsSchema)
+export const athleteRoutes = createTRPCRouter({
+  create: publicProcedure
+    .input(AthleteCreateArgsSchema)
     .mutation(async ({ input }) => {
-      return await prisma.member.create(input);
+      return await prisma.athlete.create(input);
     }),
   findMany: publicProcedure
-    .input(MemberFindManyArgsSchema)
+    .input(AthleteFindManyArgsSchema)
     .query(async ({ input }) => {
-      return await prisma.member.findMany(input);
+      return await prisma.athlete.findMany(input);
     }),
 });

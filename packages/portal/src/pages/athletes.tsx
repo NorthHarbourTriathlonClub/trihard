@@ -1,12 +1,12 @@
 import { NavBarResponsive } from '@/components/NavBarResponsive';
-import { MemberCard } from '@/features/cards/member-card';
+import { AthleteCard } from '@/features/cards/athlete-card';
 import { PlusSquareIcon } from '@chakra-ui/icons';
 import { Center, Flex } from '@chakra-ui/layout';
 import { Button } from '@nextui-org/react';
-import { Member } from '@prisma/client';
+import { Athlete } from '@prisma/client';
 
-const MembersPage = () => {
-  const data: Partial<Member> = {
+const AthletesPage = () => {
+  const data: Partial<Athlete> = {
     id: 'test',
   };
 
@@ -14,13 +14,13 @@ const MembersPage = () => {
     <>
       <NavBarResponsive />
       <Center flexDirection={'column'} width={'100%'}>
-        <p className={'text-lg font-semibold'}>Members</p>
+        <p className={'text-lg font-semibold'}>Athletes</p>
         <Flex marginY={8} gap={8}></Flex>
 
         <Flex direction={'column'} gap={9} mb={9} width={'95%'}>
-          <MemberCard data={data} />
-          <MemberCard data={data} />
-          <MemberCard data={data} />
+          <AthleteCard data={data} />
+          <AthleteCard data={data} />
+          <AthleteCard data={data} />
         </Flex>
 
         <Button variant={'bordered'}>
@@ -31,4 +31,4 @@ const MembersPage = () => {
   );
 };
 
-export default MembersPage;
+export default AthletesPage;

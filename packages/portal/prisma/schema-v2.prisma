@@ -10,9 +10,9 @@ generator client {
 model TrainingSession {
   id                        String                     @id @default(auto()) @map("_id") @db.ObjectId
   createdAt                 DateTime                   @default(now())
-  createdBy                 String
+  createdBy                 String?
   updatedAt                 DateTime                   @updatedAt
-  updatedBy                 String
+  updatedBy                 String?
   archived                  Boolean                    @default(false)
   archivedAt                DateTime?
   startTime                 DateTime
@@ -31,9 +31,9 @@ model TrainingSession {
 model Athlete {
   id                          String                    @id @default(auto()) @map("_id") @db.ObjectId
   createdAt                   DateTime                  @default(now())
-  createdBy                   String
+  createdBy                   String?
   updatedAt                   DateTime                  @updatedAt
-  updatedBy                   String
+  updatedBy                   String?
   archived                    Boolean                   @default(false)
   archivedAt                  DateTime?
   firstName                   String
@@ -51,9 +51,9 @@ model Athlete {
 model ConcessionCard {
   id                      String                 @id @default(auto()) @map("_id") @db.ObjectId
   createdAt               DateTime               @default(now())
-  createdBy               String
+  createdBy               String?
   updatedAt               DateTime               @updatedAt
-  updatedBy               String
+  updatedBy               String?
   archived                Boolean                @default(false)
   archivedAt              DateTime?
   numTrainingsAvailable   Int
@@ -71,9 +71,9 @@ model ConcessionCard {
 model ConcessionCardPayment {
   id               String         @id @default(auto()) @map("_id") @db.ObjectId
   createdAt        DateTime       @default(now())
-  createdBy        String
+  createdBy        String?
   updatedAt        DateTime       @updatedAt
-  updatedBy        String
+  updatedBy        String?
   archived         Boolean        @default(false)
   archivedAt       DateTime?
   paidByAthleteId  String         @unique @db.ObjectId
@@ -87,9 +87,9 @@ model ConcessionCardPayment {
 model IndividualSessionPayment {
   id                String          @id @default(auto()) @map("_id") @db.ObjectId
   createdAt         DateTime        @default(now())
-  createdBy         String
+  createdBy         String?
   updatedAt         DateTime        @updatedAt
-  updatedBy         String
+  updatedBy         String?
   archived          Boolean         @default(false)
   archivedAt        DateTime?
   athleteId         String          @unique @db.ObjectId
