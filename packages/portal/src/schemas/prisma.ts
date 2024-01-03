@@ -6,6 +6,6 @@ export const WhereUniuqeSchema = z.object({
   id: z.string(),
 });
 
-export const FindUnuqueSchema = z.object({
+export const FindUniqueSchema = z.object({
   where: WhereUniuqeSchema,
 });

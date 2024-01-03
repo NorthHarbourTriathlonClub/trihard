@@ -3,7 +3,7 @@ import { createTRPCRouter, publicProcedure } from '@/server/trpc';
 import { TrainingSessionCreateArgsSchema } from '@/schemas/create-training-session';
 import { TrainingSessionFindManyArgsSchema } from '@/schemas/find-many-training-sessions';
 import { TrainingSessionUpdateArgsSchema } from '@/schemas/update-training-session';
-import { FindUnuqueSchema } from '@/schemas/prisma';
+import { FindUniqueSchema } from '@/schemas/prisma';
 
 export const trainingSessionRoutes = createTRPCRouter({
   create: publicProcedure
@@ -21,7 +21,7 @@ export const trainingSessionRoutes = createTRPCRouter({
     .mutation(async ({ input }) => {
       return await prisma.trainingSession.update(input);
     }),
-  findOne: publicProcedure.input(FindUnuqueSchema).query(async ({ input }) => {
+  findOne: publicProcedure.input(FindUniqueSchema).query(async ({ input }) => {
     return await prisma.trainingSession.findUnique(input);
   }),
 });
