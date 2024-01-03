@@ -41,7 +41,7 @@ const EditTrainingSession = () => {
       <Center flexDirection={'column'} width={'100%'}>
         <Flex mt={120} direction={'column'} w={'90%'}>
           <Text className={'text-lg font-semibold'} mb={9}>
-            Edit Training Session
+            Update Training Session
           </Text>
           <Spacer />
           {idIsUnavailable || isInitialLoading || data === undefined ? (
