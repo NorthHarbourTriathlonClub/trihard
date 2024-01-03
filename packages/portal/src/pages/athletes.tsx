@@ -1,4 +1,5 @@
-import { PlusSquareIcon } from '@chakra-ui/icons';
+import { useRouter } from 'next/router';
+import { ArrowBackIcon, PlusSquareIcon } from '@chakra-ui/icons';
 import { Center, Flex } from '@chakra-ui/layout';
 import { Button } from '@nextui-org/react';
 import { SkeletonCards } from '@/components/SkeletonCards';
@@ -9,6 +10,7 @@ import { AthleteCreateModal } from '@/features/modals/athlete-create-modal';
 import { AthleteCard } from '@/features/cards/athlete-card';
 
 const AthletesPage = () => {
+  const router = useRouter();
   const { data, isError, isInitialLoading, error } =
     api.athleteRoutes.findMany.useQuery({
       take: 5,
@@ -22,6 +24,9 @@ const AthletesPage = () => {
       <Center flexDirection={'column'} width={'100%'}>
         <p className={'text-lg font-semibold'}>Athletes</p>
         <Flex marginY={8} gap={8}>
+          <Button onClick={() => router.back()}>
+            <ArrowBackIcon />
+          </Button>
           <AthleteCreateModal />
         </Flex>
         {isInitialLoading ? (

@@ -10,10 +10,12 @@ import {
 } from '@/schemas/update-training-session';
 import { useEffect, useState } from 'react';
 import { isUnavailable } from '@/utils/helpers';
+import { ArrowBackIcon } from '@chakra-ui/icons';
+import { Button } from '@nextui-org/react';
 
 const EditTrainingSession = () => {
-  const { query } = useRouter();
-  const id = query.id as string;
+  const router = useRouter();
+  const id = router.query.id as string;
   const idIsUnavailable = isUnavailable(id);
 
   const [initialFormValues, setInitialFormValues] =
@@ -38,11 +40,18 @@ const EditTrainingSession = () => {
   return (
     <>
       <NavBarResponsive />
+
       <Center flexDirection={'column'} width={'100%'}>
         <Flex mt={120} direction={'column'} w={'90%'}>
+          <Flex mb={9}>
+            <Button onClick={() => router.back()}>
+              <ArrowBackIcon />
+            </Button>
+          </Flex>
           <Text className={'text-lg font-semibold'} mb={9}>
             Update Training Session
           </Text>
+          <Spacer />
           <Spacer />
           {idIsUnavailable || isInitialLoading || data === undefined ? (
             <SkeletonCard />
@@ -56,8 +65,6 @@ const EditTrainingSession = () => {
           ) : null}
 
           {isError ? <p>Error: {JSON.stringify(error.message)}</p> : null}
-
-          <Spacer />
         </Flex>
       </Center>
     </>

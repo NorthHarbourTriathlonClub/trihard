@@ -25,6 +25,7 @@ import {
   FormTrainingSessionUpdateInputSchema,
   formPayloadToApiPayload,
 } from '@/schemas/update-training-session';
+import Link from 'next/link';
 
 export type UpdateTrainingSessionFormProps = {
   id: string;
@@ -202,6 +203,11 @@ export const UpdateTrainingSessionForm = (
           ))}
         </Autocomplete>
         <Flex gap={9} justifyContent={'flex-end'} my={8}>
+          <Link href={`/sessions/athletes?id=${id}`}>
+            <Button isDisabled={isLoading} color={'secondary'}>
+              View Athletes
+            </Button>
+          </Link>
           <Tooltip
             content={
               'Clicking this button will set all the form details back to the version before you made edits'

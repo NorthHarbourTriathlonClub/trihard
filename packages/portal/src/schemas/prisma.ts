@@ -9,3 +9,11 @@ export const WhereUniuqeSchema = z.object({
 export const FindUniqueSchema = z.object({
   where: WhereUniuqeSchema,
 });
+
+export const FindManyByIdsSchema = z.object({
+  where: z.object({
+    id: z.object({
+      in: z.string().array(),
+    }),
+  }),
+});

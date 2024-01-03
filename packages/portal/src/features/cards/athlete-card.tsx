@@ -39,7 +39,7 @@ export const AthleteCard = (props: AthleteCardProps) => {
                 {data.trainingSessionsAttendedIds?.length}
               </span>
             </div>
-            <span className="text-white text-sm">Trainings attended</span>
+            <span className="text-white text-sm">Training(s) attended</span>
           </div>
         </div>
       </CardBody>

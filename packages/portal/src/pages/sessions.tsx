@@ -1,4 +1,5 @@
-import { PlusSquareIcon } from '@chakra-ui/icons';
+import { useRouter } from 'next/router';
+import { ArrowBackIcon, PlusSquareIcon } from '@chakra-ui/icons';
 import { Center, Flex } from '@chakra-ui/layout';
 import { Button } from '@nextui-org/react';
 import { TrainingSessionFilterModal } from '@/features/modals/training-session-filter-modal';
@@ -10,6 +11,7 @@ import { TrainingSessionCard } from '@/features/cards/training-session-card';
 import { api } from '@/utils/api';
 
 const SessionsPage = () => {
+  const router = useRouter();
   const { data, isError, isInitialLoading, error } =
     api.trainingSessionRoutes.findMany.useQuery({
       take: 5,
@@ -23,6 +25,9 @@ const SessionsPage = () => {
       <Center flexDirection={'column'} width={'100%'}>
         <p className={'text-lg font-semibold'}>Training Sessions</p>
         <Flex marginY={8} gap={8}>
+          <Button onClick={() => router.back()}>
+            <ArrowBackIcon />
+          </Button>
           <TrainingSessionFilterModal />
           <TrainingSessionCreateModal />
         </Flex>

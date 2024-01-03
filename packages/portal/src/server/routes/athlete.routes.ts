@@ -3,7 +3,7 @@ import { createTRPCRouter, publicProcedure } from '@/server/trpc';
 import { AthleteCreateArgsSchema } from '@/schemas/create-athlete';
 import { AthleteFindManyArgsSchema } from '@/schemas/find-many-athletes';
 import { AthleteUpdateArgsSchema } from '@/schemas/update-athlete';
-import { FindUniqueSchema } from '@/schemas/prisma';
+import { FindManyByIdsSchema, FindUniqueSchema } from '@/schemas/prisma';
 
 export const athleteRoutes = createTRPCRouter({
   create: publicProcedure
@@ -24,4 +24,9 @@ export const athleteRoutes = createTRPCRouter({
   findOne: publicProcedure.input(FindUniqueSchema).query(async ({ input }) => {
     return await prisma.athlete.findUnique(input);
   }),
+  findManyByIds: publicProcedure
+    .input(FindManyByIdsSchema)
+    .query(async ({ input }) => {
+      return await prisma.athlete.findMany(input);
+    }),
 });
