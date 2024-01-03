@@ -110,7 +110,7 @@ export const CreateAthleteForm = (props: CreateAthleteFormProps) => {
             Clear
           </Button>
           <Button color="primary" type={'submit'} isDisabled={isLoading}>
-            {isLoading ? <Spinner /> : 'Create'}
+            {isLoading ? <Spinner size={'sm'} color={'warning'} /> : 'Create'}
           </Button>
         </Flex>
       </Flex>
