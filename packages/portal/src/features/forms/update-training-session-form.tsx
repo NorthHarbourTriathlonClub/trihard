@@ -219,7 +219,7 @@ export const UpdateTrainingSessionForm = (
           </Tooltip>
 
           <Button color="primary" type={'submit'} isDisabled={isLoading}>
-            {isLoading ? <Spinner size={'sm'} color='warning' /> : 'Update'}
+            {isLoading ? <Spinner size={'sm'} color={'warning'} /> : 'Update'}
           </Button>
         </Flex>
       </Flex>
