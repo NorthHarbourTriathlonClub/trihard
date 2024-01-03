@@ -38,7 +38,7 @@ const EditAthletePage = () => {
       <Center flexDirection={'column'} width={'100%'}>
         <Flex mt={120} direction={'column'} w={'90%'}>
           <Text className={'text-lg font-semibold'} mb={9}>
-            Uodate Athlete Info
+            Update Athlete Info
           </Text>
           <Spacer />
           {idIsUnavailable || isInitialLoading || data === undefined ? (
