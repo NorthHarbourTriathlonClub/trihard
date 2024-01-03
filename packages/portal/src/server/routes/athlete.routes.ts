@@ -1,20 +1,8 @@
 import { prisma } from '@/server/db';
 import { createTRPCRouter, publicProcedure } from '@/server/trpc';
-import { z } from 'zod';
+import { AthleteCreateArgsSchema } from '@/schemas/create-athlete';
+import { AthleteFindManyArgsSchema } from '@/schemas/find-many-athletes';
 
-export const AthleteCreateArgsSchema = z.object({
-  data: z.object({
-    firstName: z.string(),
-    lastName: z.string(),
-    email: z.string(),
-  }),
-});
-export const AthleteFindManyArgsSchema = z.object({
-  take: z.number(),
-  skip: z.number().optional(),
-});
-
-// routes
 export const athleteRoutes = createTRPCRouter({
   create: publicProcedure
     .input(AthleteCreateArgsSchema)

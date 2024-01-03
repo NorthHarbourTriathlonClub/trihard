@@ -3,7 +3,7 @@ import { trainingSessionRoutes } from '@/server/routes/training-session.routes';
 import { createTRPCRouter } from '@/server/trpc';
 
 export const appRouter = createTRPCRouter({
-  memberRoutes: athleteRoutes,
+  athleteRoutes,
   trainingSessionRoutes,
 });
 
