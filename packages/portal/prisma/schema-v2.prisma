@@ -44,8 +44,8 @@ model Athlete {
   trainingSessionsAttendedIds String[]                  @db.ObjectId
   trainingSessionsAttended    TrainingSession[]         @relation(fields: [trainingSessionsAttendedIds], references: [id])
   concessionCards             ConcessionCard[]
-  concessionCardPayment       ConcessionCardPayment[]
-  IndividualSessionPayment    IndividualSessionPayment?
+  concessionCardPayments      ConcessionCardPayment[]
+  individualSessionPayments   IndividualSessionPayment?
 }
 
 model ConcessionCard {
@@ -97,5 +97,5 @@ model IndividualSessionPayment {
   paymentMethod     String
   isPaid            Boolean         @default(false)
   trainingSessionId String          @db.ObjectId
-  trainingSessions  TrainingSession @relation(fields: [trainingSessionId], references: [id])
+  trainingSession   TrainingSession @relation(fields: [trainingSessionId], references: [id])
 }
