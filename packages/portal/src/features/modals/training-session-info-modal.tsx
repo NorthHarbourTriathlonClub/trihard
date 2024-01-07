@@ -52,7 +52,7 @@ export const TrainingSessionInfoModal = (
                   <strong>Created at</strong>:{' '}
                   {`${H.formatDateToYYYYMMDD(
                     data.createdAt,
-                  )} @ ${data.createdAt.toLocaleTimeString()}`}
+                  )} (${H.getDayOfWeek(data.createdAt)}) @ ${data.createdAt.toLocaleTimeString()}`}
                 </p>
                 <p>
                   <strong>Created by</strong>: {data.createdBy}
@@ -61,7 +61,7 @@ export const TrainingSessionInfoModal = (
                   <strong>Updated at</strong>:{' '}
                   {`${H.formatDateToYYYYMMDD(
                     data.updatedAt,
-                  )} @ ${data.updatedAt.toLocaleTimeString()}`}
+                  )} (${H.getDayOfWeek(data.updatedAt)}) @ ${data.updatedAt.toLocaleTimeString()}`}
                 </p>
                 <p>
                   <strong>Updated by</strong>: {data.updatedBy}
