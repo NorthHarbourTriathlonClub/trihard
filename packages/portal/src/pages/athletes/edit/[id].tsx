@@ -1,19 +1,19 @@
 import { useRouter } from 'next/router';
-import { NavBarResponsive } from '@/components/NavBarResponsive';
+import { Button } from '@nextui-org/react';
+import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Center, Flex, Spacer, Text } from '@chakra-ui/layout';
 import { api } from '@/utils/api';
 import { SkeletonCard } from '@/components/SkeletonCard';
+import { NavBarResponsive } from '@/components/NavBarResponsive';
 import { useEffect, useState } from 'react';
-import { isUnavailable } from '@/utils/helpers';
+import { isAvailable } from '@/utils/helpers';
 import { UpdateAthleteForm } from '@/features/forms/update-athlete-form';
 import { AthleteUpdateInput } from '@/schemas/update-athlete';
-import { Button } from '@nextui-org/react';
-import { ArrowBackIcon } from '@chakra-ui/icons';
 
 const EditAthletePage = () => {
   const router = useRouter();
   const id = router.query.id as string;
-  const idIsUnavailable = isUnavailable(id);
+  const idIsAvailable = isAvailable(id);
 
   const [initialFormValues, setInitialFormValues] =
     useState<AthleteUpdateInput>();
@@ -24,12 +24,12 @@ const EditAthletePage = () => {
         where: { id },
       },
       {
-        enabled: !idIsUnavailable,
+        enabled: idIsAvailable,
       },
     );
 
   useEffect(() => {
-    if (isInitialLoading === false && data !== undefined && data !== null) {
+    if (isAvailable(data)) {
       setInitialFormValues(data as AthleteUpdateInput);
     }
   }, [data]);
@@ -48,7 +48,7 @@ const EditAthletePage = () => {
             Update Athlete Info
           </Text>
           <Spacer />
-          {idIsUnavailable || isInitialLoading || data === undefined ? (
+          {!idIsAvailable || isInitialLoading || data === undefined ? (
             <SkeletonCard />
           ) : null}
 

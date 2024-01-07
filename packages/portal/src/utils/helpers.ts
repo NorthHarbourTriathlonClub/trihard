@@ -57,3 +57,8 @@ export const arrayIsEmpty = <T>(args: T[]): boolean => {
 export const isUnavailable = (args: any): boolean => {
   return args === undefined || args === null;
 };
+
+// eslint-disable-next-line
+export const isAvailable = (args: any): boolean => {
+  return args !== undefined && args !== null;
+};
