@@ -7,10 +7,12 @@ import { useEffect, useState } from 'react';
 import { isUnavailable } from '@/utils/helpers';
 import { UpdateAthleteForm } from '@/features/forms/update-athlete-form';
 import { AthleteUpdateInput } from '@/schemas/update-athlete';
+import { Button } from '@nextui-org/react';
+import { ArrowBackIcon } from '@chakra-ui/icons';
 
 const EditAthletePage = () => {
-  const { query } = useRouter();
-  const id = query.id as string;
+  const router = useRouter();
+  const id = router.query.id as string;
   const idIsUnavailable = isUnavailable(id);
 
   const [initialFormValues, setInitialFormValues] =
@@ -37,6 +39,11 @@ const EditAthletePage = () => {
       <NavBarResponsive />
       <Center flexDirection={'column'} width={'100%'}>
         <Flex mt={120} direction={'column'} w={'90%'}>
+          <Flex mb={9}>
+            <Button onClick={() => router.back()}>
+              <ArrowBackIcon />
+            </Button>
+          </Flex>
           <Text className={'text-lg font-semibold'} mb={9}>
             Update Athlete Info
           </Text>
