@@ -1,3 +1,4 @@
+import { SignInAthleteWithConcessionCardForm } from '@/features/forms/sign-in-athlete-with-concession-card-form';
 import {
   Button,
   DropdownMenu,
@@ -13,6 +14,7 @@ export type SignInOption = {
 export const signInOptions: SignInOption[] = [
   {
     label: '💳 With Concession Card',
+    component: <SignInAthleteWithConcessionCardForm />
   },
   {
     label: '💵 One-off Session (Without Concession Card)',
