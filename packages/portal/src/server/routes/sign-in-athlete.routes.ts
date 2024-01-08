@@ -1,6 +1,6 @@
 import { createTRPCRouter, publicProcedure } from '@/server/trpc';
 import * as SignInAthleteService from '@/server/services/sign-in-athlete.service';
-import { SignInWithConcessionCardArgsSchema } from '@/server/services/sign-in-athlete.service';
+import { SignInWithConcessionCardArgsSchema } from '@/schemas/sign-in-athlete';
 
 export const signInAthleteRoutes = createTRPCRouter({
   withConcessionCard: publicProcedure

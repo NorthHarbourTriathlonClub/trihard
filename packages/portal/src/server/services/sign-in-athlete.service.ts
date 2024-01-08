@@ -1,16 +1,8 @@
-import { z } from 'zod';
 import { ResultAsync, err, ok } from 'neverthrow';
 import * as TrainingSessionRepository from '@/server/repositories/training-session.repository';
 import * as ConcessionCardRepository from '@/server/repositories/concession-card.repository';
+import { SignInWithConcessionCardArgs } from '@/schemas/sign-in-athlete';
 
-export const SignInWithConcessionCardArgsSchema = z.object({
-  trainingSessionId: z.string(),
-  athleteId: z.string(),
-  concessionCardId: z.string(),
-});
-export type SignInWithConcessionCardArgs = z.infer<
-  typeof SignInWithConcessionCardArgsSchema
->;
 export const signInWithConcessionCard = async (
   args: SignInWithConcessionCardArgs,
 ): Promise<ResultAsync<SignInWithConcessionCardArgs, unknown>> => {
