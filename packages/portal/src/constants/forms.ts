@@ -71,3 +71,6 @@ export const timesOfDay = [
 export type TimeOfDay = (typeof timesOfDay)[number];
 
 export type TrainingSchedule = `${DayOfWeek} @ ${TimeOfDay} ${AmPm}`;
+
+export const paymentMethods = ['Bank Transfer', 'Cash'] as const;
+export type PaymentMethod = (typeof paymentMethods)[number];

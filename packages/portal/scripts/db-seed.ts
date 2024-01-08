@@ -1,12 +1,20 @@
 import * as f from '@ngneat/falso';
 import { PrismaClient, Prisma } from '@prisma/client';
-import { trainingLocations, trainingTypes } from '@/constants/forms';
+import {
+  paymentMethods,
+  trainingLocations,
+  trainingTypes,
+} from '../src/constants/forms';
+import { addMonthsToDate } from '../src/utils/helpers';
 
 const prisma = new PrismaClient();
 
+const createdBy = 'System Admin';
+const updatedBy = 'System Admin';
+
 const seedDb = async () => {
   console.log(`Seeding database`);
-  await createTrainingSessions();
+  await createConcessionCards();
 };
 
 export const createMembers = async () => {
@@ -74,6 +82,8 @@ export const createTrainingSessions = async () => {
       type,
       location,
       startTime,
+      createdBy,
+      updatedBy,
     };
     trainingSessions = [...trainingSessions, trainingSession];
   }
@@ -81,6 +91,46 @@ export const createTrainingSessions = async () => {
     data: trainingSessions,
   });
   console.log(`Number of trainingSessions created: ${created.count}`);
+};
+
+export const createConcessionCards = async () => {
+  const athletes = await prisma.athlete.findMany({
+    select: {
+      id: true,
+    },
+  });
+  const uniqueAthletes = athletes.filter(
+    (obj, index, array) =>
+      array.findIndex((item) => item.id === obj.id) === index,
+  );
+
+  let payload: Prisma.ConcessionCardCreateManyInput[] = [];
+  uniqueAthletes.forEach((d) => {
+    const issuanceDate = f.randPastDate();
+    const expiryDate = addMonthsToDate({ date: issuanceDate, monthToAdd: 3 });
+    payload = [
+      ...payload,
+      {
+        paymentAmount: 110,
+        numTrainingsAvailable: 10,
+        athleteId: d.id,
+        paymentMethod:
+          paymentMethods[
+            f.randNumber({
+              max: paymentMethods.length - 1,
+            })
+          ],
+        issuanceDate,
+        expiryDate,
+        issuedBy: 'System Admin',
+        createdBy,
+        updatedBy,
+      },
+    ];
+  });
+  await prisma.concessionCard.createMany({
+    data: payload,
+  });
 };
 
 seedDb()

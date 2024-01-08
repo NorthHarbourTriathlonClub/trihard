@@ -14,7 +14,7 @@ export type SignInOption = {
 export const signInOptions: SignInOption[] = [
   {
     label: '💳 With Concession Card',
-    component: <SignInAthleteWithConcessionCardForm />
+    component: <SignInAthleteWithConcessionCardForm />,
   },
   {
     label: '💵 One-off Session (Without Concession Card)',
