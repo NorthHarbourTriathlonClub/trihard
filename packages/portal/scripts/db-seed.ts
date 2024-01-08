@@ -105,12 +105,14 @@ export const createConcessionCards = async () => {
   );
 
   let payload: Prisma.ConcessionCardCreateManyInput[] = [];
-  uniqueAthletes.forEach((d) => {
+  const idStart = 2623; // can be any Int, but in prod, it needs to be unique
+  uniqueAthletes.forEach((d, _i) => {
     const issuanceDate = f.randPastDate();
     const expiryDate = addMonthsToDate({ date: issuanceDate, monthToAdd: 3 });
     payload = [
       ...payload,
       {
+        cardNumber: idStart + _i,
         paymentAmount: 110,
         numTrainingsAvailable: 10,
         athleteId: d.id,
