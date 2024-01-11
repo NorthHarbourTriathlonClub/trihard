@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import {
   Navbar,
   NavbarBrand,
@@ -35,11 +36,13 @@ export const NavBarResponsive = () => {
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           className="sm:hidden"
         />
-        <NavbarBrand>
-          <Link href={'/'}>
-            <p className="font-bold text-2xl text-inherit">TriHard</p>
-          </Link>
-        </NavbarBrand>
+        <motion.div whileHover={{ scale: 1.3 }} whileTap={{ scale: 0.7 }}>
+          <NavbarBrand>
+            <Link href={'/'}>
+              <p className="font-bold text-2xl text-inherit">TriHard</p>
+            </Link>
+          </NavbarBrand>
+        </motion.div>
       </NavbarContent>
 
       <NavbarContent justify="end">
