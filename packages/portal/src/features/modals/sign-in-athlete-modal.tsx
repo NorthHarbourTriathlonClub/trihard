@@ -1,35 +1,32 @@
-import { SignInAthleteTabs } from '@/features/tabs/sign-in-athlete-tabs';
-import { AddIcon } from '@chakra-ui/icons';
 import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
-  Button,
   useDisclosure,
 } from '@nextui-org/react';
 
-export const SignInAthleteModal = () => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+export type SignInAthleteModalProps = {
+  modalHeaderText: string;
+  isOpen: boolean;
+  onClose: () => void;
+  form: React.ReactNode;
+};
+export const SignInAthleteModal = (props: SignInAthleteModalProps) => {
+  const { modalHeaderText, isOpen, onClose, form } = props;
+  const { onOpenChange } = useDisclosure();
 
   return (
     <>
-      <Button onPress={onOpen} color={'secondary'}>
-        <AddIcon />
-        Add athlete to this training
-      </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        isDismissable={false}
+        onClose={onClose}
+      >
         <ModalContent>
-          {() => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Signing in Athlete
-              </ModalHeader>
-              <ModalBody>
-                <SignInAthleteTabs />
-              </ModalBody>
-            </>
-          )}
+          <ModalHeader>{modalHeaderText}</ModalHeader>
+          <ModalBody>{form}</ModalBody>
         </ModalContent>
       </Modal>
     </>

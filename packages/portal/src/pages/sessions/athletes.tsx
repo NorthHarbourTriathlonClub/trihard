@@ -10,7 +10,7 @@ import { NavBarResponsive } from '@/components/NavBarResponsive';
 import { api } from '@/utils/api';
 import { AthleteCard } from '@/features/cards/athlete-card';
 import { isUnavailable } from '@/utils/helpers';
-import { SignInAthleteModal } from '@/features/modals/sign-in-athlete-modal';
+import { SignInAthleteDropdownButton } from '@/features/buttons/sign-in-athlete-dropdown-button';
 import { TrainingSessionInfoModal } from '@/features/modals/training-session-info-modal';
 
 const SessionAthletesPage = () => {
@@ -49,7 +49,7 @@ const SessionAthletesPage = () => {
         },
       },
       {
-        enabled: trainingSession?.athleteIds !== undefined,
+        enabled: H.isAvailable(trainingSession?.athleteIds),
       },
     );
   return (
@@ -66,7 +66,7 @@ const SessionAthletesPage = () => {
           <TrainingSessionInfoModal data={trainingSession as TrainingSession} />
         </Flex>
         <Flex mb={8}>
-          <SignInAthleteModal />
+          <SignInAthleteDropdownButton />
         </Flex>
 
         {isInitialLoadingTrainingSession || isInitialLoading ? (

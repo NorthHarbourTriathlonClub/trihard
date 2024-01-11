@@ -40,6 +40,8 @@ export const UpdateTrainingSessionForm = (
       resolver: zodResolver(FormTrainingSessionUpdateInputSchema),
     });
 
+  window.localStorage.setItem(`trainingSessionId`, id);
+
   const { trainingSessionRoutes } = api.useUtils();
 
   // Set default values on component mount

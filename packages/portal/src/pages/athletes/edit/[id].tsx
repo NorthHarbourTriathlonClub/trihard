@@ -1,17 +1,19 @@
 import { useRouter } from 'next/router';
-import { NavBarResponsive } from '@/components/NavBarResponsive';
+import { Button } from '@nextui-org/react';
+import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Center, Flex, Spacer, Text } from '@chakra-ui/layout';
 import { api } from '@/utils/api';
 import { SkeletonCard } from '@/components/SkeletonCard';
+import { NavBarResponsive } from '@/components/NavBarResponsive';
 import { useEffect, useState } from 'react';
-import { isUnavailable } from '@/utils/helpers';
+import { isAvailable } from '@/utils/helpers';
 import { UpdateAthleteForm } from '@/features/forms/update-athlete-form';
 import { AthleteUpdateInput } from '@/schemas/update-athlete';
 
 const EditAthletePage = () => {
-  const { query } = useRouter();
-  const id = query.id as string;
-  const idIsUnavailable = isUnavailable(id);
+  const router = useRouter();
+  const id = router.query.id as string;
+  const idIsAvailable = isAvailable(id);
 
   const [initialFormValues, setInitialFormValues] =
     useState<AthleteUpdateInput>();
@@ -22,12 +24,12 @@ const EditAthletePage = () => {
         where: { id },
       },
       {
-        enabled: !idIsUnavailable,
+        enabled: idIsAvailable,
       },
     );
 
   useEffect(() => {
-    if (isInitialLoading === false && data !== undefined && data !== null) {
+    if (isAvailable(data)) {
       setInitialFormValues(data as AthleteUpdateInput);
     }
   }, [data]);
@@ -37,11 +39,16 @@ const EditAthletePage = () => {
       <NavBarResponsive />
       <Center flexDirection={'column'} width={'100%'}>
         <Flex mt={120} direction={'column'} w={'90%'}>
+          <Flex mb={9}>
+            <Button onClick={() => router.back()}>
+              <ArrowBackIcon />
+            </Button>
+          </Flex>
           <Text className={'text-lg font-semibold'} mb={9}>
             Update Athlete Info
           </Text>
           <Spacer />
-          {idIsUnavailable || isInitialLoading || data === undefined ? (
+          {!idIsAvailable || isInitialLoading || data === undefined ? (
             <SkeletonCard />
           ) : null}
 

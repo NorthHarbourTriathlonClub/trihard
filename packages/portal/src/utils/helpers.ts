@@ -57,3 +57,16 @@ export const arrayIsEmpty = <T>(args: T[]): boolean => {
 export const isUnavailable = (args: any): boolean => {
   return args === undefined || args === null;
 };
+
+// eslint-disable-next-line
+export const isAvailable = (args: any): boolean => {
+  return args !== undefined && args !== null;
+};
+
+export type AddMonthsToDateArgs = { date: Date; monthToAdd: number };
+export const addMonthsToDate = (args: AddMonthsToDateArgs) => {
+  const { date, monthToAdd } = args;
+  const newDate = new Date(date);
+  newDate.setMonth(newDate.getMonth() + monthToAdd);
+  return newDate;
+};

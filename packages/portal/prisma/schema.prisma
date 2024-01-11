@@ -44,44 +44,28 @@ model Athlete {
   trainingSessionsAttendedIds String[]                  @db.ObjectId
   trainingSessionsAttended    TrainingSession[]         @relation(fields: [trainingSessionsAttendedIds], references: [id])
   concessionCards             ConcessionCard[]
-  concessionCardPayments      ConcessionCardPayment[]
   individualSessionPayments   IndividualSessionPayment?
 }
 
 model ConcessionCard {
-  id                      String                 @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt               DateTime               @default(now())
-  createdBy               String?
-  updatedAt               DateTime               @updatedAt
-  updatedBy               String?
-  archived                Boolean                @default(false)
-  archivedAt              DateTime?
-  numTrainingsAvailable   Int
-  issuanceDate            DateTime
-  expiryDate              DateTime
-  issuedBy                String
-  athleteId               String                 @db.ObjectId
-  athlete                 Athlete                @relation(fields: [athleteId], references: [id])
-  trainingSessionIds      String[]               @db.ObjectId
-  trainingSessions        TrainingSession[]      @relation(fields: [trainingSessionIds], references: [id])
-  concessionCardPaymentId String?                @db.ObjectId
-  concessionCardPayment   ConcessionCardPayment?
-}
-
-model ConcessionCardPayment {
-  id               String         @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt        DateTime       @default(now())
-  createdBy        String?
-  updatedAt        DateTime       @updatedAt
-  updatedBy        String?
-  archived         Boolean        @default(false)
-  archivedAt       DateTime?
-  paidByAthleteId  String         @unique @db.ObjectId
-  paidByAthlete    Athlete        @relation(fields: [paidByAthleteId], references: [id])
-  paymentAmount    Float
-  paymentMethod    String
-  concessionCardId String         @unique @db.ObjectId
-  concessionCard   ConcessionCard @relation(fields: [concessionCardId], references: [id])
+  id                    String            @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt             DateTime          @default(now())
+  createdBy             String?
+  updatedAt             DateTime          @updatedAt
+  updatedBy             String?
+  archived              Boolean           @default(false)
+  archivedAt            DateTime?
+  cardNumber            Int               @unique
+  paymentAmount         Float
+  paymentMethod         String
+  numTrainingsAvailable Int
+  issuanceDate          DateTime
+  expiryDate            DateTime
+  issuedBy              String
+  athleteId             String            @db.ObjectId
+  athlete               Athlete           @relation(fields: [athleteId], references: [id])
+  trainingSessionIds    String[]          @db.ObjectId
+  trainingSessions      TrainingSession[] @relation(fields: [trainingSessionIds], references: [id])
 }
 
 model IndividualSessionPayment {

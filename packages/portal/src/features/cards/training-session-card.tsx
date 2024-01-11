@@ -24,7 +24,7 @@ export const TrainingSessionCard = (props: TrainingSessionCardProps) => {
             </span>
           </div>
           <Link href={`/sessions/edit/${data.id}`}>
-            <Button variant={'light'}>
+            <Button variant={'solid'} color={'warning'}>
               <EditIcon /> Edit
             </Button>
           </Link>
