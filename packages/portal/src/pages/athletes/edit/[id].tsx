@@ -38,7 +38,7 @@ const EditAthletePage = () => {
     <>
       <NavBarResponsive />
       <Center flexDirection={'column'} width={'100%'}>
-        <Flex mt={120} direction={'column'} w={'90%'}>
+        <Flex mt={20} direction={'column'} w={'90%'}>
           <Flex mb={9}>
             <Button onClick={() => router.back()}>
               <ArrowBackIcon />

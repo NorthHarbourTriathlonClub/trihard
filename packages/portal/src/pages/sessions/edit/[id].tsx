@@ -42,7 +42,7 @@ const EditTrainingSession = () => {
       <NavBarResponsive />
 
       <Center flexDirection={'column'} width={'100%'}>
-        <Flex mt={60} direction={'column'} w={'90%'}>
+        <Flex direction={'column'} w={'90%'}>
           <Flex mb={9}>
             <Button onClick={() => router.back()}>
               <ArrowBackIcon />
