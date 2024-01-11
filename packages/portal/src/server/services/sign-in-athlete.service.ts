@@ -2,15 +2,23 @@ import { ResultAsync, err, ok } from 'neverthrow';
 import * as TrainingSessionRepository from '@/server/repositories/training-session.repository';
 import * as ConcessionCardRepository from '@/server/repositories/concession-card.repository';
 import { SignInWithConcessionCardArgs } from '@/schemas/sign-in-athlete';
+import { prisma } from '@/server/db';
 
 export const signInWithConcessionCard = async (
   args: SignInWithConcessionCardArgs,
 ): Promise<ResultAsync<SignInWithConcessionCardArgs, unknown>> => {
-  const { trainingSessionId, athleteId, concessionCardId } = args;
+  const { trainingSessionId, athleteId, cardNumber } = args;
+
+  const concessionCards = await prisma.concessionCard.findMany({
+    where: {
+      cardNumber,
+    },
+  });
+  const concessionCard = concessionCards[0];
 
   const addTrainingSessionToConcessionCard =
     await ConcessionCardRepository.addTrainingSessionToConcessionCard({
-      concessionCardId,
+      concessionCardId: concessionCard.id,
       trainingSessionId,
     });
   if (addTrainingSessionToConcessionCard.isErr()) {

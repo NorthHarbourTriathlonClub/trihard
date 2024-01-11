@@ -55,7 +55,7 @@ model ConcessionCard {
   updatedBy             String?
   archived              Boolean           @default(false)
   archivedAt            DateTime?
-  cardNumber            Int
+  cardNumber            Int               @unique
   paymentAmount         Float
   paymentMethod         String
   numTrainingsAvailable Int

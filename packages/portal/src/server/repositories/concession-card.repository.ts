@@ -17,6 +17,9 @@ export const addTrainingSessionToConcessionCard = async (
         trainingSessionIds: {
           push: trainingSessionId,
         },
+        numTrainingsAvailable: {
+          decrement: 1,
+        },
       },
     });
     return ok<ConcessionCard>(operation);

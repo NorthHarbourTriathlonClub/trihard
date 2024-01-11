@@ -1,18 +1,27 @@
+import { Flex } from '@chakra-ui/layout';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  Autocomplete,
+  AutocompleteItem,
+  Button,
+  Input,
+  Spinner,
+} from '@nextui-org/react';
+import { Athlete } from '@prisma/client';
+import { useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { useAthletes } from '@/hooks/use-athletes';
 import {
   SignInWithConcessionCardArgsSchema,
   SignInWithConcessionCardArgs,
 } from '@/schemas/sign-in-athlete';
 import { api } from '@/utils/api';
-import { Flex } from '@chakra-ui/layout';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Input, Spinner } from '@nextui-org/react';
-import { useEffect } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
 
 /**
  * The trainingSessionId is fixed - minimises user-interaction
  * Prompt user to select an athlete -> we get athleteId
- * Prompt user to select ConcessionCard based on athleteId
+ * Prompt user to select card number for ConcessionCard
  */
 export const SignInAthleteWithConcessionCardForm = () => {
   const trainingSessionId = window.localStorage.getItem(
@@ -33,13 +42,49 @@ export const SignInAthleteWithConcessionCardForm = () => {
     );
   }, [setValue, trainingSessionId]);
 
+  const { data: dataAthletes, isLoading: isLoadingAthletes } = useAthletes({
+    select: { id: true, firstName: true, lastName: true },
+  });
+  const [athletes, setAthletes] = useState<Athlete[]>([]);
+  // set athletes as local state, making it always available as a []
+  useEffect(() => {
+    if (dataAthletes !== undefined && isLoadingAthletes === false) {
+      setAthletes(() => dataAthletes);
+    }
+  }, [dataAthletes, isLoadingAthletes]);
+
   const { mutateAsync, isLoading } =
     api.signInAthleteRoutes.withConcessionCard.useMutation();
+
+  const { trainingSessionRoutes } = api.useUtils();
 
   const onSubmit: SubmitHandler<SignInWithConcessionCardArgs> = async (
     data,
   ) => {
-    await mutateAsync(data);
+    console.log(`data.athleteId ==> ${JSON.stringify(data.athleteId)}`);
+    await mutateAsync(data, {
+      onSuccess: () => {
+        toast.success('Athlete signed in!', {
+          position: 'bottom-center',
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+        });
+        trainingSessionRoutes.findOne.refetch({
+          where: { id: trainingSessionId },
+        });
+      },
+      onError: () => {
+        toast.error(`Failed to sign in athlete, please try again later. `, {
+          position: 'bottom-center',
+          autoClose: 8000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+        });
+      },
+    });
   };
 
   const onInvalid = (errors: unknown) => console.error(errors);
@@ -51,23 +96,39 @@ export const SignInAthleteWithConcessionCardForm = () => {
           {...register('trainingSessionId')}
           label={'Training Session ID (Pre-filled)'}
           defaultValue={trainingSessionId}
-          errorMessage={formState.errors.trainingSessionId?.message as string}
           isRequired
           isDisabled
         />
+        <Autocomplete
+          // {...register('athleteId')}
+          label="Which athlete are you signing in?"
+          errorMessage={formState.errors.athleteId?.message}
+          isInvalid={formState.errors.athleteId?.message !== undefined}
+          isRequired
+          isDisabled={isLoading || isLoadingAthletes}
+          defaultItems={athletes}
+          onSelectionChange={(e) => {
+            setValue('athleteId', e as string);
+          }}
+        >
+          {(athlete) => (
+            <AutocompleteItem
+              key={athlete.id}
+              value={athlete.id}
+              textValue={`${athlete.firstName} ${athlete.lastName}`}
+            >
+              {athlete.firstName} {athlete.lastName}
+            </AutocompleteItem>
+          )}
+        </Autocomplete>
         <Input
-          {...register('athleteId')}
-          label={'Athlete to sign-in'}
-          errorMessage={formState.errors.athleteId?.message as string}
+          {...register('cardNumber', { valueAsNumber: true })}
+          label={'Concession Card Number'}
+          errorMessage={formState.errors.cardNumber?.message as string}
           isRequired
           isDisabled={isLoading}
-        />
-        <Input
-          {...register('concessionCardId')}
-          label={'Choose concession card'}
-          errorMessage={formState.errors.concessionCardId?.message as string}
-          isRequired
-          isDisabled={isLoading}
+          type={'number'}
+          isClearable
         />
         <Flex gap={9} justifyContent={'flex-end'} my={8}>
           <Button

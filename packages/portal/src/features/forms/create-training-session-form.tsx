@@ -104,6 +104,7 @@ export const CreateTrainingSessionForm = (
           errorMessage={formState.errors.type?.message}
           isRequired
           isDisabled={isLoading}
+          allowsCustomValue
         >
           {trainingTypes.map((d, _i) => (
             <AutocompleteItem key={_i} value={d}>
@@ -118,6 +119,7 @@ export const CreateTrainingSessionForm = (
           errorMessage={formState.errors.location?.message}
           isRequired
           isDisabled={isLoading}
+          allowsCustomValue
         >
           {trainingLocations.map((d, _i) => (
             <AutocompleteItem key={_i} value={d}>
@@ -132,6 +134,7 @@ export const CreateTrainingSessionForm = (
           errorMessage={formState.errors.coachFullName?.message}
           isRequired
           isDisabled={isLoading}
+          allowsCustomValue
         >
           {coaches.map((d, _i) => (
             <AutocompleteItem key={_i} value={d}>
