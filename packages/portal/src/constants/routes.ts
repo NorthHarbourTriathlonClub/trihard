@@ -5,15 +5,19 @@ export type Route = {
 
 export const routes: Route[] = [
   {
-    path: '/sessions',
-    label: 'Training Sessions',
-  },
-  {
     path: '/athletes',
     label: 'Athletes',
   },
   {
-    path: '/payments',
-    label: 'Payments',
+    path: '/sessions',
+    label: 'Training Sessions',
+  },
+  {
+    path: '/concession-cards',
+    label: 'Concession Cards',
+  },
+  {
+    path: '/individual-session-payments',
+    label: 'Individual Session Payments',
   },
 ];

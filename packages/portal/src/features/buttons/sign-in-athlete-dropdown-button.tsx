@@ -17,22 +17,26 @@ export type SignInOption = {
   optionLabel: string;
   formTitle: string;
   form: React.ReactNode;
+  isDisabled?: boolean;
 };
-export const generateSignInOptions = (onClose: () => void) => [
+export const generateSignInOptions = (onClose: () => void): SignInOption[] => [
   {
     optionLabel: '💳 With Concession Card',
     formTitle: 'Sign-in Athlete with concession card',
     form: <SignInAthleteWithConcessionCardForm onClose={onClose} />,
+    isDisabled: false,
   },
   {
     optionLabel: '💵 One-off Session (Without Concession Card)',
     formTitle: 'Sign-in athlete as a one-off training',
     form: <SignInAthleteWithConcessionCardForm onClose={onClose} />,
+    isDisabled: true,
   },
   {
     optionLabel: '🗓️ With Fortnightly Payment',
     formTitle: 'Sign-in athlete who pays fortnightly',
     form: <SignInAthleteWithConcessionCardForm onClose={onClose} />,
+    isDisabled: true,
   },
 ];
 
@@ -56,6 +60,7 @@ export const SignInAthleteDropdownButton = () => {
           {signInOptions.map((d, _i) => (
             <DropdownItem
               key={_i}
+              isDisabled={d.isDisabled}
               onClick={() =>
                 openModal({
                   modalHeaderText: d.formTitle as string,

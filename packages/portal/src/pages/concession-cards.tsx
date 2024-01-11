@@ -1,12 +1,12 @@
 import { NavBarResponsive } from '@/components/NavBarResponsive';
 
-const PaymentsPage = () => {
+const ConcessionCardsPage = () => {
   return (
     <>
       <NavBarResponsive />
-      <h1>PaymentsPage</h1>
+      <h1>ConcessionCardsPage</h1>
     </>
   );
 };
 
-export default PaymentsPage;
+export default ConcessionCardsPage;
