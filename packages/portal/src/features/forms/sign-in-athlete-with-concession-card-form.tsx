@@ -18,12 +18,13 @@ import {
 } from '@/schemas/sign-in-athlete';
 import { api } from '@/utils/api';
 
-/**
- * The trainingSessionId is fixed - minimises user-interaction
- * Prompt user to select an athlete -> we get athleteId
- * Prompt user to select card number for ConcessionCard
- */
-export const SignInAthleteWithConcessionCardForm = () => {
+export type SignInAthleteWithConcessionCardFormProps = {
+  onClose: () => void;
+};
+export const SignInAthleteWithConcessionCardForm = (
+  props: SignInAthleteWithConcessionCardFormProps,
+) => {
+  const { onClose } = props;
   const trainingSessionId = window.localStorage.getItem(
     'trainingSessionId',
   ) as string;
@@ -71,6 +72,7 @@ export const SignInAthleteWithConcessionCardForm = () => {
           closeOnClick: true,
           pauseOnHover: true,
         });
+        onClose();
         trainingSessionRoutes.findOne.refetch({
           where: { id: trainingSessionId },
         });

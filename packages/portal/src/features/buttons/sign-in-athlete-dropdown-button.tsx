@@ -1,8 +1,3 @@
-import { SignInAthleteWithConcessionCardForm } from '@/features/forms/sign-in-athlete-with-concession-card-form';
-import {
-  SignInAthleteModal,
-  SignInAthleteModalProps,
-} from '@/features/modals/sign-in-athlete-modal';
 import {
   Button,
   DropdownMenu,
@@ -12,27 +7,32 @@ import {
   useDisclosure,
 } from '@nextui-org/react';
 import { useState } from 'react';
+import { SignInAthleteWithConcessionCardForm } from '@/features/forms/sign-in-athlete-with-concession-card-form';
+import {
+  SignInAthleteModal,
+  SignInAthleteModalProps,
+} from '@/features/modals/sign-in-athlete-modal';
 
 export type SignInOption = {
   optionLabel: string;
   formTitle: string;
   form: React.ReactNode;
 };
-export const signInOptions: SignInOption[] = [
+export const generateSignInOptions = (onClose: () => void) => [
   {
     optionLabel: '💳 With Concession Card',
     formTitle: 'Sign-in Athlete with concession card',
-    form: <SignInAthleteWithConcessionCardForm />,
+    form: <SignInAthleteWithConcessionCardForm onClose={onClose} />,
   },
   {
     optionLabel: '💵 One-off Session (Without Concession Card)',
     formTitle: 'Sign-in athlete as a one-off training',
-    form: <SignInAthleteWithConcessionCardForm />,
+    form: <SignInAthleteWithConcessionCardForm onClose={onClose} />,
   },
   {
     optionLabel: '🗓️ With Fortnightly Payment',
     formTitle: 'Sign-in athlete who pays fortnightly',
-    form: <SignInAthleteWithConcessionCardForm />,
+    form: <SignInAthleteWithConcessionCardForm onClose={onClose} />,
   },
 ];
 
@@ -43,6 +43,7 @@ export const SignInAthleteDropdownButton = () => {
     setModalProps(args);
     onOpen();
   };
+  const signInOptions = generateSignInOptions(onClose);
   return (
     <>
       <Dropdown isDismissable={false}>
