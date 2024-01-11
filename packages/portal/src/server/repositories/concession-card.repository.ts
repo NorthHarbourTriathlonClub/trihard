@@ -1,6 +1,7 @@
 import { ConcessionCard } from '@prisma/client';
 import { ResultAsync, ok, err } from 'neverthrow';
 import { prisma } from '@/server/db';
+import { ConcessionCardFindManyArgs } from '@/schemas/find-many-concession-cards';
 
 export type AddTrainingSessionToConcessionCardArgs = {
   concessionCardId: string;
@@ -23,6 +24,17 @@ export const addTrainingSessionToConcessionCard = async (
       },
     });
     return ok<ConcessionCard>(operation);
+  } catch (e) {
+    return err(e);
+  }
+};
+
+export const findMany = async (
+  args: ConcessionCardFindManyArgs,
+): Promise<ResultAsync<ConcessionCard[], unknown>> => {
+  try {
+    const operation = await prisma.concessionCard.findMany(args);
+    return ok<ConcessionCard[]>(operation);
   } catch (e) {
     return err(e);
   }

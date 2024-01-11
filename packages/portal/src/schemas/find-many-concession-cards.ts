@@ -5,9 +5,16 @@ export const ConcessionCardFindManyArgsSchema = z.object({
   skip: z.number().optional(),
   where: z
     .object({
-      athleteId: z.object({
-        equals: z.string(),
-      }),
+      athleteId: z
+        .object({
+          equals: z.string(),
+        })
+        .optional(),
+      cardNumber: z
+        .object({
+          equals: z.number(),
+        })
+        .optional(),
     })
     .optional(),
   select: z

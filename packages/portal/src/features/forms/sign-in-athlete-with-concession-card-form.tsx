@@ -28,7 +28,6 @@ export const SignInAthleteWithConcessionCardForm = (
   const trainingSessionId = window.localStorage.getItem(
     'trainingSessionId',
   ) as string;
-  console.log(`trainingSessionId: ${trainingSessionId}`);
 
   const { register, handleSubmit, reset, setValue, formState } =
     useForm<SignInWithConcessionCardArgs>({
@@ -62,7 +61,6 @@ export const SignInAthleteWithConcessionCardForm = (
   const onSubmit: SubmitHandler<SignInWithConcessionCardArgs> = async (
     data,
   ) => {
-    console.log(`data.athleteId ==> ${JSON.stringify(data.athleteId)}`);
     await mutateAsync(data, {
       onSuccess: () => {
         toast.success('Athlete signed in!', {
@@ -77,14 +75,17 @@ export const SignInAthleteWithConcessionCardForm = (
           where: { id: trainingSessionId },
         });
       },
-      onError: () => {
-        toast.error(`Failed to sign in athlete, please try again later. `, {
-          position: 'bottom-center',
-          autoClose: 8000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-        });
+      onError: (e) => {
+        toast.error(
+          `Failed to sign in athlete, please try again later. Error: ${e.message}`,
+          {
+            position: 'bottom-center',
+            autoClose: 8000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+          },
+        );
       },
     });
   };

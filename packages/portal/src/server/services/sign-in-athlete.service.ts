@@ -2,19 +2,32 @@ import { ResultAsync, err, ok } from 'neverthrow';
 import * as TrainingSessionRepository from '@/server/repositories/training-session.repository';
 import * as ConcessionCardRepository from '@/server/repositories/concession-card.repository';
 import { SignInWithConcessionCardArgs } from '@/schemas/sign-in-athlete';
-import { prisma } from '@/server/db';
 
 export const signInWithConcessionCard = async (
   args: SignInWithConcessionCardArgs,
 ): Promise<ResultAsync<SignInWithConcessionCardArgs, unknown>> => {
   const { trainingSessionId, athleteId, cardNumber } = args;
 
-  const concessionCards = await prisma.concessionCard.findMany({
+  const concessionCards = await ConcessionCardRepository.findMany({
     where: {
-      cardNumber,
+      cardNumber: {
+        equals: cardNumber,
+      },
     },
   });
-  const concessionCard = concessionCards[0];
+  if (concessionCards.isErr()) {
+    return err(concessionCards.error);
+  }
+
+  if (concessionCards.isOk() && concessionCards.value.length === 0) {
+    return err(
+      new Error(
+        `Failed to find Concession Card with card number "${cardNumber}"`,
+      ),
+    );
+  }
+
+  const concessionCard = concessionCards.value[0];
 
   const addTrainingSessionToConcessionCard =
     await ConcessionCardRepository.addTrainingSessionToConcessionCard({
@@ -34,7 +47,7 @@ export const signInWithConcessionCard = async (
     return err(addAthleteToTrainingSession.error);
   }
 
-  return ok(args);
+  return ok<SignInWithConcessionCardArgs>(args);
 };
 
 export type SignInWithoutConcessionCardArgs = {
