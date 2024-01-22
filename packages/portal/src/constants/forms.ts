@@ -10,15 +10,18 @@ export const trainingTypes = [
   'Bike + Run',
   'Zwift',
 ] as const;
+export type TrainingType = (typeof trainingTypes)[number];
 
 export const trainingLocations = [
   'Takapuna Boating Club',
   'Birkenhead Pool',
+  'Birkenhead',
   'Milford Marina Reserve',
   'Albany Hill',
   'Sunset Road',
   'Online',
 ] as const;
+export type TrainingLocation = (typeof trainingLocations)[number];
 
 export const coaches = [
   'Stephen Farrell',
@@ -74,3 +77,15 @@ export type TrainingSchedule = `${DayOfWeek} @ ${TimeOfDay} ${AmPm}`;
 
 export const paymentMethods = ['Bank Transfer', 'Cash'] as const;
 export type PaymentMethod = (typeof paymentMethods)[number];
+
+export type TrainingTime = {
+  dayOfWeek: DayOfWeek;
+  hour: number;
+  minute: number;
+  amPm: AmPm;
+};
+export type Training = {
+  trainingType: TrainingType;
+  trainingLocation: TrainingLocation;
+  time: TrainingTime;
+};
