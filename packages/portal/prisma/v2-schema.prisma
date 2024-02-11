@@ -16,7 +16,7 @@ model TrainingSession {
   archived      Boolean   @default(false)
   archivedAt    DateTime?
   startTime     DateTime
-  coachFullName String
+  coachFullName String?
   type          String
   location      String
   season        String

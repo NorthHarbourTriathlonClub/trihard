@@ -1,24 +1,22 @@
-import { DayOfWeek } from '@/constants/date-time';
-
 export const trainingTypes = [
   'Swim',
   'Bike',
   'Run',
-  'Triathlon',
-  'Swim + Bike',
-  'Swim + Run',
-  'Bike + Run',
   'Zwift',
+  'Brick',
 ] as const;
+export type Training = (typeof trainingTypes)[number];
 
 export const trainingLocations = [
   'Takapuna Boating Club',
+  'Takapuna Athletic Club',
   'Birkenhead Pool',
   'Milford Marina Reserve',
   'Albany Hill',
   'Sunset Road',
   'Online',
 ] as const;
+export type TrainingLocation = (typeof trainingLocations)[number];
 
 export const coaches = [
   'Stephen Farrell',
@@ -29,32 +27,15 @@ export const coaches = [
   'Simone Ackermann',
 ] as const;
 
-export const trainingStartTimes = [
-  // monday
-  'Monday @ 6:00 AM',
-  'Monday @ 5:00 PM',
-
-  // tuesday
-  'Tuesday @ 6:00 AM',
-  'Tuesday @ 5:15 PM',
-  'Tuesday @ 6:30 PM',
-
-  // wednesday
-  'Wednesday @ 6:00 AM',
-  'Wednesday @ 6:15 PM',
-
-  // thursday
-  'Thursday @ 6:00 AM',
-  'Thursday @ 5:15 PM',
-  'Thursday @ 6:30 PM',
-
-  // saturday
-  'Saturday @ 7:00 AM',
-
-  // sunday
-  'Sunday @ 7:00 AM',
-  'Sunday @ 8:00 AM',
-];
+export const daysOfWeek = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Saturday',
+  'Sunday',
+] as const;
+export type DayOfWeek = (typeof daysOfWeek)[number];
 
 export const amPm = ['AM', 'PM'] as const;
 export type AmPm = (typeof amPm)[number];
@@ -70,7 +51,110 @@ export const timesOfDay = [
 ] as const;
 export type TimeOfDay = (typeof timesOfDay)[number];
 
-export type TrainingSchedule = `${DayOfWeek} @ ${TimeOfDay} ${AmPm}`;
-
 export const paymentMethods = ['Bank Transfer', 'Cash'] as const;
 export type PaymentMethod = (typeof paymentMethods)[number];
+
+export type WeeklySession = {
+  day: DayOfWeek;
+  startTime: TimeOfDay;
+  amOrPm: AmPm;
+  type: Training;
+  location: TrainingLocation;
+};
+export const summerWeeklySessions: WeeklySession[] = [
+  // Monday sessions
+  {
+    day: 'Monday',
+    startTime: '6:00',
+    amOrPm: 'AM',
+    type: 'Swim',
+    location: 'Birkenhead Pool',
+  },
+  {
+    day: 'Monday',
+    startTime: '5:00',
+    amOrPm: 'PM',
+    type: 'Run',
+    location: 'Takapuna Athletic Club',
+  },
+
+  // Tuesday sessions
+  {
+    day: 'Tuesday',
+    startTime: '6:00',
+    amOrPm: 'AM',
+    type: 'Swim',
+    location: 'Birkenhead Pool',
+  },
+  {
+    day: 'Tuesday',
+    startTime: '5:15',
+    amOrPm: 'PM',
+    type: 'Swim',
+    location: 'Birkenhead Pool',
+  },
+  {
+    day: 'Tuesday',
+    startTime: '6:30',
+    amOrPm: 'PM',
+    type: 'Bike',
+    location: 'Birkenhead Pool',
+  },
+
+  // Wednesday Sessions
+  {
+    day: 'Wednesday',
+    startTime: '6:30',
+    amOrPm: 'AM',
+    type: 'Swim',
+    location: 'Takapuna Boating Club',
+  },
+
+  // Thursday Sessions
+  {
+    day: 'Thursday',
+    startTime: '6:00',
+    amOrPm: 'AM',
+    type: 'Swim',
+    location: 'Birkenhead Pool',
+  },
+  {
+    day: 'Thursday',
+    startTime: '5:15',
+    amOrPm: 'PM',
+    type: 'Swim',
+    location: 'Birkenhead Pool',
+  },
+  {
+    day: 'Thursday',
+    startTime: '6:30',
+    amOrPm: 'PM',
+    type: 'Bike',
+    location: 'Online',
+  },
+
+  // Saturday Sessions
+  {
+    day: 'Saturday',
+    startTime: '7:00',
+    amOrPm: 'AM',
+    type: 'Brick',
+    location: 'Takapuna Boating Club',
+  },
+
+  // Sunday Sessions
+  {
+    day: 'Sunday',
+    startTime: '7:00',
+    amOrPm: 'AM',
+    type: 'Bike',
+    location: 'Albany Hill',
+  },
+  {
+    day: 'Sunday',
+    startTime: '8:00',
+    amOrPm: 'AM',
+    type: 'Bike',
+    location: 'Sunset Road',
+  },
+];
