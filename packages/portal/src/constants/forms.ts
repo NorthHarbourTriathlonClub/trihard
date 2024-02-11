@@ -1,10 +1,4 @@
-export const trainingTypes = [
-  'Swim',
-  'Bike',
-  'Run',
-  'Zwift',
-  'Brick',
-] as const;
+export const trainingTypes = ['Swim', 'Bike', 'Run', 'Zwift', 'Brick'] as const;
 export type Training = (typeof trainingTypes)[number];
 
 export const trainingLocations = [
