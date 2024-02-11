@@ -19,26 +19,28 @@ model TrainingSession {
   coachFullName String
   type          String
   location      String
+  season        String
   details       String?
   athleteIds    String[]  @db.ObjectId
 }
 
 model Athlete {
-  id                        String                     @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt                 DateTime                   @default(now())
-  createdBy                 String?
-  updatedAt                 DateTime                   @updatedAt
-  updatedBy                 String?
-  archived                  Boolean                    @default(false)
-  archivedAt                DateTime?
-  firstName                 String
-  lastName                  String
-  preferredName             String?
-  email                     String
-  mobile                    String?
-  concessionCards           ConcessionCard[]
-  individualSessionPayments IndividualSessionPayment[]
-  fortnightlyPayments       FortnightlyPayment[]
+  id                              String                           @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt                       DateTime                         @default(now())
+  createdBy                       String?
+  updatedAt                       DateTime                         @updatedAt
+  updatedBy                       String?
+  archived                        Boolean                          @default(false)
+  archivedAt                      DateTime?
+  firstName                       String
+  lastName                        String
+  preferredName                   String?
+  email                           String
+  mobile                          String?
+  concessionCards                 ConcessionCard[]
+  fortnightlyPayments             FortnightlyPayment[]
+  casualindividualSessionPayments CasualIndividualSessionPayment[]
+  casualSaturdaySessionPayments   CasualSaturdaySessionPayment[]
 }
 
 type ConcessionCard {
@@ -48,6 +50,7 @@ type ConcessionCard {
   archived              Boolean   @default(false)
   archivedAt            DateTime?
   cardNumber            Int
+  seniority             String
   paymentAmount         Float
   paymentMethod         String
   paymentStatus         String
@@ -58,12 +61,30 @@ type ConcessionCard {
   expiryDate            DateTime
 }
 
-type IndividualSessionPayment {
+type FortnightlyPayment {
+  id                 String    @default(uuid())
+  createdAt          DateTime  @default(now())
+  updatedBy          String?
+  archived           Boolean   @default(false)
+  archivedAt         DateTime?
+  seniority          String
+  paymentAmount      Float
+  paymentMethod      String
+  paymentStatus      String
+  trainingSessionIds String[]  @db.ObjectId
+  athleteId          String    @db.ObjectId
+  issuanceDate       DateTime
+  expiryDate         DateTime
+}
+
+type CasualIndividualSessionPayment {
   id                String    @default(uuid())
   createdAt         DateTime  @default(now())
   updatedBy         String?
   archived          Boolean   @default(false)
   archivedAt        DateTime?
+  seniority         String
+  isMember          Boolean
   paymentAmount     Float
   paymentMethod     String
   paymentStatus     String
@@ -71,12 +92,14 @@ type IndividualSessionPayment {
   athleteId         String    @db.ObjectId
 }
 
-type FortnightlyPayment {
+type CasualSaturdaySessionPayment {
   id                 String    @default(uuid())
   createdAt          DateTime  @default(now())
   updatedBy          String?
   archived           Boolean   @default(false)
   archivedAt         DateTime?
+  seniority          String
+  isMember           Boolean
   paymentAmount      Float
   paymentMethod      String
   paymentStatus      String
