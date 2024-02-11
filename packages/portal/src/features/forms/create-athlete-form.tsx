@@ -18,7 +18,6 @@ export const CreateAthleteForm = (props: CreateAthleteFormProps) => {
     useForm<AthleteCreateInput>({
       resolver: zodResolver(AthleteCreateInputSchema),
     });
-
   const { mutateAsync, isLoading } = api.athleteRoutes.create.useMutation();
 
   const { athleteRoutes } = api.useUtils();

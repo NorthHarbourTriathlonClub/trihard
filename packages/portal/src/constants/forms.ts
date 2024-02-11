@@ -48,6 +48,9 @@ export type TimeOfDay = (typeof timesOfDay)[number];
 export const paymentMethods = ['Bank Transfer', 'Cash'] as const;
 export type PaymentMethod = (typeof paymentMethods)[number];
 
+export const paymentStatuses = ['Pending', 'Received'] as const;
+export type PaymentStatus = (typeof paymentStatuses)[number];
+
 export type WeeklySession = {
   day: DayOfWeek;
   startTime: TimeOfDay;

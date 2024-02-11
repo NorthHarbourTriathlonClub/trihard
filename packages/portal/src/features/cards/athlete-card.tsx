@@ -1,6 +1,6 @@
 import { hasPreferredName } from '@/services/athlete.service';
 import { EditIcon } from '@chakra-ui/icons';
-import { Button, Card, CardBody, Spacer } from '@nextui-org/react';
+import { Button, Card, CardBody } from '@nextui-org/react';
 import { Athlete } from '@prisma/client';
 import Link from 'next/link';
 
@@ -29,16 +29,6 @@ export const AthleteCard = (props: AthleteCardProps) => {
               <EditIcon /> Edit
             </Button>
           </Link>
-        </div>
-        <Spacer />
-        <Spacer />
-        <div className="flex items-center gap-6">
-          <div>
-            <div>
-              <span className="text-medium text-white">??</span>
-            </div>
-            <span className="text-white text-sm">Training(s) attended</span>
-          </div>
         </div>
       </CardBody>
     </Card>

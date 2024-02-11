@@ -9,6 +9,8 @@ import {
   AthleteUpdateInput,
   AthleteUpdateInputSchema,
 } from '@/schemas/update-athlete';
+import { ArrowForwardIcon, CalendarIcon } from '@chakra-ui/icons';
+import { ConcessionCardCreateModal } from '@/features/modals/concession-card-create-modal';
 
 export type UpdateAthleteFormProps = {
   id: string;
@@ -113,6 +115,19 @@ export const UpdateAthleteForm = (props: UpdateAthleteFormProps) => {
           errorMessage={formState.errors.mobile?.message}
           isDisabled={isLoading}
         />
+        <Flex direction={'column'} gap={10} mt={15}>
+          <ConcessionCardCreateModal
+            buttonText={'Create a Concession Card for this Athlete'}
+          />
+          <Button>
+            Concession Cards
+            <ArrowForwardIcon />
+          </Button>
+          <Button>
+            Training Sessions Attended
+            <CalendarIcon />
+          </Button>
+        </Flex>
         <Flex gap={9} justifyContent={'flex-end'} my={8}>
           <Tooltip
             content={
