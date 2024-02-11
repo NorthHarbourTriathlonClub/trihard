@@ -10,8 +10,6 @@ import {
 } from '@/schemas/update-training-session';
 import { useEffect, useState } from 'react';
 import { isUnavailable } from '@/utils/helpers';
-import { ArrowBackIcon } from '@chakra-ui/icons';
-import { Button } from '@nextui-org/react';
 
 const EditTrainingSession = () => {
   const router = useRouter();
@@ -43,11 +41,6 @@ const EditTrainingSession = () => {
 
       <Center flexDirection={'column'} width={'100%'}>
         <Flex direction={'column'} w={'90%'}>
-          <Flex mb={9}>
-            <Button onClick={() => router.back()}>
-              <ArrowBackIcon />
-            </Button>
-          </Flex>
           <Text className={'text-lg font-semibold'} mb={9}>
             Update Training Session
           </Text>

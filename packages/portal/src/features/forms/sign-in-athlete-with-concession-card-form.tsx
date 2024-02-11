@@ -80,7 +80,7 @@ export const SignInAthleteWithConcessionCardForm = (
           `Failed to sign in athlete, please try again later. Error: ${e.message}`,
           {
             position: 'bottom-center',
-            autoClose: 8000,
+            autoClose: 20000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,

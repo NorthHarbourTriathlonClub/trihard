@@ -1,0 +1,85 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model TrainingSession {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime  @default(now())
+  createdBy     String?
+  updatedAt     DateTime  @updatedAt
+  updatedBy     String?
+  archived      Boolean   @default(false)
+  archivedAt    DateTime?
+  startTime     DateTime
+  coachFullName String
+  type          String
+  location      String
+  details       String?
+  athleteIds    String[]  @db.ObjectId
+}
+
+model Athlete {
+  id                        String                     @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt                 DateTime                   @default(now())
+  createdBy                 String?
+  updatedAt                 DateTime                   @updatedAt
+  updatedBy                 String?
+  archived                  Boolean                    @default(false)
+  archivedAt                DateTime?
+  firstName                 String
+  lastName                  String
+  preferredName             String?
+  email                     String
+  mobile                    String?
+  concessionCards           ConcessionCard[]
+  individualSessionPayments IndividualSessionPayment[]
+  fortnightlyPayments       FortnightlyPayment[]
+}
+
+type ConcessionCard {
+  id                    String    @default(uuid())
+  createdAt             DateTime  @default(now())
+  updatedBy             String?
+  archived              Boolean   @default(false)
+  archivedAt            DateTime?
+  cardNumber            Int
+  paymentAmount         Float
+  paymentMethod         String
+  paymentStatus         String
+  athleteId             String    @db.ObjectId
+  trainingSessionIds    String[]  @db.ObjectId
+  numTrainingsAvailable Int
+  issuanceDate          DateTime
+  expiryDate            DateTime
+}
+
+type IndividualSessionPayment {
+  id                String    @default(uuid())
+  createdAt         DateTime  @default(now())
+  updatedBy         String?
+  archived          Boolean   @default(false)
+  archivedAt        DateTime?
+  paymentAmount     Float
+  paymentMethod     String
+  paymentStatus     String
+  trainingSessionId String    @db.ObjectId
+  athleteId         String    @db.ObjectId
+}
+
+type FortnightlyPayment {
+  id                 String    @default(uuid())
+  createdAt          DateTime  @default(now())
+  updatedBy          String?
+  archived           Boolean   @default(false)
+  archivedAt         DateTime?
+  paymentAmount      Float
+  paymentMethod      String
+  paymentStatus      String
+  trainingSessionIds String[]  @db.ObjectId
+  athleteId          String    @db.ObjectId
+}

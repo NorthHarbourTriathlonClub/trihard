@@ -26,6 +26,8 @@ import {
   formPayloadToApiPayload,
 } from '@/schemas/update-training-session';
 import Link from 'next/link';
+import { ArrowBackIcon } from '@chakra-ui/icons';
+import { useRouter } from 'next/router';
 
 export type UpdateTrainingSessionFormProps = {
   id: string;
@@ -35,6 +37,7 @@ export const UpdateTrainingSessionForm = (
   props: UpdateTrainingSessionFormProps,
 ) => {
   const { id, initialValues } = props;
+  const router = useRouter();
   const { register, handleSubmit, reset, setValue, formState } =
     useForm<FormTrainingSessionUpdateInput>({
       resolver: zodResolver(FormTrainingSessionUpdateInputSchema),
@@ -204,12 +207,16 @@ export const UpdateTrainingSessionForm = (
             </AutocompleteItem>
           ))}
         </Autocomplete>
-        <Flex gap={9} justifyContent={'flex-end'} my={8}>
-          <Link href={`/sessions/athletes?id=${id}`}>
-            <Button isDisabled={isLoading} color={'secondary'}>
-              View Athletes
-            </Button>
-          </Link>
+        <Flex mt={5}>
+          <Button isDisabled={isLoading} color={'secondary'} fullWidth>
+            <Link href={`/sessions/athletes?id=${id}`}>View Athletes</Link>
+          </Button>
+        </Flex>
+
+        <Flex gap={9} justifyContent={'space-between'}>
+          <Button onClick={() => router.back()}>
+            <ArrowBackIcon />
+          </Button>
           <Tooltip
             content={
               'Clicking this button will set all the form details back to the version before you made edits'

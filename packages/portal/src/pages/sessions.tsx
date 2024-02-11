@@ -14,7 +14,6 @@ const SessionsPage = () => {
   const router = useRouter();
   const { data, isError, isInitialLoading, error } =
     api.trainingSessionRoutes.findMany.useQuery({
-      take: 5,
       orderBy: {
         startTime: 'desc',
       },
