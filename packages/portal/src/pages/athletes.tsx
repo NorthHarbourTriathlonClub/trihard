@@ -13,7 +13,6 @@ const AthletesPage = () => {
   const router = useRouter();
   const { data, isError, isInitialLoading, error } =
     api.athleteRoutes.findMany.useQuery({
-      take: 5,
       orderBy: {
         createdAt: 'desc',
       },

@@ -35,9 +35,7 @@ export const AthleteCard = (props: AthleteCardProps) => {
         <div className="flex items-center gap-6">
           <div>
             <div>
-              <span className="text-medium text-white">
-                {data.trainingSessionsAttendedIds?.length}
-              </span>
+              <span className="text-medium text-white">??</span>
             </div>
             <span className="text-white text-sm">Training(s) attended</span>
           </div>

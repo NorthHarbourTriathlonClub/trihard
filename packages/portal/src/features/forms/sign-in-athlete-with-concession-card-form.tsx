@@ -4,7 +4,6 @@ import {
   Autocomplete,
   AutocompleteItem,
   Button,
-  Input,
   Spinner,
 } from '@nextui-org/react';
 import { Athlete } from '@prisma/client';
@@ -29,7 +28,7 @@ export const SignInAthleteWithConcessionCardForm = (
     'trainingSessionId',
   ) as string;
 
-  const { register, handleSubmit, reset, setValue, formState } =
+  const { handleSubmit, reset, setValue, formState } =
     useForm<SignInWithConcessionCardArgs>({
       resolver: zodResolver(SignInWithConcessionCardArgsSchema),
     });
@@ -95,15 +94,7 @@ export const SignInAthleteWithConcessionCardForm = (
   return (
     <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
       <Flex direction={'column'} gap={6}>
-        <Input
-          {...register('trainingSessionId')}
-          label={'Training Session ID (Pre-filled)'}
-          defaultValue={trainingSessionId}
-          isRequired
-          isDisabled
-        />
         <Autocomplete
-          // {...register('athleteId')}
           label="Which athlete are you signing in?"
           errorMessage={formState.errors.athleteId?.message}
           isInvalid={formState.errors.athleteId?.message !== undefined}
@@ -124,19 +115,14 @@ export const SignInAthleteWithConcessionCardForm = (
             </AutocompleteItem>
           )}
         </Autocomplete>
-        <Input
-          {...register('cardNumber', { valueAsNumber: true })}
-          label={'Concession Card Number'}
-          errorMessage={formState.errors.cardNumber?.message as string}
-          isRequired
-          isDisabled={isLoading}
-          type={'number'}
-          isClearable
-        />
-        <Flex gap={9} justifyContent={'flex-end'} my={8}>
+        <Flex my={8}>
+          <Button color={'secondary'} isDisabled>
+            Create a new concession card for this athlete
+          </Button>
+        </Flex>
+        <Flex gap={9} justifyContent={'flex-end'}>
           <Button
             color="warning"
-            variant="solid"
             onPress={() => reset()}
             isDisabled={isLoading}
           >

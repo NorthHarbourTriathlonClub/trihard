@@ -55,6 +55,81 @@ export type WeeklySession = {
   type: Training;
   location: TrainingLocation;
 };
+
+export const seniorities = ['Junior', 'Senior'] as const;
+export type Seniority = (typeof seniorities)[number];
+
+export type Pricing = {
+  seniority: Seniority;
+  amount: number;
+};
+
+/** Concession Card */
+export const consessionCardPrices: Pricing[] = [
+  {
+    seniority: 'Junior',
+    amount: 90,
+  },
+  {
+    seniority: 'Senior',
+    amount: 110,
+  },
+];
+
+/** Fortnightly unlimited sessions */
+export const FortnightlySessionsPrices: Pricing[] = [
+  {
+    seniority: 'Junior',
+    amount: 65,
+  },
+  {
+    seniority: 'Senior',
+    amount: 80,
+  },
+];
+
+export type CasualSessionPricing = {
+  seniority?: Seniority;
+  amount: number;
+  membership: 'Member' | 'Non-member';
+};
+
+/** Casual Individual Sessions */
+export const casualIndividualSessionPrices: CasualSessionPricing[] = [
+  {
+    seniority: 'Junior',
+    amount: 12,
+    membership: 'Member',
+  },
+  {
+    seniority: 'Senior',
+    amount: 15,
+    membership: 'Member',
+  },
+  {
+    amount: 20,
+    membership: 'Non-member',
+  },
+];
+
+/** Casual Saturday Sessions */
+export const casualSaturdaySessionPrices: CasualSessionPricing[] = [
+  {
+    membership: 'Member',
+    seniority: 'Senior',
+    amount: 25,
+  },
+  {
+    membership: 'Member',
+    seniority: 'Junior',
+    amount: 20,
+  },
+  {
+    membership: 'Non-member',
+    amount: 30,
+  },
+];
+
 export const summerWeeklySessions: WeeklySession[] = [
   // Monday sessions
   {

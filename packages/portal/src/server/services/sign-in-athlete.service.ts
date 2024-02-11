@@ -1,50 +1,81 @@
 import { ResultAsync, err, ok } from 'neverthrow';
 import * as TrainingSessionRepository from '@/server/repositories/training-session.repository';
-import * as ConcessionCardRepository from '@/server/repositories/concession-card.repository';
 import { SignInWithConcessionCardArgs } from '@/schemas/sign-in-athlete';
+import * as AthleteRepository from '@/server/repositories/athlete.repository';
+import { ConcessionCard } from '@prisma/client';
 
 export const signInWithConcessionCard = async (
   args: SignInWithConcessionCardArgs,
 ): Promise<ResultAsync<SignInWithConcessionCardArgs, unknown>> => {
-  const { trainingSessionId, athleteId, cardNumber } = args;
+  const { trainingSessionId, athleteId } = args;
 
-  const concessionCards = await ConcessionCardRepository.findMany({
+  // find/validate trainingSessionId
+  const trainingSession = await TrainingSessionRepository.findOne({
     where: {
-      cardNumber: {
-        equals: cardNumber,
-      },
+      id: trainingSessionId,
+    },
+    select: {
+      id: true,
     },
   });
-  if (concessionCards.isErr()) {
-    return err(concessionCards.error);
+  if (trainingSession.isErr()) {
+    return err(trainingSession.error);
   }
 
-  if (concessionCards.isOk() && concessionCards.value.length === 0) {
+  // find/validate athleteId
+  const athlete = await AthleteRepository.findOne({
+    where: { id: athleteId },
+    select: { id: true, concessionCards: true },
+  });
+  if (athlete.isErr()) {
+    return err(athlete.error);
+  }
+
+  // find/validate concession card
+  const today = new Date();
+  const { concessionCards: currentConcessionCards } = athlete.value;
+  const validConcessionCard = currentConcessionCards.find(
+    (card: ConcessionCard) => {
+      return today >= card.issuanceDate && today <= card.expiryDate;
+    },
+  );
+  if (validConcessionCard === undefined) {
     return err(
       new Error(
-        `Failed to find Concession Card with card number "${cardNumber}"`,
+        `Sorry, we couldn't find any valid concession cards for the athlete you're trying to sign in`,
       ),
     );
   }
 
-  const concessionCard = concessionCards.value[0];
-
-  const addTrainingSessionToConcessionCard =
-    await ConcessionCardRepository.addTrainingSessionToConcessionCard({
-      concessionCardId: concessionCard.id,
-      trainingSessionId,
+  // connect concession card with training session
+  const updatedConcessionCards = currentConcessionCards.map(
+    (card: ConcessionCard) => {
+      if (card.id === validConcessionCard.id) {
+        return {
+          ...card,
+          numTrainingsLeft: card.numTrainingsLeft - 1,
+          trainingSessionIds: [
+            ...card.trainingSessionIds, // keep original trainingSessionId(s)
+            trainingSessionId, // add new trainingSessionId
+          ],
+        } as ConcessionCard;
+      }
+      return card;
+    },
+  );
+  const includeTrainingSessionIntoConcessionCard =
+    await AthleteRepository.update({
+      where: { id: athleteId },
+      data: {
+        concessionCards: updatedConcessionCards, // new list of concession cards
+      },
     });
-  if (addTrainingSessionToConcessionCard.isErr()) {
-    return err(addTrainingSessionToConcessionCard.error);
-  }
-
-  const addAthleteToTrainingSession =
-    await TrainingSessionRepository.addAthleteToTrainingSession({
-      trainingSessionId,
-      athleteId,
-    });
-  if (addAthleteToTrainingSession.isErr()) {
-    return err(addAthleteToTrainingSession.error);
+  if (includeTrainingSessionIntoConcessionCard.isErr()) {
+    return err(
+      new Error(
+        `Sorry, we couldn't sign-in the athlete you're trying to sign in for the session`,
+      ),
+    );
   }
 
   return ok<SignInWithConcessionCardArgs>(args);
