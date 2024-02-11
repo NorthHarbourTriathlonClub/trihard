@@ -35,7 +35,7 @@ model Athlete {
   firstName                       String
   lastName                        String
   preferredName                   String?
-  email                           String
+  email                           String                           @unique
   mobile                          String?
   concessionCards                 ConcessionCard[]
   fortnightlyPayments             FortnightlyPayment[]
@@ -44,21 +44,22 @@ model Athlete {
 }
 
 type ConcessionCard {
-  id                    String    @default(uuid())
-  createdAt             DateTime  @default(now())
-  updatedBy             String?
-  archived              Boolean   @default(false)
-  archivedAt            DateTime?
-  cardNumber            Int
-  seniority             String
-  paymentAmount         Float
-  paymentMethod         String
-  paymentStatus         String
-  athleteId             String    @db.ObjectId
-  trainingSessionIds    String[]  @db.ObjectId
-  numTrainingsAvailable Int
-  issuanceDate          DateTime
-  expiryDate            DateTime
+  id                  String    @default(uuid())
+  createdAt           DateTime  @default(now())
+  updatedBy           String?
+  archived            Boolean   @default(false)
+  archivedAt          DateTime?
+  cardNumber          Int
+  seniority           String
+  paymentAmount       Float
+  paymentMethod       String
+  paymentStatus       String
+  athleteId           String    @db.ObjectId
+  trainingSessionIds  String[]  @db.ObjectId
+  numTrainingsAllowed Int
+  numTrainingsLeft    Int
+  issuanceDate        DateTime
+  expiryDate          DateTime
 }
 
 type FortnightlyPayment {
