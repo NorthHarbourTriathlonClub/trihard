@@ -8,7 +8,11 @@
     ".": "./src/index.ts"
   },
   "devDependencies": {
+    "prisma": "5.14.0",
     "tsup": "8.0.2",
     "typescript": "5.4.5"
+  },
+  "dependencies": {
+    "@prisma/client": "5.7.1"
   }
 }

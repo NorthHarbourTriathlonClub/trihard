@@ -1,7 +1,3 @@
-export const add = (a: number, b: number) => {
-    return a + b;
-  };
-   
-  export const subtract = (a: number, b: number) => {
-    return a - b;
-  };
+import { PrismaClient } from '@prisma/client';
+
+export const db = new PrismaClient();
