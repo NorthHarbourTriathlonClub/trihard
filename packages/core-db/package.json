@@ -1,0 +1,14 @@
+{
+  "name": "@core/db",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "devDependencies": {
+    "tsup": "8.0.2",
+    "typescript": "5.4.5"
+  }
+}
