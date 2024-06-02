@@ -8,7 +8,7 @@ generator client {
 }
 
 generator zod {
-  provider       = "zod-prisma-types"
+  provider                         = "zod-prisma-types"
   output                           = "../src/generated/zod-prisma-types"
   createOptionalDefaultValuesTypes = true
   createRelationValuesTypes        = true
@@ -24,6 +24,11 @@ model TrainingSession {
   archived      Boolean   @default(false)
   archivedAt    DateTime?
   startTime     DateTime
+  date          DateTime?
+  dayOfWeek     String?
+  hour          Int?
+  minute        Int?
+  amPm          AmPm?
   coachFullName String?
   type          String
   location      String
@@ -114,4 +119,9 @@ type CasualSaturdaySessionPayment {
   paymentStatus      String
   trainingSessionIds String[]  @db.ObjectId
   athleteId          String    @db.ObjectId
+}
+
+enum AmPm {
+  AM
+  PM
 }
