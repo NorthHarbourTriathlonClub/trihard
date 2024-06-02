@@ -8,11 +8,8 @@ generator client {
 }
 
 generator zod {
-  provider                         = "zod-prisma-types"
-  output                           = "../src/generated/zod-prisma-types"
-  createOptionalDefaultValuesTypes = true
-  createRelationValuesTypes        = true
-  createPartialTypes               = true
+  provider = "zod-prisma-types"
+  output   = "../src/generated/zod-prisma-types"
 }
 
 model TrainingSession {
@@ -98,7 +95,7 @@ type CasualIndividualSessionPayment {
   archived          Boolean   @default(false)
   archivedAt        DateTime?
   seniority         String
-  isMember          Boolean
+  isMember          Boolean   @default(false)
   paymentAmount     Float
   paymentMethod     String
   paymentStatus     String
@@ -113,7 +110,7 @@ type CasualSaturdaySessionPayment {
   archived           Boolean   @default(false)
   archivedAt         DateTime?
   seniority          String
-  isMember           Boolean
+  isMember           Boolean   @default(false)
   paymentAmount      Float
   paymentMethod      String
   paymentStatus      String
