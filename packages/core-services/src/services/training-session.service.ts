@@ -1,9 +1,10 @@
 import { Prisma, TrainingSession } from '@core/db';
 import { Result, ResultAsync, err, fromPromise, ok } from 'neverthrow';
 import { db } from './db.service';
-import { getDayOfWeek, isMonday } from './common.service';
+import { IdSchema, getDayOfWeek, isMonday } from './common.service';
 import { Season, weeklyTrainingSchedule } from '@core/domain';
 import { addDays } from 'date-fns';
+import { z } from 'zod';
 
 export const create = async (
   dto: Prisma.TrainingSessionCreateInput,
@@ -242,4 +243,29 @@ export const generateTrainingScheduleForXWeeks = (
   ).reduce((acc, curr) => acc.concat(curr), []);
 
   return ok(inputs);
+};
+
+export const signInAthleteWithConcessionCardSchema = z.object({
+  athleteId: IdSchema,
+  trainingSessionId: IdSchema,
+});
+export type signInAthleteWithConcessionCardDto = z.infer<
+  typeof signInAthleteWithConcessionCardSchema
+>;
+
+/**
+ * Signing in athlete to a training session
+ *
+ * Under the hood, this function is responsible
+ * for updating the payment information & concession cards
+ */
+export const signInAthleteWithConcessionCard = async (
+  dto: signInAthleteWithConcessionCardDto,
+) => {
+  const validateInput = signInAthleteWithConcessionCardSchema.safeParse(dto);
+  if (validateInput.success === false) {
+    const { message, path } = validateInput.error.errors[0];
+    const validationError = `Path: "${path} | ${message}"`;
+    return err(new Error(validationError));
+  }
 };
