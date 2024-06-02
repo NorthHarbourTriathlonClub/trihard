@@ -11,16 +11,21 @@ classDiagram
     Core_DB --> Core_Services
     Core_Domain --> Core_Services
     Core_Domain --> Core_Seeding
-
+    
+    Core_Domain --> APP_WEB_UI
     Core_Services --> APP_WEB_UI
-    Core_Services --> APP_MOBILE
+    
+    Core_Services --> API_GRAPHQL
+    Core_Domain --> API_GRAPHQL
+    Core_Domain --> APP_MOBILE
+    API_GRAPHQL --> APP_MOBILE
 
 
     class Core_DB {
       Package containning database schemas & zod schemas for CRUD operations
     }
     class Core_Services {
-      Pure functions executing business logic
+      Pure backend functions executing business logic
     }
     class Core_Seeding {
       Script for seeding core database
@@ -34,5 +39,8 @@ classDiagram
     }
     class APP_MOBILE {
       React Native App
+    }
+    class API_GRAPHQL {
+      GraphQL API for mobile app & other clients
     }
 ```
