@@ -1,5 +1,5 @@
 import { Prisma, TrainingSession } from '@core/db';
-import { ResultAsync, err, fromPromise, ok } from 'neverthrow';
+import { Result, ResultAsync, err, fromPromise, ok } from 'neverthrow';
 import { db } from './db.service';
 import { getDayOfWeek, isMonday } from './common.service';
 import { Season, weeklyTrainingSchedule } from '@core/domain';
@@ -69,7 +69,7 @@ export const create = async (
   return err(new Error(`Unable to create item`));
 };
 
-export type CreateWeeklyTrainingScheduleDto = {
+export type GenerateWeeklyTrainingScheduleDto = {
   /**
    * Start date of the week, it has to be a MONDAY
    */
@@ -85,9 +85,9 @@ export type CreateWeeklyTrainingScheduleDto = {
  * include the start date provided plus the following 6 days,
  * which comes down to 7 days
  */
-export const createWeeklyTrainingSchedule = async (
-  dto: CreateWeeklyTrainingScheduleDto,
-): Promise<ResultAsync<TrainingSession[], Error>> => {
+export const generateWeeklyTrainingSchedule = (
+  dto: GenerateWeeklyTrainingScheduleDto,
+): Result<Prisma.TrainingSessionCreateInput[], Error> => {
   const { weekStartDate } = dto;
 
   // validate if `weekStartDate` is a monday
@@ -105,22 +105,7 @@ export const createWeeklyTrainingSchedule = async (
 
   // generate inputs
   const inputs = generateWeeklyTrainingData(dto);
-
-  // construct functions from executing prisma transactions
-  const transactions = inputs.map((data) =>
-    db.trainingSession.create({ data }),
-  );
-
-  const result = await fromPromise(db.$transaction(transactions), (e) => e);
-
-  if (result.isErr()) {
-    const message = `Failed to create training sessions. Error: ${JSON.stringify(
-      result.error,
-    )}`;
-    return err(new Error(message));
-  }
-
-  return ok<TrainingSession[]>(result.value);
+  return ok<Prisma.TrainingSessionCreateInput[]>(inputs);
 };
 
 /**
@@ -130,9 +115,8 @@ export const createWeeklyTrainingSchedule = async (
  * package, to be used for creating `TrainingSessions` in the db
  */
 export const generateWeeklyTrainingData = (
-  dto: CreateWeeklyTrainingScheduleDto,
+  dto: GenerateWeeklyTrainingScheduleDto,
 ): Prisma.TrainingSessionCreateInput[] => {
-
   // assumes `weekStartDate` is a Monday
   const { weekStartDate, season } = dto;
 
@@ -202,4 +186,60 @@ export const generateWeeklyTrainingData = (
     const date = item?.date as Date;
     return date?.getTime() !== 0;
   });
+};
+
+export type GenerateTrainingScheduleForXWeeksDto = {
+  /**
+   * Start date of the week, it has to be a MONDAY
+   */
+  weekStartDate: Date;
+
+  /**
+   * Number of weeks of training schedule you're planning to create
+   *
+   * We only accept numbers between 1 and 8
+   */
+  numberOfWeeks: number;
+
+  season: Season;
+};
+/**
+ * Generate & return training schedule for multiple weeks
+ *
+ * It does not make any calls to the DB
+ */
+export const generateTrainingScheduleForXWeeks = (
+  dto: GenerateTrainingScheduleForXWeeksDto,
+): Result<Prisma.TrainingSessionCreateInput[], Error> => {
+  const { numberOfWeeks } = dto;
+
+  if (numberOfWeeks < 1 || numberOfWeeks > 8) {
+    const msg1 = `Please specify a number between 1 and 8 for "numberOfWeeks"`;
+    const msg2 = `You provided ${numberOfWeeks}`;
+    const message = [msg1, msg2].join(` `);
+    return err(new Error(message));
+  }
+
+  // validate if `weekStartDate` is a monday
+  const { weekStartDate, season } = dto;
+  if (isMonday(weekStartDate) === false) {
+    const msg1 = `Unable to create training schedule.`;
+    const msg2 = `Please make sure the date you provided as "weekStartDate" is a Monday`;
+    const msg3 = `You provided ${weekStartDate}, which is a ${getDayOfWeek(
+      weekStartDate,
+    )}.`;
+    const message = [msg1, msg2, msg3].join(` `);
+    return err(new Error(message));
+  }
+
+  const inputs: Prisma.TrainingSessionCreateInput[] = Array.from(
+    { length: numberOfWeeks },
+    (value, index) =>
+      generateWeeklyTrainingData({
+        weekStartDate: addDays(weekStartDate, index * 7), // increment date by 7 days for each iteration
+        season,
+      }),
+  ).reduce((acc, curr) => acc.concat(curr), []);
+
+  return ok(inputs);
 };
