@@ -1,3 +1,4 @@
+import { DayOfWeek, daysOfWeek } from '@core/domain';
 import { z } from 'zod';
 
 /**
@@ -19,3 +20,10 @@ export const FindUniqueInputSchema = z.object({
   where: z.object({ id: IdSchema }),
 });
 export type FindUniqueInput = z.infer<typeof FindUniqueInputSchema>;
+
+export const isMonday = (args: Date) => args.getDay() === 1;
+
+export const getDayOfWeek = (date: Date): DayOfWeek => {
+  const dayIndex = date.getDay();
+  return daysOfWeek[dayIndex];
+};

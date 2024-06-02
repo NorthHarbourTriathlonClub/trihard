@@ -1,6 +1,7 @@
 import { Prisma, TrainingSession } from '@core/db';
 import { ResultAsync, err, fromPromise, ok } from 'neverthrow';
 import { db } from './db.service';
+import { getDayOfWeek, isMonday } from './common.service';
 
 export const create = async (
   dto: Prisma.TrainingSessionCreateInput,
@@ -64,4 +65,35 @@ export const create = async (
 
   // default return if none of prev conditions are met
   return err(new Error(`Unable to create item`));
+};
+
+export type CreateWeeklyTrainingScheduleDto = {
+  /**
+   * Start date of the week, it has to be a MONDAY
+   */
+  weekStartDate: Date;
+};
+/**
+ * Create a training schedule for the whole week,
+ * given a start date
+ *
+ * The training schedule created for the week will
+ * include the start date provided plus the following 6 days,
+ * which comes down to 7 days
+ */
+export const createWeeklyTrainingSchedule = async (
+  dto: CreateWeeklyTrainingScheduleDto,
+) => {
+  const { weekStartDate } = dto;
+
+  // validate if `weekStartDate` is a monday
+  if (isMonday(weekStartDate) === false) {
+    const msg1 = `Unable to create weekly training schedule.`;
+    const msg2 = `Please make sure the date you provided as "weekStartDate" is a Monday`;
+    const msg3 = `You provided ${weekStartDate}, which is a ${getDayOfWeek(
+      weekStartDate,
+    )}.`;
+    const message = [msg1, msg2, msg3].join(` `);
+    return new Error(message);
+  }
 };

@@ -55,6 +55,12 @@ export const coaches = [
 ] as const;
 export type Coach = (typeof coaches)[number];
 
+/**
+ * The ORDER of strings in this array is VERY important
+ *
+ * We rely on their indeces to look-up the english-version
+ * of day of week using numbers ranging from 0-6
+ */
 export const daysOfWeek = [
   `Sunday`,
   `Monday`,
