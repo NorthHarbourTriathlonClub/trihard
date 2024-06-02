@@ -55,6 +55,25 @@ importers:
         specifier: 5.4.5
         version: 5.4.5
 
+  packages/core-db-seeder:
+    dependencies:
+      '@core/db':
+        specifier: workspace*
+        version: link:../core-db
+    devDependencies:
+      '@ngneat/falso':
+        specifier: 7.1.1
+        version: 7.1.1
+      '@types/node':
+        specifier: 20.10.4
+        version: 20.10.4
+      ts-node:
+        specifier: 10.9.2
+        version: 10.9.2(@types/node@20.10.4)(typescript@5.4.5)
+      typescript:
+        specifier: 5.4.5
+        version: 5.4.5
+
   packages/portal:
     dependencies:
       '@chakra-ui/icons':

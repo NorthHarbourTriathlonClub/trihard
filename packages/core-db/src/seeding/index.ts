@@ -37,7 +37,7 @@ export const coachesDemo = [
 ] as const;
 
 export const seasons = [`Summer`, `Winter`] as const;
-export type Season = (typeof seasons)[number]
+export type Season = (typeof seasons)[number];
 
 const randNzPhoneNumber = () => {
   const prefix =
@@ -145,30 +145,34 @@ type CreateTrainingScheduleArgs = {
   season: Season;
   numberOfWeeksOfSessionsRequired: number;
   startDate: Date;
-}
-const createWinterTrainingSchedule = (args: CreateTrainingScheduleArgs): Prisma.TrainingSessionCreateInput[] => {
-  
-  const inputs: Prisma.TrainingSessionCreateInput[] = Array.from({ length: 10 }, () => {
-    const type =
-        trainingTypes[randNumber({ min: 0, max: trainingTypes.length })]
+};
+const createWinterTrainingSchedule = (
+  args: CreateTrainingScheduleArgs,
+): Prisma.TrainingSessionCreateInput[] => {
+  const inputs: Prisma.TrainingSessionCreateInput[] = Array.from(
+    { length: 10 },
+    () => {
+      const type =
+        trainingTypes[randNumber({ min: 0, max: trainingTypes.length })];
       const coachFullName =
-        coachesDemo[randNumber({ min: 0, max: coachesDemo.length })]
+        coachesDemo[randNumber({ min: 0, max: coachesDemo.length })];
 
-      const startTime = new Date(`2024-07-01`)
+      const startTime = new Date(`2024-07-01`);
 
       const location =
-      trainingLocations[
-        randNumber({ min: 0, max: trainingLocations.length })
-      ];
+        trainingLocations[
+          randNumber({ min: 0, max: trainingLocations.length })
+        ];
 
-    return {
+      return {
         type,
         coachFullName,
         startTime,
         location,
         createdBy,
         updatedBy,
-    }
-  })
+      };
+    },
+  );
   return inputs;
-}
+};
