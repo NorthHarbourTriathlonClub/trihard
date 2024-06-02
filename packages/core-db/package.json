@@ -2,13 +2,16 @@
   "name": "@core/db",
   "version": "0.0.1",
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts"
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "seed": "npx ts-node src/seeding/index.ts"
   },
   "exports": {
     ".": "./src/index.ts"
   },
   "devDependencies": {
+    "@types/node": "20.10.4",
     "prisma": "5.14.0",
+    "ts-node": "10.9.2",
     "tsup": "8.0.2",
     "typescript": "5.4.5"
   },
