@@ -1,12 +1,10 @@
 import { Prisma, PrismaClient } from '@core/db';
 import { randFirstName, randLastName, randNumber } from '@ngneat/falso';
 import {
-  Season,
   coachesDemo,
   emailProviders,
   nzMobileNumberprefix,
-  trainingLocations,
-  trainingTypes,
+  weeklyTrainingSchedule,
 } from '@core/domain';
 
 const randNzPhoneNumber = () => {
@@ -27,6 +25,7 @@ const prisma = new PrismaClient();
 
 const seedDb = async () => {
   seedAthletes();
+  seedTrainingSessions()
 };
 
 const seedAthletes = async () => {
@@ -36,7 +35,7 @@ const seedAthletes = async () => {
       const firstName = randFirstName({ withAccents: false });
       const lastName = randLastName({ withAccents: false });
       const email = `${firstName.toLowerCase()}-${lastName.toLowerCase()}@${
-        emailProviders[randNumber({ min: 0, max: emailProviders.length })]
+        emailProviders[randNumber({ min: 0, max: emailProviders.length - 1 })]
       }`;
       const mobile = randNzPhoneNumber();
 
@@ -68,81 +67,27 @@ const seedAthletes = async () => {
 };
 
 const seedTrainingSessions = async () => {
-  const inputs: Prisma.TrainingSessionCreateInput[] = Array.from(
-    { length: 100 },
-    () => {
-      const type =
-        trainingTypes[randNumber({ min: 0, max: trainingTypes.length })];
-      const coachFullName =
-        coachesDemo[randNumber({ min: 0, max: coachesDemo.length })];
-
-      const startTime = new Date(`2024-07-01`);
-
-      const location =
-        trainingLocations[
-          randNumber({ min: 0, max: trainingLocations.length })
-        ];
-
-      const data: Prisma.TrainingSessionCreateInput = {
-        type,
-        coachFullName,
-        startTime,
-        location,
-        createdBy,
-        updatedBy,
-      };
-
-      return data;
-    },
-  );
+  const inputs: Prisma.TrainingSessionCreateInput[] = weeklyTrainingSchedule[
+    `Winter`
+  ].map((item): Prisma.TrainingSessionCreateInput => {
+    return {
+      ...item,
+      createdBy,
+      updatedBy,
+      date: new Date(),
+      coachFullName:
+        coachesDemo[randNumber({ min: 0, max: coachesDemo.length - 1 })],
+    };
+  });
 
   await prisma.trainingSession
     .createMany({ data: inputs })
-    .then(() => {
-      console.log(`Created TrainingSessions in db`);
+    .then((e) => {
+      console.log(`Created ${e?.count} TrainingSessions in db`);
     })
     .catch((e) => {
-      console.log(
-        `Failed to create TrainingSessions to db. ${JSON.stringify(e)}`,
-      );
+      console.log(`Failed to create TrainingSessions to db. ${e?.message}`);
     });
 };
-seedTrainingSessions();
 
-// seedDb();
-
-type CreateTrainingScheduleArgs = {
-  season: Season;
-  numberOfWeeksOfSessionsRequired: number;
-  startDate: Date;
-};
-const createWinterTrainingSchedule = (
-  args: CreateTrainingScheduleArgs,
-): Prisma.TrainingSessionCreateInput[] => {
-  const inputs: Prisma.TrainingSessionCreateInput[] = Array.from(
-    { length: 10 },
-    () => {
-      const type =
-        trainingTypes[randNumber({ min: 0, max: trainingTypes.length })];
-      const coachFullName =
-        coachesDemo[randNumber({ min: 0, max: coachesDemo.length })];
-
-      const startTime = new Date(`2024-07-01`);
-
-      const location =
-        trainingLocations[
-          randNumber({ min: 0, max: trainingLocations.length })
-        ];
-
-      return {
-        type,
-        coachFullName,
-        startTime,
-        location,
-        createdBy,
-        updatedBy,
-      };
-    },
-  );
-  return inputs;
-};
+seedDb();
