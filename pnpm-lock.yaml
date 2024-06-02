@@ -60,6 +60,9 @@ importers:
       '@core/db':
         specifier: workspace*
         version: link:../core-db
+      '@core/domain':
+        specifier: workspace*
+        version: link:../core-domain
     devDependencies:
       '@ngneat/falso':
         specifier: 7.1.1

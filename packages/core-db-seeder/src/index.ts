@@ -1,43 +1,13 @@
-import { Prisma, PrismaClient, TrainingSession } from '@prisma/client';
+import { Prisma, PrismaClient } from '@core/db';
 import { randFirstName, randLastName, randNumber } from '@ngneat/falso';
-
-const nzMobileNumberprefix = [`021`, `022`, `026`, `027`, `028`] as const;
-const emailProviders = [
-  `gmail.com`,
-  `outlook.com`,
-  `protonmail.com`,
-  `yahoo.com`,
-] as const;
-
-export const trainingTypes = [
-  `Swim`,
-  `Bike`,
-  `Run`,
-  `Brick`,
-  `Swim + Bike`,
-  `Swim + Run`,
-  `Bike + Run`,
-  `Zwift`,
-] as const;
-
-export const trainingLocations = [
-  `Takapuna Boating Club`,
-  `Birkenhead Pool`,
-  `Milford Marina Reserve`,
-  `Albany Hill`,
-  `Sunset Road`,
-  `Online`,
-] as const;
-
-export const coachesDemo = [
-  `Steven Farrell`,
-  `Lauren Quilter`,
-  `Baron Bowman`,
-  `Sophia Ackerman`,
-] as const;
-
-export const seasons = [`Summer`, `Winter`] as const;
-export type Season = (typeof seasons)[number];
+import {
+  Season,
+  coachesDemo,
+  emailProviders,
+  nzMobileNumberprefix,
+  trainingLocations,
+  trainingTypes,
+} from '@core/domain';
 
 const randNzPhoneNumber = () => {
   const prefix =

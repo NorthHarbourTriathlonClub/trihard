@@ -11,6 +11,7 @@
     "typescript": "5.4.5"
   },
   "dependencies": {
-    "@core/db": "workspace*"
+    "@core/db": "workspace*",
+    "@core/domain": "workspace*"
   }
 }
