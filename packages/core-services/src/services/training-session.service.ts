@@ -43,6 +43,14 @@ export const create = async (
       }
       return ok<TrainingSession>(result.value);
     }
+
+    if (identicalTrainingSessions.value.length > 0) {
+      const count = identicalTrainingSessions.value.length;
+      const msg1 = `We found ${count} record(s) of TrainingSession(s) using the identical properties.`;
+      const msg2 = `This means we're unable to create yet another identical TrainingSession for you using the payload you provided.`;
+      const message = [msg1, msg2].join(` `);
+      return err(new Error(message));
+    }
   }
 
   if (identicalTrainingSessions.isErr()) {
