@@ -1,8 +1,12 @@
 {
   "name": "@core/db",
   "version": "0.0.1",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "npm run build -- --watch",
     "seed": "npx ts-node src/seeding/index.ts"
   },
   "exports": {
