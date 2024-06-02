@@ -20,12 +20,11 @@ model TrainingSession {
   updatedBy     String?
   archived      Boolean   @default(false)
   archivedAt    DateTime?
-  startTime     DateTime
-  date          DateTime?
-  dayOfWeek     String?
-  hour          Int?
-  minute        Int?
-  amPm          AmPm?
+  date          DateTime
+  dayOfWeek     String
+  hour          Int
+  minute        Int
+  amPm          AmPm
   coachFullName String?
   type          String
   location      String

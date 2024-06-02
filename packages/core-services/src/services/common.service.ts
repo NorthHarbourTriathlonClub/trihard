@@ -17,5 +17,5 @@ export const IdSchema = z
 
 export const FindUniqueInputSchema = z.object({
   where: z.object({ id: IdSchema }),
-})
-export type FindUniqueInput = z.infer<typeof FindUniqueInputSchema>
+});
+export type FindUniqueInput = z.infer<typeof FindUniqueInputSchema>;

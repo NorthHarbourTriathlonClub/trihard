@@ -17,7 +17,6 @@ export const TrainingSessionScalarFieldEnumSchema = z.enum([
   'updatedBy',
   'archived',
   'archivedAt',
-  'startTime',
   'date',
   'dayOfWeek',
   'hour',
@@ -63,7 +62,7 @@ export type AmPmType = `${z.infer<typeof AmPmSchema>}`;
 /////////////////////////////////////////
 
 export const TrainingSessionSchema = z.object({
-  amPm: AmPmSchema.nullable(),
+  amPm: AmPmSchema,
   id: z.string(),
   createdAt: z.coerce.date(),
   createdBy: z.string().nullable(),
@@ -71,11 +70,10 @@ export const TrainingSessionSchema = z.object({
   updatedBy: z.string().nullable(),
   archived: z.boolean(),
   archivedAt: z.coerce.date().nullable(),
-  startTime: z.coerce.date(),
-  date: z.coerce.date().nullable(),
-  dayOfWeek: z.string().nullable(),
-  hour: z.number().int().nullable(),
-  minute: z.number().int().nullable(),
+  date: z.coerce.date(),
+  dayOfWeek: z.string(),
+  hour: z.number().int(),
+  minute: z.number().int(),
   coachFullName: z.string().nullable(),
   type: z.string(),
   location: z.string(),
@@ -236,7 +234,6 @@ export const TrainingSessionSelectSchema: z.ZodType<Prisma.TrainingSessionSelect
       updatedBy: z.boolean().optional(),
       archived: z.boolean().optional(),
       archivedAt: z.boolean().optional(),
-      startTime: z.boolean().optional(),
       date: z.boolean().optional(),
       dayOfWeek: z.boolean().optional(),
       hour: z.boolean().optional(),
@@ -464,32 +461,17 @@ export const TrainingSessionWhereInputSchema: z.ZodType<Prisma.TrainingSessionWh
         .union([z.lazy(() => DateTimeNullableFilterSchema), z.coerce.date()])
         .optional()
         .nullable(),
-      startTime: z
+      date: z
         .union([z.lazy(() => DateTimeFilterSchema), z.coerce.date()])
         .optional(),
-      date: z
-        .union([z.lazy(() => DateTimeNullableFilterSchema), z.coerce.date()])
-        .optional()
-        .nullable(),
       dayOfWeek: z
-        .union([z.lazy(() => StringNullableFilterSchema), z.string()])
-        .optional()
-        .nullable(),
-      hour: z
-        .union([z.lazy(() => IntNullableFilterSchema), z.number()])
-        .optional()
-        .nullable(),
-      minute: z
-        .union([z.lazy(() => IntNullableFilterSchema), z.number()])
-        .optional()
-        .nullable(),
+        .union([z.lazy(() => StringFilterSchema), z.string()])
+        .optional(),
+      hour: z.union([z.lazy(() => IntFilterSchema), z.number()]).optional(),
+      minute: z.union([z.lazy(() => IntFilterSchema), z.number()]).optional(),
       amPm: z
-        .union([
-          z.lazy(() => EnumAmPmNullableFilterSchema),
-          z.lazy(() => AmPmSchema),
-        ])
-        .optional()
-        .nullable(),
+        .union([z.lazy(() => EnumAmPmFilterSchema), z.lazy(() => AmPmSchema)])
+        .optional(),
       coachFullName: z
         .union([z.lazy(() => StringNullableFilterSchema), z.string()])
         .optional()
@@ -520,7 +502,6 @@ export const TrainingSessionOrderByWithRelationInputSchema: z.ZodType<Prisma.Tra
       updatedBy: z.lazy(() => SortOrderSchema).optional(),
       archived: z.lazy(() => SortOrderSchema).optional(),
       archivedAt: z.lazy(() => SortOrderSchema).optional(),
-      startTime: z.lazy(() => SortOrderSchema).optional(),
       date: z.lazy(() => SortOrderSchema).optional(),
       dayOfWeek: z.lazy(() => SortOrderSchema).optional(),
       hour: z.lazy(() => SortOrderSchema).optional(),
@@ -584,35 +565,24 @@ export const TrainingSessionWhereUniqueInputSchema: z.ZodType<Prisma.TrainingSes
             ])
             .optional()
             .nullable(),
-          startTime: z
+          date: z
             .union([z.lazy(() => DateTimeFilterSchema), z.coerce.date()])
             .optional(),
-          date: z
-            .union([
-              z.lazy(() => DateTimeNullableFilterSchema),
-              z.coerce.date(),
-            ])
-            .optional()
-            .nullable(),
           dayOfWeek: z
-            .union([z.lazy(() => StringNullableFilterSchema), z.string()])
-            .optional()
-            .nullable(),
+            .union([z.lazy(() => StringFilterSchema), z.string()])
+            .optional(),
           hour: z
-            .union([z.lazy(() => IntNullableFilterSchema), z.number().int()])
-            .optional()
-            .nullable(),
+            .union([z.lazy(() => IntFilterSchema), z.number().int()])
+            .optional(),
           minute: z
-            .union([z.lazy(() => IntNullableFilterSchema), z.number().int()])
-            .optional()
-            .nullable(),
+            .union([z.lazy(() => IntFilterSchema), z.number().int()])
+            .optional(),
           amPm: z
             .union([
-              z.lazy(() => EnumAmPmNullableFilterSchema),
+              z.lazy(() => EnumAmPmFilterSchema),
               z.lazy(() => AmPmSchema),
             ])
-            .optional()
-            .nullable(),
+            .optional(),
           coachFullName: z
             .union([z.lazy(() => StringNullableFilterSchema), z.string()])
             .optional()
@@ -646,7 +616,6 @@ export const TrainingSessionOrderByWithAggregationInputSchema: z.ZodType<Prisma.
       updatedBy: z.lazy(() => SortOrderSchema).optional(),
       archived: z.lazy(() => SortOrderSchema).optional(),
       archivedAt: z.lazy(() => SortOrderSchema).optional(),
-      startTime: z.lazy(() => SortOrderSchema).optional(),
       date: z.lazy(() => SortOrderSchema).optional(),
       dayOfWeek: z.lazy(() => SortOrderSchema).optional(),
       hour: z.lazy(() => SortOrderSchema).optional(),
@@ -738,47 +707,27 @@ export const TrainingSessionScalarWhereWithAggregatesInputSchema: z.ZodType<Pris
         ])
         .optional()
         .nullable(),
-      startTime: z
+      date: z
         .union([
           z.lazy(() => DateTimeWithAggregatesFilterSchema),
           z.coerce.date(),
         ])
         .optional(),
-      date: z
-        .union([
-          z.lazy(() => DateTimeNullableWithAggregatesFilterSchema),
-          z.coerce.date(),
-        ])
-        .optional()
-        .nullable(),
       dayOfWeek: z
-        .union([
-          z.lazy(() => StringNullableWithAggregatesFilterSchema),
-          z.string(),
-        ])
-        .optional()
-        .nullable(),
+        .union([z.lazy(() => StringWithAggregatesFilterSchema), z.string()])
+        .optional(),
       hour: z
-        .union([
-          z.lazy(() => IntNullableWithAggregatesFilterSchema),
-          z.number(),
-        ])
-        .optional()
-        .nullable(),
+        .union([z.lazy(() => IntWithAggregatesFilterSchema), z.number()])
+        .optional(),
       minute: z
-        .union([
-          z.lazy(() => IntNullableWithAggregatesFilterSchema),
-          z.number(),
-        ])
-        .optional()
-        .nullable(),
+        .union([z.lazy(() => IntWithAggregatesFilterSchema), z.number()])
+        .optional(),
       amPm: z
         .union([
-          z.lazy(() => EnumAmPmNullableWithAggregatesFilterSchema),
+          z.lazy(() => EnumAmPmWithAggregatesFilterSchema),
           z.lazy(() => AmPmSchema),
         ])
-        .optional()
-        .nullable(),
+        .optional(),
       coachFullName: z
         .union([
           z.lazy(() => StringNullableWithAggregatesFilterSchema),
@@ -1151,15 +1100,11 @@ export const TrainingSessionCreateInputSchema: z.ZodType<Prisma.TrainingSessionC
       updatedBy: z.string().optional().nullable(),
       archived: z.boolean().optional(),
       archivedAt: z.coerce.date().optional().nullable(),
-      startTime: z.coerce.date(),
-      date: z.coerce.date().optional().nullable(),
-      dayOfWeek: z.string().optional().nullable(),
-      hour: z.number().int().optional().nullable(),
-      minute: z.number().int().optional().nullable(),
-      amPm: z
-        .lazy(() => AmPmSchema)
-        .optional()
-        .nullable(),
+      date: z.coerce.date(),
+      dayOfWeek: z.string(),
+      hour: z.number().int(),
+      minute: z.number().int(),
+      amPm: z.lazy(() => AmPmSchema),
       coachFullName: z.string().optional().nullable(),
       type: z.string(),
       location: z.string(),
@@ -1184,15 +1129,11 @@ export const TrainingSessionUncheckedCreateInputSchema: z.ZodType<Prisma.Trainin
       updatedBy: z.string().optional().nullable(),
       archived: z.boolean().optional(),
       archivedAt: z.coerce.date().optional().nullable(),
-      startTime: z.coerce.date(),
-      date: z.coerce.date().optional().nullable(),
-      dayOfWeek: z.string().optional().nullable(),
-      hour: z.number().int().optional().nullable(),
-      minute: z.number().int().optional().nullable(),
-      amPm: z
-        .lazy(() => AmPmSchema)
-        .optional()
-        .nullable(),
+      date: z.coerce.date(),
+      dayOfWeek: z.string(),
+      hour: z.number().int(),
+      minute: z.number().int(),
+      amPm: z.lazy(() => AmPmSchema),
       coachFullName: z.string().optional().nullable(),
       type: z.string(),
       location: z.string(),
@@ -1249,47 +1190,36 @@ export const TrainingSessionUpdateInputSchema: z.ZodType<Prisma.TrainingSessionU
         ])
         .optional()
         .nullable(),
-      startTime: z
+      date: z
         .union([
           z.coerce.date(),
           z.lazy(() => DateTimeFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      date: z
-        .union([
-          z.coerce.date(),
-          z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema),
-        ])
-        .optional()
-        .nullable(),
       dayOfWeek: z
         .union([
           z.string(),
-          z.lazy(() => NullableStringFieldUpdateOperationsInputSchema),
+          z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
-        .optional()
-        .nullable(),
+        .optional(),
       hour: z
         .union([
           z.number().int(),
-          z.lazy(() => NullableIntFieldUpdateOperationsInputSchema),
+          z.lazy(() => IntFieldUpdateOperationsInputSchema),
         ])
-        .optional()
-        .nullable(),
+        .optional(),
       minute: z
         .union([
           z.number().int(),
-          z.lazy(() => NullableIntFieldUpdateOperationsInputSchema),
+          z.lazy(() => IntFieldUpdateOperationsInputSchema),
         ])
-        .optional()
-        .nullable(),
+        .optional(),
       amPm: z
         .union([
           z.lazy(() => AmPmSchema),
-          z.lazy(() => NullableEnumAmPmFieldUpdateOperationsInputSchema),
+          z.lazy(() => EnumAmPmFieldUpdateOperationsInputSchema),
         ])
-        .optional()
-        .nullable(),
+        .optional(),
       coachFullName: z
         .union([
           z.string(),
@@ -1374,47 +1304,36 @@ export const TrainingSessionUncheckedUpdateInputSchema: z.ZodType<Prisma.Trainin
         ])
         .optional()
         .nullable(),
-      startTime: z
+      date: z
         .union([
           z.coerce.date(),
           z.lazy(() => DateTimeFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      date: z
-        .union([
-          z.coerce.date(),
-          z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema),
-        ])
-        .optional()
-        .nullable(),
       dayOfWeek: z
         .union([
           z.string(),
-          z.lazy(() => NullableStringFieldUpdateOperationsInputSchema),
+          z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
-        .optional()
-        .nullable(),
+        .optional(),
       hour: z
         .union([
           z.number().int(),
-          z.lazy(() => NullableIntFieldUpdateOperationsInputSchema),
+          z.lazy(() => IntFieldUpdateOperationsInputSchema),
         ])
-        .optional()
-        .nullable(),
+        .optional(),
       minute: z
         .union([
           z.number().int(),
-          z.lazy(() => NullableIntFieldUpdateOperationsInputSchema),
+          z.lazy(() => IntFieldUpdateOperationsInputSchema),
         ])
-        .optional()
-        .nullable(),
+        .optional(),
       amPm: z
         .union([
           z.lazy(() => AmPmSchema),
-          z.lazy(() => NullableEnumAmPmFieldUpdateOperationsInputSchema),
+          z.lazy(() => EnumAmPmFieldUpdateOperationsInputSchema),
         ])
-        .optional()
-        .nullable(),
+        .optional(),
       coachFullName: z
         .union([
           z.string(),
@@ -1467,15 +1386,11 @@ export const TrainingSessionCreateManyInputSchema: z.ZodType<Prisma.TrainingSess
       updatedBy: z.string().optional().nullable(),
       archived: z.boolean().optional(),
       archivedAt: z.coerce.date().optional().nullable(),
-      startTime: z.coerce.date(),
-      date: z.coerce.date().optional().nullable(),
-      dayOfWeek: z.string().optional().nullable(),
-      hour: z.number().int().optional().nullable(),
-      minute: z.number().int().optional().nullable(),
-      amPm: z
-        .lazy(() => AmPmSchema)
-        .optional()
-        .nullable(),
+      date: z.coerce.date(),
+      dayOfWeek: z.string(),
+      hour: z.number().int(),
+      minute: z.number().int(),
+      amPm: z.lazy(() => AmPmSchema),
       coachFullName: z.string().optional().nullable(),
       type: z.string(),
       location: z.string(),
@@ -1532,47 +1447,36 @@ export const TrainingSessionUpdateManyMutationInputSchema: z.ZodType<Prisma.Trai
         ])
         .optional()
         .nullable(),
-      startTime: z
+      date: z
         .union([
           z.coerce.date(),
           z.lazy(() => DateTimeFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      date: z
-        .union([
-          z.coerce.date(),
-          z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema),
-        ])
-        .optional()
-        .nullable(),
       dayOfWeek: z
         .union([
           z.string(),
-          z.lazy(() => NullableStringFieldUpdateOperationsInputSchema),
+          z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
-        .optional()
-        .nullable(),
+        .optional(),
       hour: z
         .union([
           z.number().int(),
-          z.lazy(() => NullableIntFieldUpdateOperationsInputSchema),
+          z.lazy(() => IntFieldUpdateOperationsInputSchema),
         ])
-        .optional()
-        .nullable(),
+        .optional(),
       minute: z
         .union([
           z.number().int(),
-          z.lazy(() => NullableIntFieldUpdateOperationsInputSchema),
+          z.lazy(() => IntFieldUpdateOperationsInputSchema),
         ])
-        .optional()
-        .nullable(),
+        .optional(),
       amPm: z
         .union([
           z.lazy(() => AmPmSchema),
-          z.lazy(() => NullableEnumAmPmFieldUpdateOperationsInputSchema),
+          z.lazy(() => EnumAmPmFieldUpdateOperationsInputSchema),
         ])
-        .optional()
-        .nullable(),
+        .optional(),
       coachFullName: z
         .union([
           z.string(),
@@ -1657,47 +1561,36 @@ export const TrainingSessionUncheckedUpdateManyInputSchema: z.ZodType<Prisma.Tra
         ])
         .optional()
         .nullable(),
-      startTime: z
+      date: z
         .union([
           z.coerce.date(),
           z.lazy(() => DateTimeFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      date: z
-        .union([
-          z.coerce.date(),
-          z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema),
-        ])
-        .optional()
-        .nullable(),
       dayOfWeek: z
         .union([
           z.string(),
-          z.lazy(() => NullableStringFieldUpdateOperationsInputSchema),
+          z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
-        .optional()
-        .nullable(),
+        .optional(),
       hour: z
         .union([
           z.number().int(),
-          z.lazy(() => NullableIntFieldUpdateOperationsInputSchema),
+          z.lazy(() => IntFieldUpdateOperationsInputSchema),
         ])
-        .optional()
-        .nullable(),
+        .optional(),
       minute: z
         .union([
           z.number().int(),
-          z.lazy(() => NullableIntFieldUpdateOperationsInputSchema),
+          z.lazy(() => IntFieldUpdateOperationsInputSchema),
         ])
-        .optional()
-        .nullable(),
+        .optional(),
       amPm: z
         .union([
           z.lazy(() => AmPmSchema),
-          z.lazy(() => NullableEnumAmPmFieldUpdateOperationsInputSchema),
+          z.lazy(() => EnumAmPmFieldUpdateOperationsInputSchema),
         ])
-        .optional()
-        .nullable(),
+        .optional(),
       coachFullName: z
         .union([
           z.string(),
@@ -2394,50 +2287,38 @@ export const DateTimeNullableFilterSchema: z.ZodType<Prisma.DateTimeNullableFilt
     })
     .strict();
 
-export const IntNullableFilterSchema: z.ZodType<Prisma.IntNullableFilter> = z
+export const IntFilterSchema: z.ZodType<Prisma.IntFilter> = z
   .object({
-    equals: z.number().optional().nullable(),
-    in: z.number().array().optional().nullable(),
-    notIn: z.number().array().optional().nullable(),
+    equals: z.number().optional(),
+    in: z.number().array().optional(),
+    notIn: z.number().array().optional(),
     lt: z.number().optional(),
     lte: z.number().optional(),
     gt: z.number().optional(),
     gte: z.number().optional(),
-    not: z
-      .union([z.number(), z.lazy(() => NestedIntNullableFilterSchema)])
-      .optional()
-      .nullable(),
-    isSet: z.boolean().optional(),
+    not: z.union([z.number(), z.lazy(() => NestedIntFilterSchema)]).optional(),
   })
   .strict();
 
-export const EnumAmPmNullableFilterSchema: z.ZodType<Prisma.EnumAmPmNullableFilter> =
-  z
-    .object({
-      equals: z
-        .lazy(() => AmPmSchema)
-        .optional()
-        .nullable(),
-      in: z
-        .lazy(() => AmPmSchema)
-        .array()
-        .optional()
-        .nullable(),
-      notIn: z
-        .lazy(() => AmPmSchema)
-        .array()
-        .optional()
-        .nullable(),
-      not: z
-        .union([
-          z.lazy(() => AmPmSchema),
-          z.lazy(() => NestedEnumAmPmNullableFilterSchema),
-        ])
-        .optional()
-        .nullable(),
-      isSet: z.boolean().optional(),
-    })
-    .strict();
+export const EnumAmPmFilterSchema: z.ZodType<Prisma.EnumAmPmFilter> = z
+  .object({
+    equals: z.lazy(() => AmPmSchema).optional(),
+    in: z
+      .lazy(() => AmPmSchema)
+      .array()
+      .optional(),
+    notIn: z
+      .lazy(() => AmPmSchema)
+      .array()
+      .optional(),
+    not: z
+      .union([
+        z.lazy(() => AmPmSchema),
+        z.lazy(() => NestedEnumAmPmFilterSchema),
+      ])
+      .optional(),
+  })
+  .strict();
 
 export const StringNullableListFilterSchema: z.ZodType<Prisma.StringNullableListFilter> =
   z
@@ -2460,7 +2341,6 @@ export const TrainingSessionCountOrderByAggregateInputSchema: z.ZodType<Prisma.T
       updatedBy: z.lazy(() => SortOrderSchema).optional(),
       archived: z.lazy(() => SortOrderSchema).optional(),
       archivedAt: z.lazy(() => SortOrderSchema).optional(),
-      startTime: z.lazy(() => SortOrderSchema).optional(),
       date: z.lazy(() => SortOrderSchema).optional(),
       dayOfWeek: z.lazy(() => SortOrderSchema).optional(),
       hour: z.lazy(() => SortOrderSchema).optional(),
@@ -2493,7 +2373,6 @@ export const TrainingSessionMaxOrderByAggregateInputSchema: z.ZodType<Prisma.Tra
       updatedBy: z.lazy(() => SortOrderSchema).optional(),
       archived: z.lazy(() => SortOrderSchema).optional(),
       archivedAt: z.lazy(() => SortOrderSchema).optional(),
-      startTime: z.lazy(() => SortOrderSchema).optional(),
       date: z.lazy(() => SortOrderSchema).optional(),
       dayOfWeek: z.lazy(() => SortOrderSchema).optional(),
       hour: z.lazy(() => SortOrderSchema).optional(),
@@ -2517,7 +2396,6 @@ export const TrainingSessionMinOrderByAggregateInputSchema: z.ZodType<Prisma.Tra
       updatedBy: z.lazy(() => SortOrderSchema).optional(),
       archived: z.lazy(() => SortOrderSchema).optional(),
       archivedAt: z.lazy(() => SortOrderSchema).optional(),
-      startTime: z.lazy(() => SortOrderSchema).optional(),
       date: z.lazy(() => SortOrderSchema).optional(),
       dayOfWeek: z.lazy(() => SortOrderSchema).optional(),
       hour: z.lazy(() => SortOrderSchema).optional(),
@@ -2655,60 +2533,48 @@ export const DateTimeNullableWithAggregatesFilterSchema: z.ZodType<Prisma.DateTi
     })
     .strict();
 
-export const IntNullableWithAggregatesFilterSchema: z.ZodType<Prisma.IntNullableWithAggregatesFilter> =
+export const IntWithAggregatesFilterSchema: z.ZodType<Prisma.IntWithAggregatesFilter> =
   z
     .object({
-      equals: z.number().optional().nullable(),
-      in: z.number().array().optional().nullable(),
-      notIn: z.number().array().optional().nullable(),
+      equals: z.number().optional(),
+      in: z.number().array().optional(),
+      notIn: z.number().array().optional(),
       lt: z.number().optional(),
       lte: z.number().optional(),
       gt: z.number().optional(),
       gte: z.number().optional(),
       not: z
-        .union([
-          z.number(),
-          z.lazy(() => NestedIntNullableWithAggregatesFilterSchema),
-        ])
-        .optional()
-        .nullable(),
-      _count: z.lazy(() => NestedIntNullableFilterSchema).optional(),
-      _avg: z.lazy(() => NestedFloatNullableFilterSchema).optional(),
-      _sum: z.lazy(() => NestedIntNullableFilterSchema).optional(),
-      _min: z.lazy(() => NestedIntNullableFilterSchema).optional(),
-      _max: z.lazy(() => NestedIntNullableFilterSchema).optional(),
-      isSet: z.boolean().optional(),
+        .union([z.number(), z.lazy(() => NestedIntWithAggregatesFilterSchema)])
+        .optional(),
+      _count: z.lazy(() => NestedIntFilterSchema).optional(),
+      _avg: z.lazy(() => NestedFloatFilterSchema).optional(),
+      _sum: z.lazy(() => NestedIntFilterSchema).optional(),
+      _min: z.lazy(() => NestedIntFilterSchema).optional(),
+      _max: z.lazy(() => NestedIntFilterSchema).optional(),
     })
     .strict();
 
-export const EnumAmPmNullableWithAggregatesFilterSchema: z.ZodType<Prisma.EnumAmPmNullableWithAggregatesFilter> =
+export const EnumAmPmWithAggregatesFilterSchema: z.ZodType<Prisma.EnumAmPmWithAggregatesFilter> =
   z
     .object({
-      equals: z
-        .lazy(() => AmPmSchema)
-        .optional()
-        .nullable(),
+      equals: z.lazy(() => AmPmSchema).optional(),
       in: z
         .lazy(() => AmPmSchema)
         .array()
-        .optional()
-        .nullable(),
+        .optional(),
       notIn: z
         .lazy(() => AmPmSchema)
         .array()
-        .optional()
-        .nullable(),
+        .optional(),
       not: z
         .union([
           z.lazy(() => AmPmSchema),
-          z.lazy(() => NestedEnumAmPmNullableWithAggregatesFilterSchema),
+          z.lazy(() => NestedEnumAmPmWithAggregatesFilterSchema),
         ])
-        .optional()
-        .nullable(),
-      _count: z.lazy(() => NestedIntNullableFilterSchema).optional(),
-      _min: z.lazy(() => NestedEnumAmPmNullableFilterSchema).optional(),
-      _max: z.lazy(() => NestedEnumAmPmNullableFilterSchema).optional(),
-      isSet: z.boolean().optional(),
+        .optional(),
+      _count: z.lazy(() => NestedIntFilterSchema).optional(),
+      _min: z.lazy(() => NestedEnumAmPmFilterSchema).optional(),
+      _max: z.lazy(() => NestedEnumAmPmFilterSchema).optional(),
     })
     .strict();
 
@@ -2980,33 +2846,28 @@ export const NullableDateTimeFieldUpdateOperationsInputSchema: z.ZodType<Prisma.
     })
     .strict();
 
-export const NullableIntFieldUpdateOperationsInputSchema: z.ZodType<Prisma.NullableIntFieldUpdateOperationsInput> =
-  z
-    .object({
-      set: z.number().optional().nullable(),
-      increment: z.number().optional(),
-      decrement: z.number().optional(),
-      multiply: z.number().optional(),
-      divide: z.number().optional(),
-      unset: z.boolean().optional(),
-    })
-    .strict();
-
-export const NullableEnumAmPmFieldUpdateOperationsInputSchema: z.ZodType<Prisma.NullableEnumAmPmFieldUpdateOperationsInput> =
-  z
-    .object({
-      set: z
-        .lazy(() => AmPmSchema)
-        .optional()
-        .nullable(),
-      unset: z.boolean().optional(),
-    })
-    .strict();
-
 export const StringFieldUpdateOperationsInputSchema: z.ZodType<Prisma.StringFieldUpdateOperationsInput> =
   z
     .object({
       set: z.string().optional(),
+    })
+    .strict();
+
+export const IntFieldUpdateOperationsInputSchema: z.ZodType<Prisma.IntFieldUpdateOperationsInput> =
+  z
+    .object({
+      set: z.number().optional(),
+      increment: z.number().optional(),
+      decrement: z.number().optional(),
+      multiply: z.number().optional(),
+      divide: z.number().optional(),
+    })
+    .strict();
+
+export const EnumAmPmFieldUpdateOperationsInputSchema: z.ZodType<Prisma.EnumAmPmFieldUpdateOperationsInput> =
+  z
+    .object({
+      set: z.lazy(() => AmPmSchema).optional(),
     })
     .strict();
 
@@ -3114,7 +2975,7 @@ export const CasualIndividualSessionPaymentCreateInputSchema: z.ZodType<Prisma.C
       archived: z.boolean().optional(),
       archivedAt: z.coerce.date().optional().nullable(),
       seniority: z.string(),
-      isMember: z.boolean(),
+      isMember: z.boolean().optional(),
       paymentAmount: z.number(),
       paymentMethod: z.string(),
       paymentStatus: z.string(),
@@ -3144,7 +3005,7 @@ export const CasualSaturdaySessionPaymentCreateInputSchema: z.ZodType<Prisma.Cas
       archived: z.boolean().optional(),
       archivedAt: z.coerce.date().optional().nullable(),
       seniority: z.string(),
-      isMember: z.boolean(),
+      isMember: z.boolean().optional(),
       paymentAmount: z.number(),
       paymentMethod: z.string(),
       paymentStatus: z.string(),
@@ -3338,49 +3199,37 @@ export const NestedDateTimeNullableFilterSchema: z.ZodType<Prisma.NestedDateTime
     })
     .strict();
 
-export const NestedIntNullableFilterSchema: z.ZodType<Prisma.NestedIntNullableFilter> =
-  z
-    .object({
-      equals: z.number().optional().nullable(),
-      in: z.number().array().optional().nullable(),
-      notIn: z.number().array().optional().nullable(),
-      lt: z.number().optional(),
-      lte: z.number().optional(),
-      gt: z.number().optional(),
-      gte: z.number().optional(),
-      not: z
-        .union([z.number(), z.lazy(() => NestedIntNullableFilterSchema)])
-        .optional()
-        .nullable(),
-      isSet: z.boolean().optional(),
-    })
-    .strict();
+export const NestedIntFilterSchema: z.ZodType<Prisma.NestedIntFilter> = z
+  .object({
+    equals: z.number().optional(),
+    in: z.number().array().optional(),
+    notIn: z.number().array().optional(),
+    lt: z.number().optional(),
+    lte: z.number().optional(),
+    gt: z.number().optional(),
+    gte: z.number().optional(),
+    not: z.union([z.number(), z.lazy(() => NestedIntFilterSchema)]).optional(),
+  })
+  .strict();
 
-export const NestedEnumAmPmNullableFilterSchema: z.ZodType<Prisma.NestedEnumAmPmNullableFilter> =
+export const NestedEnumAmPmFilterSchema: z.ZodType<Prisma.NestedEnumAmPmFilter> =
   z
     .object({
-      equals: z
-        .lazy(() => AmPmSchema)
-        .optional()
-        .nullable(),
+      equals: z.lazy(() => AmPmSchema).optional(),
       in: z
         .lazy(() => AmPmSchema)
         .array()
-        .optional()
-        .nullable(),
+        .optional(),
       notIn: z
         .lazy(() => AmPmSchema)
         .array()
-        .optional()
-        .nullable(),
+        .optional(),
       not: z
         .union([
           z.lazy(() => AmPmSchema),
-          z.lazy(() => NestedEnumAmPmNullableFilterSchema),
+          z.lazy(() => NestedEnumAmPmFilterSchema),
         ])
-        .optional()
-        .nullable(),
-      isSet: z.boolean().optional(),
+        .optional(),
     })
     .strict();
 
@@ -3408,19 +3257,6 @@ export const NestedStringWithAggregatesFilterSchema: z.ZodType<Prisma.NestedStri
       _max: z.lazy(() => NestedStringFilterSchema).optional(),
     })
     .strict();
-
-export const NestedIntFilterSchema: z.ZodType<Prisma.NestedIntFilter> = z
-  .object({
-    equals: z.number().optional(),
-    in: z.number().array().optional(),
-    notIn: z.number().array().optional(),
-    lt: z.number().optional(),
-    lte: z.number().optional(),
-    gt: z.number().optional(),
-    gte: z.number().optional(),
-    not: z.union([z.number(), z.lazy(() => NestedIntFilterSchema)]).optional(),
-  })
-  .strict();
 
 export const NestedDateTimeWithAggregatesFilterSchema: z.ZodType<Prisma.NestedDateTimeWithAggregatesFilter> =
   z
@@ -3471,6 +3307,24 @@ export const NestedStringNullableWithAggregatesFilterSchema: z.ZodType<Prisma.Ne
     })
     .strict();
 
+export const NestedIntNullableFilterSchema: z.ZodType<Prisma.NestedIntNullableFilter> =
+  z
+    .object({
+      equals: z.number().optional().nullable(),
+      in: z.number().array().optional().nullable(),
+      notIn: z.number().array().optional().nullable(),
+      lt: z.number().optional(),
+      lte: z.number().optional(),
+      gt: z.number().optional(),
+      gte: z.number().optional(),
+      not: z
+        .union([z.number(), z.lazy(() => NestedIntNullableFilterSchema)])
+        .optional()
+        .nullable(),
+      isSet: z.boolean().optional(),
+    })
+    .strict();
+
 export const NestedBoolWithAggregatesFilterSchema: z.ZodType<Prisma.NestedBoolWithAggregatesFilter> =
   z
     .object({
@@ -3511,78 +3365,63 @@ export const NestedDateTimeNullableWithAggregatesFilterSchema: z.ZodType<Prisma.
     })
     .strict();
 
-export const NestedIntNullableWithAggregatesFilterSchema: z.ZodType<Prisma.NestedIntNullableWithAggregatesFilter> =
+export const NestedIntWithAggregatesFilterSchema: z.ZodType<Prisma.NestedIntWithAggregatesFilter> =
   z
     .object({
-      equals: z.number().optional().nullable(),
-      in: z.number().array().optional().nullable(),
-      notIn: z.number().array().optional().nullable(),
+      equals: z.number().optional(),
+      in: z.number().array().optional(),
+      notIn: z.number().array().optional(),
       lt: z.number().optional(),
       lte: z.number().optional(),
       gt: z.number().optional(),
       gte: z.number().optional(),
       not: z
-        .union([
-          z.number(),
-          z.lazy(() => NestedIntNullableWithAggregatesFilterSchema),
-        ])
-        .optional()
-        .nullable(),
-      _count: z.lazy(() => NestedIntNullableFilterSchema).optional(),
-      _avg: z.lazy(() => NestedFloatNullableFilterSchema).optional(),
-      _sum: z.lazy(() => NestedIntNullableFilterSchema).optional(),
-      _min: z.lazy(() => NestedIntNullableFilterSchema).optional(),
-      _max: z.lazy(() => NestedIntNullableFilterSchema).optional(),
-      isSet: z.boolean().optional(),
+        .union([z.number(), z.lazy(() => NestedIntWithAggregatesFilterSchema)])
+        .optional(),
+      _count: z.lazy(() => NestedIntFilterSchema).optional(),
+      _avg: z.lazy(() => NestedFloatFilterSchema).optional(),
+      _sum: z.lazy(() => NestedIntFilterSchema).optional(),
+      _min: z.lazy(() => NestedIntFilterSchema).optional(),
+      _max: z.lazy(() => NestedIntFilterSchema).optional(),
     })
     .strict();
 
-export const NestedFloatNullableFilterSchema: z.ZodType<Prisma.NestedFloatNullableFilter> =
-  z
-    .object({
-      equals: z.number().optional().nullable(),
-      in: z.number().array().optional().nullable(),
-      notIn: z.number().array().optional().nullable(),
-      lt: z.number().optional(),
-      lte: z.number().optional(),
-      gt: z.number().optional(),
-      gte: z.number().optional(),
-      not: z
-        .union([z.number(), z.lazy(() => NestedFloatNullableFilterSchema)])
-        .optional()
-        .nullable(),
-      isSet: z.boolean().optional(),
-    })
-    .strict();
+export const NestedFloatFilterSchema: z.ZodType<Prisma.NestedFloatFilter> = z
+  .object({
+    equals: z.number().optional(),
+    in: z.number().array().optional(),
+    notIn: z.number().array().optional(),
+    lt: z.number().optional(),
+    lte: z.number().optional(),
+    gt: z.number().optional(),
+    gte: z.number().optional(),
+    not: z
+      .union([z.number(), z.lazy(() => NestedFloatFilterSchema)])
+      .optional(),
+  })
+  .strict();
 
-export const NestedEnumAmPmNullableWithAggregatesFilterSchema: z.ZodType<Prisma.NestedEnumAmPmNullableWithAggregatesFilter> =
+export const NestedEnumAmPmWithAggregatesFilterSchema: z.ZodType<Prisma.NestedEnumAmPmWithAggregatesFilter> =
   z
     .object({
-      equals: z
-        .lazy(() => AmPmSchema)
-        .optional()
-        .nullable(),
+      equals: z.lazy(() => AmPmSchema).optional(),
       in: z
         .lazy(() => AmPmSchema)
         .array()
-        .optional()
-        .nullable(),
+        .optional(),
       notIn: z
         .lazy(() => AmPmSchema)
         .array()
-        .optional()
-        .nullable(),
+        .optional(),
       not: z
         .union([
           z.lazy(() => AmPmSchema),
-          z.lazy(() => NestedEnumAmPmNullableWithAggregatesFilterSchema),
+          z.lazy(() => NestedEnumAmPmWithAggregatesFilterSchema),
         ])
-        .optional()
-        .nullable(),
-      _count: z.lazy(() => NestedIntNullableFilterSchema).optional(),
-      _min: z.lazy(() => NestedEnumAmPmNullableFilterSchema).optional(),
-      _max: z.lazy(() => NestedEnumAmPmNullableFilterSchema).optional(),
-      isSet: z.boolean().optional(),
+        .optional(),
+      _count: z.lazy(() => NestedIntFilterSchema).optional(),
+      _min: z.lazy(() => NestedEnumAmPmFilterSchema).optional(),
+      _max: z.lazy(() => NestedEnumAmPmFilterSchema).optional(),
     })
     .strict();
 
@@ -3913,19 +3752,6 @@ export const CasualSaturdaySessionPaymentDeleteManyInputSchema: z.ZodType<Prisma
       where: z.lazy(() => CasualSaturdaySessionPaymentWhereInputSchema),
     })
     .strict();
-
-export const IntFilterSchema: z.ZodType<Prisma.IntFilter> = z
-  .object({
-    equals: z.number().optional(),
-    in: z.number().array().optional(),
-    notIn: z.number().array().optional(),
-    lt: z.number().optional(),
-    lte: z.number().optional(),
-    gt: z.number().optional(),
-    gte: z.number().optional(),
-    not: z.union([z.number(), z.lazy(() => NestedIntFilterSchema)]).optional(),
-  })
-  .strict();
 
 export const FloatFilterSchema: z.ZodType<Prisma.FloatFilter> = z
   .object({
@@ -4283,32 +4109,6 @@ export const CasualSaturdaySessionPaymentUpdateInputSchema: z.ZodType<Prisma.Cas
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-    })
-    .strict();
-
-export const NestedFloatFilterSchema: z.ZodType<Prisma.NestedFloatFilter> = z
-  .object({
-    equals: z.number().optional(),
-    in: z.number().array().optional(),
-    notIn: z.number().array().optional(),
-    lt: z.number().optional(),
-    lte: z.number().optional(),
-    gt: z.number().optional(),
-    gte: z.number().optional(),
-    not: z
-      .union([z.number(), z.lazy(() => NestedFloatFilterSchema)])
-      .optional(),
-  })
-  .strict();
-
-export const IntFieldUpdateOperationsInputSchema: z.ZodType<Prisma.IntFieldUpdateOperationsInput> =
-  z
-    .object({
-      set: z.number().optional(),
-      increment: z.number().optional(),
-      decrement: z.number().optional(),
-      multiply: z.number().optional(),
-      divide: z.number().optional(),
     })
     .strict();
 
