@@ -6,8 +6,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
-    "dev": "npm run build -- --watch",
-    "seed": "npx ts-node src/seeding/index.ts"
+    "dev": "npm run build -- --watch"
   },
   "exports": {
     ".": "./src/index.ts"
