@@ -1,5 +1,12 @@
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 
-export const db = new PrismaClient();
+/**
+ * exports all type definitions that '@prisma/client' contains (but does not export)
+ * 
+ * Purpose: allows apps & packages that use '@core/db' to access the same
+ * types provided by '@prisma/client'
+ */
+export * from '../node_modules/@prisma/client/index'
 
-export * from './generated/zod-prisma-types/index';
+export {Prisma, PrismaClient}
+
