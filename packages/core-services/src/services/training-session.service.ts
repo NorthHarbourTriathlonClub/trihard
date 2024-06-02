@@ -132,7 +132,10 @@ export const createWeeklyTrainingSchedule = async (
 export const generateWeeklyTrainingData = (
   dto: CreateWeeklyTrainingScheduleDto,
 ): Prisma.TrainingSessionCreateInput[] => {
+
+  // assumes `weekStartDate` is a Monday
   const { weekStartDate, season } = dto;
+
   const inputs: Prisma.TrainingSessionCreateInput[] = weeklyTrainingSchedule[
     season
   ].map((item): Prisma.TrainingSessionCreateInput => {
