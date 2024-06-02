@@ -25,7 +25,7 @@ const prisma = new PrismaClient();
 
 const seedDb = async () => {
   seedAthletes();
-  seedTrainingSessions()
+  seedTrainingSessions();
 };
 
 const seedAthletes = async () => {
