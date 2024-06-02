@@ -88,9 +88,18 @@ importers:
 
   packages/core-services:
     dependencies:
+      '@core/db':
+        specifier: workspace*
+        version: link:../core-db
+      '@core/domain':
+        specifier: workspace*
+        version: link:../core-domain
       neverthrow:
         specifier: 6.2.1
         version: 6.2.1
+      zod:
+        specifier: 3.22.4
+        version: 3.22.4
     devDependencies:
       '@ngneat/falso':
         specifier: 7.1.1

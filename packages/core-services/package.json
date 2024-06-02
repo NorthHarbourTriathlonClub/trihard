@@ -18,6 +18,9 @@
     "typescript": "5.4.5"
   },
   "dependencies": {
-    "neverthrow": "6.2.1"
+    "@core/db": "workspace*",
+    "@core/domain": "workspace*",
+    "neverthrow": "6.2.1",
+    "zod": "3.22.4"
   }
 }
