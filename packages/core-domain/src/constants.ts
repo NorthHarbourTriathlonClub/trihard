@@ -81,6 +81,7 @@ export type Training = {
   amPm: AmPm;
 };
 
+/** Weekly training schedule by season */
 type TrainingSchedule = Record<Season, Training[]>;
 
 /** Used for creating training sessions in bulk */
