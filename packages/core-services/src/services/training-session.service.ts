@@ -2,6 +2,8 @@ import { Prisma, TrainingSession } from '@core/db';
 import { ResultAsync, err, fromPromise, ok } from 'neverthrow';
 import { db } from './db.service';
 import { getDayOfWeek, isMonday } from './common.service';
+import { Season, weeklyTrainingSchedule } from '@core/domain';
+import { addDays } from 'date-fns';
 
 export const create = async (
   dto: Prisma.TrainingSessionCreateInput,
@@ -72,6 +74,8 @@ export type CreateWeeklyTrainingScheduleDto = {
    * Start date of the week, it has to be a MONDAY
    */
   weekStartDate: Date;
+
+  season: Season;
 };
 /**
  * Create a training schedule for the whole week,
@@ -83,7 +87,7 @@ export type CreateWeeklyTrainingScheduleDto = {
  */
 export const createWeeklyTrainingSchedule = async (
   dto: CreateWeeklyTrainingScheduleDto,
-) => {
+): Promise<ResultAsync<TrainingSession[], Error>> => {
   const { weekStartDate } = dto;
 
   // validate if `weekStartDate` is a monday
@@ -94,6 +98,105 @@ export const createWeeklyTrainingSchedule = async (
       weekStartDate,
     )}.`;
     const message = [msg1, msg2, msg3].join(` `);
-    return new Error(message);
+    return err(new Error(message));
   }
+
+  // carry on creating the schedule if `weekStartDate` provided is indeed a Monday
+
+  // generate inputs
+  const inputs = generateWeeklyTrainingData(dto);
+
+  // construct functions from executing prisma transactions
+  const transactions = inputs.map((data) =>
+    db.trainingSession.create({ data }),
+  );
+
+  const result = await fromPromise(db.$transaction(transactions), (e) => e);
+
+  if (result.isErr()) {
+    const message = `Failed to create training sessions. Error: ${JSON.stringify(
+      result.error,
+    )}`;
+    return err(new Error(message));
+  }
+
+  return ok<TrainingSession[]>(result.value);
+};
+
+/**
+ * Given `weekStartDate` as a start date, assuming it's a Monday,
+ * create an array of `Prisma.TrainingSessionCreateInput` based on
+ * the season specified & `weeklyTrainingSchedule` from `@core/domain`
+ * package, to be used for creating `TrainingSessions` in the db
+ */
+export const generateWeeklyTrainingData = (
+  dto: CreateWeeklyTrainingScheduleDto,
+): Prisma.TrainingSessionCreateInput[] => {
+  const { weekStartDate, season } = dto;
+  const inputs: Prisma.TrainingSessionCreateInput[] = weeklyTrainingSchedule[
+    season
+  ].map((item): Prisma.TrainingSessionCreateInput => {
+    if (item?.dayOfWeek === `Monday`) {
+      return {
+        ...item,
+        date: weekStartDate,
+      };
+    }
+
+    if (item?.dayOfWeek === `Tuesday`) {
+      return {
+        ...item,
+        date: addDays(weekStartDate, 1),
+      };
+    }
+
+    if (item?.dayOfWeek === `Wednesday`) {
+      return {
+        ...item,
+        date: addDays(weekStartDate, 2),
+      };
+    }
+
+    if (item?.dayOfWeek === `Thursday`) {
+      return {
+        ...item,
+        date: addDays(weekStartDate, 3),
+      };
+    }
+
+    if (item?.dayOfWeek === `Friday`) {
+      return {
+        ...item,
+        date: addDays(weekStartDate, 4),
+      };
+    }
+
+    if (item?.dayOfWeek === `Saturday`) {
+      return {
+        ...item,
+        date: addDays(weekStartDate, 5),
+      };
+    }
+
+    if (item?.dayOfWeek === `Sunday`) {
+      return {
+        ...item,
+        date: addDays(weekStartDate, 6),
+      };
+    }
+
+    // by default, return an input with an date in the past ()
+    return {
+      ...item,
+      date: new Date(0),
+    };
+  });
+
+  // filter out `TrainingSessionCreateInput`s where their date is created
+  // using `new Date(0)`, because it's not a valid date
+
+  return inputs.filter((item) => {
+    const date = item?.date as Date;
+    return date?.getTime() !== 0;
+  });
 };

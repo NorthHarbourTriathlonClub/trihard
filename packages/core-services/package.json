@@ -20,6 +20,7 @@
   "dependencies": {
     "@core/db": "workspace*",
     "@core/domain": "workspace*",
+    "date-fns": "3.6.0",
     "neverthrow": "6.2.1",
     "zod": "3.22.4"
   }
