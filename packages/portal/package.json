@@ -6,8 +6,6 @@
     "start": "next start",
     "lint": "eslint .",
     "postinstall": "npx prisma generate",
-    "db:seed": "ts-node scripts/db-seed.ts",
-    "db:clear": "ts-node scripts/db-clear.ts",
     "docker:db:up": "docker-compose -f docker-compose-db.yml up -d"
   },
   "dependencies": {
