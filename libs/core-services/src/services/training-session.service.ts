@@ -2,7 +2,10 @@ import { Prisma, TrainingSession } from '@core/db';
 import { Result, ResultAsync, err, fromPromise, ok } from 'neverthrow';
 import { db } from './db.service';
 import { IdSchema, getDayOfWeek, isMonday } from './common.service';
-import { Season, weeklyTrainingSchedule } from '@core/domain';
+import {
+  Season,
+  weeklyTrainingSchedule,
+} from '../../../../libs/core-domain/src';
 import { addDays } from 'date-fns';
 import { z } from 'zod';
 
