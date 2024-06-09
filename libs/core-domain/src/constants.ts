@@ -299,3 +299,57 @@ export const weeklyTrainingSchedule: TrainingSchedule = {
     },
   ],
 };
+
+export type DefaultPricing = { DEFAULT: Number };
+
+export const hmmmm= [
+  `Senior Member`,
+  `Junior Member`,
+
+  `Senior Non-Member`,
+  `Junior Non-Member`,
+
+  `DEFAULT`
+];
+export type Seniority = `Senior` | `Junior` | `DEFAULT`;
+
+type CategoryPricing = Record<Seniority, number>;
+
+export const trainingFeeCategories = [
+  `CONCESSION_CARD`,
+  `FORTNNIGHTLY`,
+  `CASUAL_INDIVIDUAL_SESSION`,
+  `CASUAL_SATURDAY_SESSION`,
+] as const;
+export type TrainingFeeCategory = (typeof trainingFeeCategories)[number];
+
+export type Pricing = Record<TrainingFeeCategory, CategoryPricing>
+
+export const pricing = {
+  CONCESSION_CARD: {
+    senior: 100,
+    junior: 90,
+  },
+  FORTNNIGHTLY: {
+    senior: 80,
+    junior: 65,
+  },
+  CASUAL_INDIVIDUAL_SESSION: {
+    MEMBER_PRICING: {
+      senior: 15,
+      junior: 12,
+    },
+    NON_MEMBER_PRICING: {
+      DEFAULT: 20,
+    },
+  },
+  CASUAL_SATURDAY_SESSION: {
+    MEMBER_PRICING: {
+      senior: 25,
+      junior: 20,
+    },
+    NON_MEMBER_PRICING: {
+      DEFAULT: 30,
+    },
+  },
+};
