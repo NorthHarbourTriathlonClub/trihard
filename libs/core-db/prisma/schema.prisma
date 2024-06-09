@@ -1,0 +1,119 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output = "../dist"
+}
+
+model TrainingSession {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime  @default(now())
+  createdBy     String?
+  updatedAt     DateTime  @updatedAt
+  updatedBy     String?
+  archived      Boolean   @default(false)
+  archivedAt    DateTime?
+  date          DateTime
+  dayOfWeek     String
+  hour          Int
+  minute        Int
+  amPm          AmPm
+  coachFullName String?
+  type          String
+  location      String
+  season        String?
+  details       String?
+  athleteIds    String[]  @db.ObjectId
+}
+
+model Athlete {
+  id                              String                           @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt                       DateTime                         @default(now())
+  createdBy                       String?
+  updatedAt                       DateTime                         @updatedAt
+  updatedBy                       String?
+  archived                        Boolean                          @default(false)
+  archivedAt                      DateTime?
+  firstName                       String
+  lastName                        String
+  preferredName                   String?
+  email                           String
+  mobile                          String?
+  concessionCards                 ConcessionCard[]
+  fortnightlyPayments             FortnightlyPayment[]
+  casualindividualSessionPayments CasualIndividualSessionPayment[]
+  casualSaturdaySessionPayments   CasualSaturdaySessionPayment[]
+}
+
+type ConcessionCard {
+  id                  String    @default(uuid())
+  createdAt           DateTime  @default(now())
+  updatedBy           String?
+  archived            Boolean   @default(false)
+  archivedAt          DateTime?
+  cardNumber          Int
+  seniority           String
+  paymentAmount       Float
+  paymentMethod       String
+  paymentStatus       String
+  athleteId           String    @db.ObjectId
+  trainingSessionIds  String[]  @db.ObjectId
+  numTrainingsAllowed Int
+  numTrainingsLeft    Int
+  issuanceDate        DateTime
+  expiryDate          DateTime
+}
+
+type FortnightlyPayment {
+  id                 String    @default(uuid())
+  createdAt          DateTime  @default(now())
+  updatedBy          String?
+  archived           Boolean   @default(false)
+  archivedAt         DateTime?
+  seniority          String
+  paymentAmount      Float
+  paymentMethod      String
+  paymentStatus      String
+  trainingSessionIds String[]  @db.ObjectId
+  athleteId          String    @db.ObjectId
+  issuanceDate       DateTime
+  expiryDate         DateTime
+}
+
+type CasualIndividualSessionPayment {
+  id                String    @default(uuid())
+  createdAt         DateTime  @default(now())
+  updatedBy         String?
+  archived          Boolean   @default(false)
+  archivedAt        DateTime?
+  seniority         String
+  isMember          Boolean   @default(false)
+  paymentAmount     Float
+  paymentMethod     String
+  paymentStatus     String
+  trainingSessionId String    @db.ObjectId
+  athleteId         String    @db.ObjectId
+}
+
+type CasualSaturdaySessionPayment {
+  id                 String    @default(uuid())
+  createdAt          DateTime  @default(now())
+  updatedBy          String?
+  archived           Boolean   @default(false)
+  archivedAt         DateTime?
+  seniority          String
+  isMember           Boolean   @default(false)
+  paymentAmount      Float
+  paymentMethod      String
+  paymentStatus      String
+  trainingSessionIds String[]  @db.ObjectId
+  athleteId          String    @db.ObjectId
+}
+
+enum AmPm {
+  AM
+  PM
+}

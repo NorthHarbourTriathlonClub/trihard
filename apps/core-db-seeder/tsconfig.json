@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "lib": ["ES2015", "DOM"],
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "preserveWatchOutput": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "noEmit": true,
+    "strictNullChecks": true,
+    "strict": true
+  },
+  "exclude": ["node_modules"]
+}

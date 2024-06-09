@@ -6,11 +6,10 @@
     "start": "next start",
     "lint": "eslint .",
     "postinstall": "npx prisma generate",
-    "db:seed": "ts-node scripts/db-seed.ts",
-    "db:clear": "ts-node scripts/db-clear.ts",
     "docker:db:up": "docker-compose -f docker-compose-db.yml up -d"
   },
   "dependencies": {
+    "@core/db": "workspace:*",
     "@chakra-ui/icons": "2.1.1",
     "@chakra-ui/layout": "2.3.1",
     "@clerk/nextjs": "4.29.1",
@@ -45,7 +44,6 @@
     "postcss": "8.4.32",
     "tailwindcss": "3.3.6",
     "ts-node": "10.9.2",
-    "tsconfig": "workspace:*",
     "typescript": "5.3.3"
   }
 }

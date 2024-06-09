@@ -1,0 +1,19 @@
+{
+  "name": "@core/db-seeder",
+  "version": "0.0.1",
+  "scripts": {
+    "lint": "eslint .",
+    "start": "npx ts-node src/index.ts"
+  },
+  "devDependencies": {
+    "@ngneat/falso": "7.1.1",
+    "@types/node": "20.10.4",
+    "eslint-config-custom": "workspace:*",
+    "ts-node": "10.9.2",
+    "typescript": "5.4.5"
+  },
+  "dependencies": {
+    "@core/db": "workspace*",
+    "@core/domain": "workspace*"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "@core/services",
+  "version": "0.0.1",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "lint": "eslint .",
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "npm run build -- --watch"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "devDependencies": {
+    "@ngneat/falso": "7.1.1",
+    "eslint-config-custom": "workspace:*",
+    "prisma": "5.14.0",
+    "tsup": "8.0.2",
+    "typescript": "5.4.5"
+  },
+  "dependencies": {
+    "@core/db": "workspace*",
+    "@core/domain": "workspace*",
+    "date-fns": "3.6.0",
+    "neverthrow": "6.2.1",
+    "zod": "3.22.4"
+  }
+}

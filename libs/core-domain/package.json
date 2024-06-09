@@ -1,0 +1,21 @@
+{
+  "name": "@core/domain",
+  "version": "0.0.1",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "lint": "eslint .",
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "npm run build -- --watch"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "devDependencies": {
+    "@core/db": "workspace*",
+    "eslint-config-custom": "workspace:*",
+    "tsup": "8.0.2",
+    "typescript": "5.4.5"
+  }
+}
