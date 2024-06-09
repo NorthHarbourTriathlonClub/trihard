@@ -1,4 +1,4 @@
-import { DayOfWeek, daysOfWeek } from '../../../../libs/core-domain/src';
+import { DayOfWeek, daysOfWeek } from '@core/domain';
 import { z } from 'zod';
 
 /**
