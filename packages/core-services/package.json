@@ -5,6 +5,7 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "scripts": {
+    "lint": "eslint .",
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "dev": "npm run build -- --watch"
   },
@@ -13,6 +14,7 @@
   },
   "devDependencies": {
     "@ngneat/falso": "7.1.1",
+    "eslint-config-custom": "workspace:*",
     "prisma": "5.14.0",
     "tsup": "8.0.2",
     "typescript": "5.4.5"
